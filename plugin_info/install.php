@@ -20,17 +20,55 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 // Fonction exécutée automatiquement après l'installation du plugin
   function kTwinkly_install() {
+      log::add('kTwinkly','debug','Install cron refreshstate');
+      $cron = cron::byClassAndFunction('kTwinkly', 'refreshstate');
+      if (!is_object($cron)) {
+          $cron = new cron();
+          $cron->setClass('kTwinkly');
+          $cron->setFunction('refreshstate');
+          $cron->setEnable(1);
+          $cron->setDeamon(1);
+          $cron->setDeamonSleepTime(10);
+          $cron->setSchedule('* * * * *');
+          $cron->setTimeout(1440);
+          $cron->save();
+      }
 
+      kTwinkly::daemon_start();
+      foreach (kTwinkly::byType('kTwinkly') as $t) {
+          $t->save();
+      }
   }
 
 // Fonction exécutée automatiquement après la mise à jour du plugin
   function kTwinkly_update() {
+      log::add('kTwinkly','debug','Update cron refreshstate');
+      $cron = cron::byClassAndFunction('kTwinkly', 'refreshstate');
+      if (!is_object($cron)) {
+          $cron = new cron();
+      }
+      $cron->setClass('kTwinkly');
+      $cron->setFunction('refreshstate');
+      $cron->setEnable(1);
+      $cron->setDeamon(1);
+      $cron->setDeamonSleepTime(10);
+      $cron->setSchedule('* * * * *');
+      $cron->setTimeout(1440);
+      $cron->save();
 
+      kTwinkly::daemon_start();
+      foreach (kTwinkly::byType('kTwinkly') as $t) {
+          $t->save();
+      }
   }
 
 // Fonction exécutée automatiquement après la suppression du plugin
   function kTwinkly_remove() {
-
+      log::add('kTwinkly','debug','Remove cron refreshstate');
+      $cron = cron::byClassAndFunction('kTwinkly', 'refreshstate');
+      if (is_object($cron)) {
+          $cron->remove();
+      }
   }
 
 ?>

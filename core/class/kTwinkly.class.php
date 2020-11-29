@@ -23,7 +23,8 @@ require_once __DIR__  . '/Twinkly.class.php';
 
 class kTwinkly extends eqLogic {
     /*     * *************************Attributs****************************** */
-    
+    private static $_eqLogics = null;
+
   /*
    * Permet de définir les possibilités de personnalisation du widget (en cas d'utilisation de la fonction 'toHtml' par exemple)
    * Tableau multidimensionnel - exemple: array('custom' => true, 'custom::layout' => false)
@@ -70,9 +71,18 @@ class kTwinkly extends eqLogic {
 
     /*
      * Fonction exécutée automatiquement tous les jours par Jeedom
-      public static function cronDaily() {
-      }
      */
+      public static function cronDaily() {
+        try {
+            if(date('i') == 0 && date('s') < 10) {
+                sleep(10);
+            }
+            $plugin = plugin::byId(__CLASS__);
+            $plugin->deamon_start(true);
+        } catch (\Exception $e) {
+            log::add('kTwinkly','debug','error in cronDaily : ' . $e->getMessage());
+        }
+      }
 
 
 
@@ -143,24 +153,24 @@ class kTwinkly extends eqLogic {
 
  // Fonction exécutée automatiquement après la sauvegarde (création ou mise à jour) de l'équipement 
     public function postSave() {
-	$onCmd = $this->getCmd(null, "on");
-	if(!is_object($onCmd)) {
-		$onCmd = new kTwinklyCmd();
-		$onCmd->setName(__('On', __FILE__));
-		$onCmd->setEqLogic_id($this->getId());
-		$onCmd->setLogicalId('on');
-		$onCmd->setType('action');
-		$onCmd->setSubType('other');
-		$onCmd->setIsVisible(1);
-		$onCmd->setValue('on');
-		$onCmd->setDisplay('icon','<i class="icon jeedom-lumiere-on"></i>');
-		$onCmd->setOrder(0);
-		$onCmd->save();
-	}
+	    $onCmd = $this->getCmd(null, "on");
+	    if(!is_object($onCmd)) {
+            $onCmd = new kTwinklyCmd();
+            $onCmd->setName(__('On', __FILE__));
+            $onCmd->setEqLogic_id($this->getId());
+            $onCmd->setLogicalId('on');
+            $onCmd->setType('action');
+            $onCmd->setSubType('other');
+            $onCmd->setIsVisible(1);
+            $onCmd->setValue('on');
+            $onCmd->setDisplay('icon','<i class="icon jeedom-lumiere-on"></i>');
+            $onCmd->setOrder(0);
+            $onCmd->save();
+        }
 
         $offCmd = $this->getCmd(null, "off");
         if(!is_object($offCmd)) {
-                $offCmd = new kTwinklyCmd();
+            $offCmd = new kTwinklyCmd();
         	$offCmd->setName(__('Off', __FILE__));
         	$offCmd->setEqLogic_id($this->getId());
         	$offCmd->setLogicalId('off');
@@ -168,39 +178,57 @@ class kTwinkly extends eqLogic {
         	$offCmd->setSubType('other');
         	$offCmd->setIsVisible(1);
         	$offCmd->setValue('off');
-		$offCmd->setDisplay('icon','<i class="icon jeedom-lumiere-off"></i>');
+            $offCmd->setDisplay('icon','<i class="icon jeedom-lumiere-off"></i>');
         	$offCmd->setOrder(1);
         	$offCmd->save();
         }
 
         $brightnessCmd = $this->getCmd(null, "brightness");
         if(!is_object($brightnessCmd)) {
-                $brightnessCmd = new kTwinklyCmd();
+            $brightnessCmd = new kTwinklyCmd();
         	$brightnessCmd->setName(__('Luminosité', __FILE__));
         	$brightnessCmd->setEqLogic_id($this->getId());
         	$brightnessCmd->setLogicalId('brightness');
         	$brightnessCmd->setType('action');
         	$brightnessCmd->setSubType('slider');
-		$brightnessCmd->setConfiguration('minValue','0');
-		$brightnessCmd->setConfiguration('maxValue','100');
-		$brightnessCmd->setConfiguration('lastCmdValue','100');
-        	$brightnessCmd->setIsVisible(1);
+            $brightnessCmd->setConfiguration('minValue','0');
+            $brightnessCmd->setConfiguration('maxValue','100');
+            $brightnessCmd->setConfiguration('lastCmdValue','100');
+            $brightnessCmd->setIsVisible(1);
         	$brightnessCmd->setOrder(2);
         	$brightnessCmd->save();
         }
-	$movieCmd = $this->getCmd(null, "movie");
-	if(!is_object($movieCmd)) {
-                $movieCmd = new kTwinklyCmd();
+
+        $movieCmd = $this->getCmd(null, "movie");
+        if(!is_object($movieCmd)) {
+            $movieCmd = new kTwinklyCmd();
         	$movieCmd->setName(__('Animation', __FILE__));
         	$movieCmd->setEqLogic_id($this->getId());
         	$movieCmd->setLogicalId('movie');
         	$movieCmd->setType('action');
         	$movieCmd->setSubType('select');
-		//$movieCmd->setConfiguration("listValue","");
+            //$movieCmd->setConfiguration("listValue","");
         	$movieCmd->setIsVisible(1);
         	$movieCmd->setOrder(3);
         	$movieCmd->save();
-	}
+        }
+
+        $stateCmd = $this->getCmd(null, "state");
+        if(!is_object($stateCmd)) {
+            $stateCmd = new kTwinklyCmd();
+            $stateCmd->setName(__('Etat', __FILE__));
+            $stateCmd->setEqLogic_id($this->getId());
+            $stateCmd->setLogicalId('state');
+            $stateCmd->setType('info');
+            $stateCmd->setSubType('string');
+            $stateCmd->setIsVisible(1);
+            $stateCmd->setOrder(4);
+            $stateCmd->save();
+        }
+
+        if($this->getChanged()){
+            self::deamon_start();
+        }
     }
 
  // Fonction exécutée automatiquement avant la suppression de l'équipement 
@@ -267,6 +295,93 @@ class kTwinkly extends eqLogic {
                     $eqLogic->setConfiguration('firmware',$d["details"]["firmware_version"]);
 		    $eqLogic->save();
 	    }
+    }
+
+    public static function deamon_info() {
+        $return = array("log" => "", "state" => "nok");
+        $cron = cron::byClassAndFunction('kTwinkly','refreshstate');
+        if (is_object($cron) && $cron->running()) {
+            $return['state'] = 'ok';
+        }
+        $return['launchable'] = 'ok';
+        log::add('kTwinkly','debug','kTwinkly deamon_info : ' . print_r($return, TRUE));
+        return $return;
+    }
+
+    public static function deamon_stop() {
+        log::add('kTwinkly','debug','kTwinkly deamon_stop');
+        $cron = cron::byClassAndFunction('kTwinkly','refreshstate');
+        if (!is_object($cron)) {
+            throw new Exception(__('Tache cron introuvable', __FILE__));
+        }
+        $cron->halt();
+    }
+
+    public static function deamon_start() {
+        log::add('kTwinkly','debug','kTwinkly deamon_start');
+        self::deamon_stop();
+        $deamon_info = self::deamon_info();
+        if ($deamon_info['launchable'] != 'ok') {
+            throw new Exception(__('Veuillez vérifier la configuration', __FILE__));
+        }
+        $cron = cron::byClassAndFunction('kTwinkly','refreshstate');
+        if (!is_object($cron)) {
+            throw new Exception(__('Tache cron introuvable', __FILE__));
+        }
+        $cron->run();
+    }
+
+    public static function deamon_changeAutoMode($_mode) {
+        log::add('kTwinkly','debug','kTwinkly deamon_changeAutoMode');
+        $cron = cron::byClassAndFunction('kTwinkly','refreshstate');
+        if (!is_object($cron)) {
+            throw new Exception(__('Tache cron introuvable', __FILE__));
+        }
+        $cron->setEnable($_mode);
+        $cron->save();
+    }
+
+    public static function refreshstate($_eqLogic_id = null) {
+        if (self::$_eqLogics == null) {
+            self::$_eqLogics = self::byType('kTwinkly');
+        }
+        foreach (self::$_eqLogics as &$eqLogic) {
+            if ($_eqLogic_id != null && $_eqLogic_id != $eqLogic->getId()) {
+                continue;
+            }
+            if($eqLogic->getIsEnable() == 0){
+                $eqLogic->refresh();
+            }
+            if ($eqLogic->getLogicalId() == '' || $eqLogic->getIsEnable() == 0) {
+                continue;
+            }
+            log::add('kTwinkly','debug','refreshstate = refresh ' . $eqLogic->getLogicalId());
+            try {
+                $changed = false;
+
+                $ip = $eqLogic->getConfiguration('ipaddress');
+                $mac = $eqLogic->getConfiguration('macaddress');
+
+                $t = new Twinkly($ip, $mac, FALSE);
+
+                $state = $t->get_mode();
+
+                $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
+
+                if($changed) {
+                    $eqLogic->refreshWidget();
+                }
+            } catch (Exception $e) {
+                if ($_eqLogic_id != null) {
+                    log::add('kTwinkly', 'error', $e->getMessage());
+                }  else {
+					$eqLogic->refresh();
+					if ($eqLogic->getIsEnable() == 0) {
+						continue;
+					}
+				}
+            }
+        }
     }
 
     /*     * **********************Getteur Setteur*************************** */
