@@ -72,17 +72,17 @@ try {
 
 	    $nbleds = $eqLogic->getConfiguration("numberleds");
 	    if($matches[1] != $nbleds) {
-	      throw new Exception("Nombre de leds incompatible. Le fichier indique $matches[1] leds, l'équipement a $nbleds leds.");
+	        throw new Exception("Nombre de leds incompatible. Le fichier indique $matches[1] leds, l'équipement a $nbleds leds.");
 	    }
 
-            if (filesize($_FILES['file']['tmp_name']) > 1000000) {
-              throw new Exception(__('Le fichier est trop gros (maximum 1mo)', __FILE__));
-            }
+        if (filesize($_FILES['file']['tmp_name']) > 1000000) {
+            throw new Exception(__('Le fichier est trop gros (maximum 1mo)', __FILE__));
+        }
 
-            $filepath = dirname(__FILE__) . '/../../data/twinkly_' . $id . '_' . $filename;
+        $filepath = dirname(__FILE__) . '/../../data/twinkly_' . $id . '_' . $filename;
 	    log::add('kTwinkly','debug',"upload d'un fichier pour id $id : $filepath");
 
-            file_put_contents($filepath, file_get_contents($_FILES['file']['tmp_name']));
+        file_put_contents($filepath, file_get_contents($_FILES['file']['tmp_name']));
 
 	    $movieCmd = $eqLogic->getCmd(null, 'movie');
 	    $oldList = $movieCmd->getConfiguration('listValue');
@@ -92,9 +92,9 @@ try {
 	    $movieCmd->setConfiguration('listValue', $newList);
 	    $movieCmd->save();
 	    $eqLogic->save();
-	    $eqLogic = kTwinkly::byId($eqLogic->getId());
+        $eqLogic->refreshWidget();
 
-            ajax::success();
+        ajax::success();
     }
 
     if (init('action') == 'deleteMovie') {
@@ -103,27 +103,27 @@ try {
 
 	    $deletedfilenames = $_POST["deletedFilenames"];
 	    $filenames = $_POST["files"];
-            $labels = $_POST["labels"];
+        $labels = $_POST["labels"];
 
-            $newList = "";
-            for($i=0; $i < sizeof($filenames); $i++) {
+        $newList = "";
+        for($i=0; $i < sizeof($filenames); $i++) {
 	        if(in_array($filenames[$i], $deletedfilenames)) {
-		  $filepath = dirname(__FILE__) . '/../../data/' . $filenames[$i];
-		  log::add('kTwinkly','debug','Delete file => ' . $filepath);
-		  unlink($filepath);
-		} else {
-                  $newList .= ';' . $filenames[$i] . '|' . $labels[$i];
-		}
-            }
-            $newList = substr($newList, 1);
+		        $filepath = dirname(__FILE__) . '/../../data/' . $filenames[$i];
+		        log::add('kTwinkly','debug','Delete file => ' . $filepath);
+		        unlink($filepath);
+		    } else {
+                $newList .= ';' . $filenames[$i] . '|' . $labels[$i];
+		    }
+        }
+        $newList = substr($newList, 1);
 
 	    $movieCmd = $eqLogic->getCmd(null, 'movie');
 	    $oldList = $movieCmd->getConfiguration('listValue');
 	    $movieCmd->setConfiguration('listValue', $newList);
 	    $movieCmd->save();
 	    $eqLogic->save();
+	    $eqLogic->refreshWidget();
 	    
-	    //$eqLogic = kTwinkly::byId($eqLogic->getId());
 	    ajax::success();
     }
 
@@ -146,6 +146,7 @@ try {
 	    $movieCmd->setConfiguration('listValue', $newList);
 	    $movieCmd->save();
 	    $eqLogic->save();
+	    $eqLogic->refreshWidget();
 
 	    ajax::success();
     }
