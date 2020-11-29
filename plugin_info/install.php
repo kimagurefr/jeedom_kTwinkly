@@ -34,7 +34,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
           $cron->save();
       }
 
-      kTwinkly::daemon_start();
+      kTwinkly::deamon_start();
       foreach (kTwinkly::byType('kTwinkly') as $t) {
           $t->save();
       }
@@ -56,7 +56,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
       $cron->setTimeout(1440);
       $cron->save();
 
-      kTwinkly::daemon_start();
+      kTwinkly::deamon_start();
       foreach (kTwinkly::byType('kTwinkly') as $t) {
           $t->save();
       }
