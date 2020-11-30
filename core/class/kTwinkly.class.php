@@ -284,15 +284,15 @@ class kTwinkly extends eqLogic {
 		    }
 		    $eqLogic->setConfiguration('ipaddress', $d["ip"]);
 		    $eqLogic->setConfiguration('macaddress', $d["mac"]);
-                    $eqLogic->setConfiguration('product',$d["details"]["product_name"]);
-                    $eqLogic->setConfiguration('devicename',$d["details"]["device_name"]);
-                    $eqLogic->setConfiguration('numberleds',$d["details"]["number_of_led"]);
-                    $eqLogic->setConfiguration('ledtype',$d["details"]["led_profile"]);
-                    $eqLogic->setConfiguration('productversion',$d["details"]["product_version"]);
-                    $eqLogic->setConfiguration('hardwareversion',$d["details"]["hardware_version"]);
-                    $eqLogic->setConfiguration('productcode',$d["details"]["product_code"]);
-                    $eqLogic->setConfiguration('hardwareid',$d["details"]["hw_id"]);
-                    $eqLogic->setConfiguration('firmware',$d["details"]["firmware_version"]);
+            $eqLogic->setConfiguration('product',$d["details"]["product_name"]);
+            $eqLogic->setConfiguration('devicename',$d["details"]["device_name"]);
+            $eqLogic->setConfiguration('numberleds',$d["details"]["number_of_led"]);
+            $eqLogic->setConfiguration('ledtype',$d["details"]["led_profile"]);
+            $eqLogic->setConfiguration('productversion',$d["details"]["product_version"]);
+            $eqLogic->setConfiguration('hardwareversion',$d["details"]["hardware_version"]);
+            $eqLogic->setConfiguration('productcode',$d["details"]["product_code"]);
+            $eqLogic->setConfiguration('hardwareid',$d["details"]["hw_id"]);
+            $eqLogic->setConfiguration('firmware',$d["details"]["firmware_version"]);
 		    $eqLogic->save();
 	    }
     }
@@ -365,8 +365,10 @@ class kTwinkly extends eqLogic {
                 $t = new Twinkly($ip, $mac, FALSE);
 
                 $state = $t->get_mode();
+                $brightess = $t->get_brightness();
 
                 $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
+                $changed = $eqLogic->checkAndUpdateCmd('brightness', $brightness, false) || $changed;
 
                 if($changed) {
                     $eqLogic->refreshWidget();
@@ -427,10 +429,24 @@ class kTwinklyCmd extends cmd {
 
 		if($action == "on") {
 			log::add('kTwinkly','debug',"Appel commande movie ip=$ip mac=$mac");
+
 			$t->set_mode("movie");
+            $newstate = $t->get_mode();
+
+            $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
+            if($changed) {
+                $eqLogic->refreshWidget();
+            }
 		} else if($action == "off") {
 			log::add('kTwinkly','debug',"Appel commande off ip=$ip mac=$mac");
+
 			$t->set_mode("off");
+            $newstate = $t->get_mode();
+
+            $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
+            if($changed) {
+                $eqLogic->refreshWidget();
+            }
 		} else if($action == "brightness") {
 			$value = intval($_options["slider"]);
 			log::add('kTwinkly','debug',"Appel commande set_brightness slider=$value ip=$ip mac=$mac");
@@ -438,21 +454,21 @@ class kTwinklyCmd extends cmd {
 		} else if($action == "movie") {
 			$value = $_options["select"];
 			if($value != "") {
-			log::add('kTwinkly','debug',"Appel commande movie avec $value");
-			$filepath = __DIR__ . '/../../data/' . $value;
-			if(file_exists($filepath)) {
-				preg_match("/.*_(\d+)_(\d+)_(\d+)\.bin$/", $value, $matches);
-                                if(sizeof($matches) == 4) {
-                                	$leds = intval($matches[1]);
-                                	$frames = intval($matches[2]);
-                                	$delay = intval($matches[3]);
-                                	$t->upload_movie($filepath, $leds, $frames, $delay);
-				} else {
-					log::add('kTwinkly','error','Format du nom de fichier d\'animation incorrect : ' . $value);
-                                }
-			} else {
-				log::add('kTwinkly','error','Fichier introuvable : ' . $filepath);
-			}
+                log::add('kTwinkly','debug',"Appel commande movie avec $value");
+                $filepath = __DIR__ . '/../../data/' . $value;
+                if(file_exists($filepath)) {
+                    preg_match("/.*_(\d+)_(\d+)_(\d+)\.bin$/", $value, $matches);
+                    if(sizeof($matches) == 4) {
+                        $leds = intval($matches[1]);
+                        $frames = intval($matches[2]);
+                        $delay = intval($matches[3]);
+                        $t->upload_movie($filepath, $leds, $frames, $delay);
+                    } else {
+                        log::add('kTwinkly','error','Format du nom de fichier d\'animation incorrect : ' . $value);
+                    }
+                } else {
+                    log::add('kTwinkly','error','Fichier introuvable : ' . $filepath);
+                }
 			}
 		}
 	} catch (Exception $e) {
