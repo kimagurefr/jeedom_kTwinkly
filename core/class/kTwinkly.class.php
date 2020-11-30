@@ -131,7 +131,7 @@ class kTwinkly extends eqLogic {
                 $this->setConfiguration('hardwareversion',$info["hardware_version"]);
                 $this->setConfiguration('productcode',$info["product_code"]);
                 $this->setConfiguration('hardwareid',$info["hw_id"]);
-		$version = $t->firmware_version();
+                $version = $t->firmware_version();
                 $this->setConfiguration('firmware',$version);
 
 	    } catch (Exception $e) {
@@ -161,6 +161,7 @@ class kTwinkly extends eqLogic {
             $onCmd->setLogicalId('on');
             $onCmd->setType('action');
             $onCmd->setSubType('other');
+            $onCmd->setGeneric_type('LIGHT_ON');
             $onCmd->setIsVisible(1);
             $onCmd->setValue('on');
             $onCmd->setDisplay('icon','<i class="icon jeedom-lumiere-on"></i>');
@@ -176,6 +177,7 @@ class kTwinkly extends eqLogic {
         	$offCmd->setLogicalId('off');
         	$offCmd->setType('action');
         	$offCmd->setSubType('other');
+            $offCmd->setGeneric_type('LIGHT_OFF');
         	$offCmd->setIsVisible(1);
         	$offCmd->setValue('off');
             $offCmd->setDisplay('icon','<i class="icon jeedom-lumiere-off"></i>');
@@ -191,6 +193,7 @@ class kTwinkly extends eqLogic {
         	$brightnessCmd->setLogicalId('brightness');
         	$brightnessCmd->setType('action');
         	$brightnessCmd->setSubType('slider');
+            $brightnessCmd->setGeneric_type('LIGHT_SLIDER');
             $brightnessCmd->setConfiguration('minValue','0');
             $brightnessCmd->setConfiguration('maxValue','100');
             $brightnessCmd->setConfiguration('lastCmdValue','100');
@@ -198,6 +201,27 @@ class kTwinkly extends eqLogic {
         	$brightnessCmd->setOrder(2);
         	$brightnessCmd->save();
         }
+        
+        $brightnessStateCmd = $this->getCmd(null, "brightness_state");
+        if(!is_object($brightnessStateCmd)) {
+            $brightnessStateCmd = new kTwinklyCmd();
+        	$brightnessStateCmd->setName(__('Etat Luminosité', __FILE__));
+        	$brightnessStateCmd->setEqLogic_id($this->getId());
+        	$brightnessStateCmd->setLogicalId('brightness_state');
+        	$brightnessStateCmd->setType('info');
+        	$brightnessStateCmd->setSubType('numeric');
+            $brightnessStateCmd->setGeneric_type('LIGHT_STATE');
+            $brightnessStateCmd->setIsVisible(1);
+        	$brightnessStateCmd->setOrder(3);
+            $brightnessStateCmd->save();
+        } 
+
+        $onCmd->setValue($brightnessStateCmd->getId());
+        $onCmd->save();
+        $offCmd->setValue($brightnessStateCmd->getId());
+        $offCmd->save();
+        $brightnessCmd->setValue($brightnessStateCmd->getId());
+        $brightnessCmd->save();
 
         $movieCmd = $this->getCmd(null, "movie");
         if(!is_object($movieCmd)) {
@@ -209,7 +233,7 @@ class kTwinkly extends eqLogic {
         	$movieCmd->setSubType('select');
             //$movieCmd->setConfiguration("listValue","");
         	$movieCmd->setIsVisible(1);
-        	$movieCmd->setOrder(3);
+        	$movieCmd->setOrder(4);
         	$movieCmd->save();
         }
 
@@ -222,7 +246,7 @@ class kTwinkly extends eqLogic {
             $stateCmd->setType('info');
             $stateCmd->setSubType('string');
             $stateCmd->setIsVisible(1);
-            $stateCmd->setOrder(4);
+            $stateCmd->setOrder(5);
             $stateCmd->save();
         }
 
@@ -365,10 +389,10 @@ class kTwinkly extends eqLogic {
                 $t = new Twinkly($ip, $mac, FALSE);
 
                 $state = $t->get_mode();
-                $brightess = $t->get_brightness();
+                $brightness = $t->get_brightness();
 
                 $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
-                $changed = $eqLogic->checkAndUpdateCmd('brightness', $brightness, false) || $changed;
+                $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $brightness, false) || $changed;
 
                 if($changed) {
                     $eqLogic->refreshWidget();
@@ -432,8 +456,10 @@ class kTwinklyCmd extends cmd {
 
 			$t->set_mode("movie");
             $newstate = $t->get_mode();
+            $newbrightness = $t->get_brightness();
 
             $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
+            $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
             if($changed) {
                 $eqLogic->refreshWidget();
             }
@@ -442,15 +468,24 @@ class kTwinklyCmd extends cmd {
 
 			$t->set_mode("off");
             $newstate = $t->get_mode();
+            $newbrightness = $t->get_brightness();
 
             $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
+            $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
             if($changed) {
                 $eqLogic->refreshWidget();
             }
 		} else if($action == "brightness") {
 			$value = intval($_options["slider"]);
 			log::add('kTwinkly','debug',"Appel commande set_brightness slider=$value ip=$ip mac=$mac");
+
 			$t->set_brightness($value);
+            $newbrightness = $t->get_brightness();
+
+            $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
+            if($changed) {
+                $eqLogic->refreshWidget();
+            }
 		} else if($action == "movie") {
 			$value = $_options["select"];
 			if($value != "") {
