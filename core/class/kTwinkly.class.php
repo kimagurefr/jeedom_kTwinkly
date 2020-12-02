@@ -20,10 +20,12 @@
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 require_once __DIR__  . '/Twinkly.class.php';
+require_once __DIR__  . '/kTwinkly_utils.php';
 
 class kTwinkly extends eqLogic {
     /*     * *************************Attributs****************************** */
     private static $_eqLogics = null;
+    private static $_mitmport = 14233;
 
   /*
    * Permet de définir les possibilités de personnalisation du widget (en cas d'utilisation de la fonction 'toHtml' par exemple)
@@ -123,16 +125,26 @@ class kTwinkly extends eqLogic {
             	$t = new Twinkly($ip, $mac, FALSE);
 
             	$info = $t->get_details();
+                $this->setConfiguration('productcode',$info["product_code"]);
+                $this->setConfiguration('productname',get_product_info($info["product_code"])["commercial_name"]);
+                $this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
                 $this->setConfiguration('product',$info["product_name"]);
                 $this->setConfiguration('devicename',$info["device_name"]);
                 $this->setConfiguration('numberleds',$info["number_of_led"]);
                 $this->setConfiguration('ledtype',$info["led_profile"]);
-                $this->setConfiguration('productversion',$info["product_version"]);
-                $this->setConfiguration('hardwareversion',$info["hardware_version"]);
-                $this->setConfiguration('productcode',$info["product_code"]);
                 $this->setConfiguration('hardwareid',$info["hw_id"]);
-                $version = $t->firmware_version();
-                $this->setConfiguration('firmware',$version);
+
+                $fwversion = $t->firmware_version();
+                $this->setConfiguration('firmware',$fwversion);
+                if (versionToInt($fwversion) >= versionToInt("2.5.5")) {
+                    $this->setConfiguration('hwgen', '2');
+                } else {
+                    if (versionToInt($fwversion) >= versiontoInt("2.3.0")) {
+                        $this->setConfiguration('hwgen', '1');
+                    } else {
+                        $this->setConfiguration('hwgen', '0');
+                    }
+                }
 
 	    } catch (Exception $e) {
 		    throw new Exception(__('Impossible de contacter le contrôleur Twinkly. Vérifiez les paramètres : ' . $e->getMessage(), __FILE__));
@@ -250,6 +262,20 @@ class kTwinkly extends eqLogic {
             $stateCmd->save();
         }
 
+        $refreshCmd = $this->getCmd(null, "refresh");
+        if(!is_object($refreshCmd)) {
+            $refreshCmd = new kTwinklyCmd();
+        	$refreshCmd->setName(__('Refresh', __FILE__));
+        	$refreshCmd->setEqLogic_id($this->getId());
+        	$refreshCmd->setLogicalId('refresh');
+        	$refreshCmd->setType('action');
+        	$refreshCmd->setSubType('other');
+        	$refreshCmd->setIsVisible(0);
+        	$refreshCmd->setValue('refresh');
+        	$refreshCmd->setOrder(6);
+        	$refreshCmd->save();
+        }
+
         if($this->getChanged()){
             self::deamon_start();
         }
@@ -308,15 +334,28 @@ class kTwinkly extends eqLogic {
 		    }
 		    $eqLogic->setConfiguration('ipaddress', $d["ip"]);
 		    $eqLogic->setConfiguration('macaddress', $d["mac"]);
+            $eqLogic->setConfiguration('autorefresh', 1);
+            $eqLogic->setConfiguration('productcode',$d["details"]["product_code"]);
+            $eqLogic->setConfiguration('productname',get_product_info($d["details"]["product_code"])["commercial_name"]);
+            $eqLogic->setConfiguration('productimage',get_product_info($d["details"]["product_code"])["pack_preview"]);
             $eqLogic->setConfiguration('product',$d["details"]["product_name"]);
             $eqLogic->setConfiguration('devicename',$d["details"]["device_name"]);
             $eqLogic->setConfiguration('numberleds',$d["details"]["number_of_led"]);
             $eqLogic->setConfiguration('ledtype',$d["details"]["led_profile"]);
-            $eqLogic->setConfiguration('productversion',$d["details"]["product_version"]);
-            $eqLogic->setConfiguration('hardwareversion',$d["details"]["hardware_version"]);
-            $eqLogic->setConfiguration('productcode',$d["details"]["product_code"]);
             $eqLogic->setConfiguration('hardwareid',$d["details"]["hw_id"]);
-            $eqLogic->setConfiguration('firmware',$d["details"]["firmware_version"]);
+
+            $fwversion = $d["details"]["firmware_version"];
+            $eqLogic->setConfiguration('firmware',$fwversion);
+            if (versionToInt($fwversion) >= versionToInt("2.5.5")) {
+                $eqLogic->setConfiguration('hwgen', '2');
+            } else {
+                if (versionToInt($fwversion) >= versiontoInt("2.3.0")) {
+                    $eqLogic->setConfiguration('hwgen', '1');
+                } else {
+                    $eqLogic->setConfiguration('hwgen', '0');
+                }
+            }
+
 		    $eqLogic->save();
 	    }
     }
@@ -379,38 +418,169 @@ class kTwinkly extends eqLogic {
             if ($eqLogic->getLogicalId() == '' || $eqLogic->getIsEnable() == 0) {
                 continue;
             }
-            log::add('kTwinkly','debug','refreshstate = refresh ' . $eqLogic->getLogicalId());
-            try {
-                $changed = false;
-
-                $ip = $eqLogic->getConfiguration('ipaddress');
-                $mac = $eqLogic->getConfiguration('macaddress');
-
-                $t = new Twinkly($ip, $mac, FALSE);
-
-                $state = $t->get_mode();
-                $brightness = $t->get_brightness();
-
-                $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
-                $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $brightness, false) || $changed;
-
-                if($changed) {
-                    $eqLogic->refreshWidget();
+            if ($eqLogic->getConfiguration('autorefresh')==1) {
+                //log::add('kTwinkly','debug','refreshstate = refresh ' . $eqLogic->getLogicalId());
+                try {
+                    $changed = false;
+    
+                    $ip = $eqLogic->getConfiguration('ipaddress');
+                    $mac = $eqLogic->getConfiguration('macaddress');
+    
+                    $t = new Twinkly($ip, $mac, FALSE);
+    
+                    $state = $t->get_mode();
+                    $brightness = $t->get_brightness();
+    
+                    $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
+                    $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $brightness, false) || $changed;
+    
+                    if($changed) {
+                        $eqLogic->refreshWidget();
+                    }
+                } catch (Exception $e) {
+                    if ($_eqLogic_id != null) {
+                        log::add('kTwinkly', 'error', $e->getMessage());
+                    }  else {
+                        $eqLogic->refresh();
+                        if ($eqLogic->getIsEnable() == 0) {
+                            continue;
+                        }
+                    }
                 }
-            } catch (Exception $e) {
-                if ($_eqLogic_id != null) {
-                    log::add('kTwinkly', 'error', $e->getMessage());
-                }  else {
-					$eqLogic->refresh();
-					if ($eqLogic->getIsEnable() == 0) {
-						continue;
-					}
-				}
             }
         }
     }
 
+    public static function start_mitmproxy($_id) {
+        log::add('kTwinkly','debug','start_mitmproxy for eqId='.$_id);
+        if(!kTwinkly::is_mitm_running()) {
+            $eqLogic = eqLogic::byId($_id);
+
+            $confdir = jeedom::getTmpFolder('kTwinkly');
+            $tempfile = $confdir . '/tmovie_' . $_id;
+            $pidfile = $confdir . '/mitmproxy.pid';
+            $ipaddress = $eqLogic->getConfiguration('ipaddress');
+            $hwgen = $eqLogic->getConfiguration("hwgen");
+
+            if($eqLogic->getConfiguration("hwgen")=="1") {
+                $command = kTwinkly::get_mitm_command() . ' -p ' . kTwinkly::$_mitmport . ' -s ' . __DIR__ . '/../../resources/mitmdump/twinkly_v1.py --set filename='.$tempfile.' --set ipaddress='.$ipaddress.' --set confdir=' . $confdir;
+            } else {
+                $command = kTwinkly::get_mitm_command() . ' -p ' . kTwinkly::$_mitmport . ' -s ' . __DIR__ . '/../../resources/mitmdump/twinkly_v2.py --set filename='.$tempfile.' --set ipaddress='.$ipaddress.' --set confdir=' . $confdir;
+            }
+            log::add('kTwinkly','debug','Start MITM command = ' . $command);
+            $pid = shell_exec(sprintf('%s > /dev/null 2>&1 & echo $!', $command));
+
+            if(kTwinkly::is_mitm_running($pid)) {
+                file_put_contents($pidfile, $pid);
+                log::add('kTwinkly','debug','mitmproxy démarré avec PID='.$pid);
+                return true;
+            } else {
+                log::add('kTwinkly','error','Impossible de démarrer mitmproxy');
+                throw new Exception(__('Impossible de démarrer mitmproxy', __FILE__));
+            }
+        } else {
+            log::add('kTwinkly','debug','start_mitmproxy : mitmproxy est déjà démarré');
+            return true;
+        }
+    }
+
+    private static function kill_process($_pid) {
+        try {
+            $result = shell_exec(sprintf('kill %d 2>&1', $_pid));
+            if (!preg_match('/No such process/', $result)) {
+                return true;
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public static function stop_mitmproxy($_pid = "") {
+        if($_pid == "") {
+            $pidfile = jeedom::getTmpFolder('kTwinkly') . '/mitmproxy.pid';
+            if(file_exists($pidfile)) {
+                $_pid = file_get_contents($pidfile);
+            }
+        }
+
+        if($_pid != "" and kTwinkly::is_mitm_running($_pid)) {
+            log::add('kTwinkly','debug','Arret de mitmproxy en cours d\'exécution (pid=' . $_pid . ')');
+            if(kTwinkly::kill_process($_pid)) {
+                log::add('kTwinkly','debug','Process mitmproxy terminé');
+                unlink($pidfile);
+                return true;
+            } else {
+                log::add('kTwinkly','error','stop_mitmproxy : ' . $e->getMessage());
+                return false;
+            }
+        } else {
+            log::add('kTwinkly','debug','Impossible de trouver le process mitm avec le PID enregistré. On recherche le process par son nom');
+            $_pid = kTwinkly::find_mitm_proc();
+            log::add('kTwinkly','debug','Process trouvé PID='.$_pid);
+            if($_pid != "") {
+                if(kTwinkly::kill_process($_pid)) {
+                    log::add('kTwinkly','debug','Process mitmproxy terminé');
+                    return true;
+                } else {
+                    log::add('kTwinkly','error','Impossible de détruire le process mitmproxy PID='.$_pid);
+                    return false;
+                }
+            } else {
+                log::add('kTwinkly','debug','Process mitmproxy inexistant');
+                return true;
+            }
+        }
+    }
+
+    public static function get_mitm_command() {
+        return __DIR__ . '/../../resources/mitmdump/`dpkg --print-architecture`/mitmdump';
+    }
+
+    public static function is_mitm_running($_pid = NULL) {
+        log::add('kTwinkly','debug','is_mitm_running (pid=' .$_pid. ')');
+        if($_pid !== NULL) {
+            try {
+                $result = shell_exec(sprintf('ps %d', $_pid));
+                if(count(preg_split("/\n/", $result)) > 2) {
+                    log::add('kTwinkly','debug','found pid=' .$_pid);
+                    return true;
+                }
+            } catch(Exception $e) {}
+        } else {
+            $_pid = kTwinkly::find_mitm_proc();
+            log::add('kTwinkly','debug','résultat de la recherche du process : pid='.$_pid);
+            if($i_pid != "") {
+                log::add('kTwinkly','debug','found pid=' .$_pid);
+                return true;
+            }
+        }
+        log::add('kTwinkly','debug','Process MITM non trouvé');
+        return false;
+    }
+
+    public static function find_mitm_proc() {
+        $mitmcommand = preg_quote(kTwinkly::get_mitm_command(),'/');
+        $shellcmd="ps hf -opid,cmd -C mitmdump | grep '" . $mitmcommand . "' | awk '$2 !~ /^[|\\\\]/ { print $1 }'";
+        return trim(shell_exec($shellcmd));
+    }
+
+    public function getImage() {
+        $plugin = plugin::byId($this->getEqType_name());
+        $defaultImage = $plugin->getPathImgIcon();
+        $deviceImage = $this->getConfiguration("productimage");
+        if($deviceImage) {
+            return 'plugins/kTwinkly/core/config/images/'.$deviceImage;
+        } else {
+            return $defaultImage;
+        }
+    }
+        
+
     /*     * **********************Getteur Setteur*************************** */
+
+    public static function get_mitmport() {
+        return kTwinkly::$_mitmport;
+    }
 }
 
 class kTwinklyCmd extends cmd {
@@ -448,8 +618,10 @@ class kTwinklyCmd extends cmd {
 
 	$action = $this->getLogicalId();
 
+    $tempdir = jeedom::getTmpFolder('kTwinkly');
+
 	try {
-		$t = new Twinkly($ip, $mac, FALSE);
+		$t = new Twinkly($ip, $mac, TRUE);
 
 		if($action == "on") {
 			log::add('kTwinkly','debug',"Appel commande movie ip=$ip mac=$mac");
@@ -476,15 +648,19 @@ class kTwinklyCmd extends cmd {
                 $eqLogic->refreshWidget();
             }
 		} else if($action == "brightness") {
-			$value = intval($_options["slider"]);
-			log::add('kTwinkly','debug',"Appel commande set_brightness slider=$value ip=$ip mac=$mac");
+            if ($eqLogic->getConfiguration("hwgen") != "0") {
+                $value = intval($_options["slider"]);
+                log::add('kTwinkly','debug',"Appel commande set_brightness slider=$value ip=$ip mac=$mac");
+    
+                $t->set_brightness($value);
+                $newbrightness = $t->get_brightness();
 
-			$t->set_brightness($value);
-            $newbrightness = $t->get_brightness();
-
-            $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
-            if($changed) {
-                $eqLogic->refreshWidget();
+                $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
+                if($changed) {
+                    $eqLogic->refreshWidget();
+                }
+            } else {
+                log::add('kTwinkly','debug',"Commande set_brightness ignorée parce que l'équipement ".$eqLogic->getId()." ne la supporte pas.");
             }
 		} else if($action == "movie") {
 			$value = $_options["select"];
@@ -492,20 +668,56 @@ class kTwinklyCmd extends cmd {
                 log::add('kTwinkly','debug',"Appel commande movie avec $value");
                 $filepath = __DIR__ . '/../../data/' . $value;
                 if(file_exists($filepath)) {
-                    preg_match("/.*_(\d+)_(\d+)_(\d+)\.bin$/", $value, $matches);
-                    if(sizeof($matches) == 4) {
-                        $leds = intval($matches[1]);
-                        $frames = intval($matches[2]);
-                        $delay = intval($matches[3]);
-                        $t->upload_movie($filepath, $leds, $frames, $delay);
+                    $zip = new ZipArchive();
+                    if($zip->open($filepath) === TRUE) {
+                        for ($i=0; $i<$zip->numFiles; $i++) {
+                            $zfilename = $zip->statIndex($i)["name"];
+                            if (preg_match('/bin$/',strtolower($zfilename))) {
+                                $bin_data = $zip->getFromIndex($i);
+                            }
+                            if (preg_match('/json$/',strtolower($zfilename))) {
+                                $jsonstring = $zip->getFromIndex($i);
+                                $json = json_decode($jsonstring, TRUE);
+                            }
+                        }
+                        if ($eqLogic->getConfiguration("hwgen") == "1") {
+                            // GEN 1
+                            $tempfile = $tempdir . '/' . $value . '.bin';
+                            file_put_contents($tempfile, $bin_data);
+                            $leds = intval($json["leds_number"]);
+                            $frames = intval($json["frames_number"]);
+                            $delay = intval($json["frame_delay"]);
+                            log::add('kTwinkly','debug',"Envoi du fichier $tempfile (leds=$leds frames=$frames delay=$delay)");
+                            $t->upload_movie($tempfile, $leds, $frames, $delay);
+                            unlink($tempfile);
+                        } else {
+                            // GEN 2
+                            $tempfile = $tempdir . '/' . $value . '.bin';
+                            file_put_contents($tempfile, $bin_data);
+                            log::add('kTwinkly','debug',"Envoi du fichier $tempfile (GEN2)");
+                            $t->upload_movie2($tempfile, $jsonstring);
+                            //unlink($tempfile);
+                        }
                     } else {
-                        log::add('kTwinkly','error','Format du nom de fichier d\'animation incorrect : ' . $value);
+                        log::add('kTwinkly','error','Impossible d\'ouvrir le fichier zip de l\'animation');
                     }
+                    $zip->close();
                 } else {
                     log::add('kTwinkly','error','Fichier introuvable : ' . $filepath);
                 }
 			}
-		}
+		} else if($action == "refresh") {
+           log::add('kTwinkly','debug',"Appel commande refresh");
+
+            $newstate = $t->get_mode();
+            $newbrightness = $t->get_brightness();
+
+            $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
+            $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
+            if($changed) {
+                $eqLogic->refreshWidget();
+            }
+        }
 	} catch (Exception $e) {
 		//log::add('kTwinkly','error', __('Impossible d\'exécuter la commande sur le contrôleur Twinkly : ' . $e->getMessage(), __FILE__));
 		throw new Exception(__('Impossible d\'exécuter la commande sur le contrôleur Twinkly : ' . $e->getMessage(), __FILE__));

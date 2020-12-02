@@ -22,7 +22,7 @@
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
 $("#bt_movies").off('click').on('click', function() {
-	$('#md_modal').dialog({title: "{{Gestion des fichiers d'animations}}"});
+	$('#md_modal').dialog({title: "{{Gestion des fichiers d'animations}}", dialogClass: "twinklyMovies"});
 	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
 });
 
@@ -118,3 +118,12 @@ function addCmdToTable(_cmd) {
      }
    });
  }
+
+
+function printEqLogic(_eqLogic) {
+  if (_eqLogic.id != '') {
+    $('#img_device').attr("src", $('.eqLogicDisplayCard[data-eqLogic_id=' + _eqLogic.id + '] img').attr('src'));
+  } else {
+    $('#img_device').attr("src", 'plugins/openzwave/plugin_info/openzwave_icon.png');
+  }
+}

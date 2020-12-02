@@ -44,7 +44,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 			foreach ($eqLogics as $eqLogic) {
 				$opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
 				echo '<div class="eqLogicDisplayCard cursor '.$opacity.'" data-eqLogic_id="' . $eqLogic->getId() . '">';
-				echo '<img src="' . $plugin->getPathImgIcon() . '"/>';
+				if($eqLogic->getConfiguration("productimage") != '') {
+				    echo '<img src="' . $eqLogic->getImage() . '" alt="'. $eqLogic->getImage() . '"/>';
+                } else {
+				    echo '<img src="' . $plugin->getPathImgIcon() . '"/>';
+                }
 				echo '<br>';
 				echo '<span class="name">' . $eqLogic->getHumanName(true, true) . '</span>';
 				echo '</div>';
@@ -139,6 +143,12 @@ $eqLogics = eqLogic::byType($plugin->getId());
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="macaddress" placeholder="12:34:56:78:90"/>
 									</div>
 								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{Rafraichissement auto}}</label>
+									<div class="col-xs-11 col-sm-7">
+										<input type="checkbox" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="autorefresh"/>
+									</div>
+								</div>
 								<!-- Champ de saisie du cron d'auto-actualisation + assistant cron -->
 								<!-- La fonction cron de la classe du plugin doit contenir le code prévu pour que ce champ soit fonctionnel -->
 <!--
@@ -160,18 +170,13 @@ $eqLogics = eqLogic::byType($plugin->getId());
 !-->
 
 								<div class="form-group">
-									<label class="col-sm-3 control-label">{{Animations}}</label>
+									<label class="col-sm-3 control-label"></label>
 									<div class="col-sm-8">
 										<span class="btn btn-default" id="bt_movies">
-											Gérer les animations
+											Gérer les animations...
 										</span>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-sm-3 control-label">{{Configuration MQTT}}</label>
-									<div class="col-sm-8">
 										<span class="btn btn-default" id="bt_mqtt">
-											Configurer
+											Configurer MQTT...
 										</span>
 									</div>
 								</div>
@@ -188,56 +193,47 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<div class="form-group">
 									<label class="col-sm-3"></label>
 									<div class="col-sm-7 text-center">
-										<img name="icon_visu" src="<?= $plugin->getPathImgIcon(); ?>" style="max-width:160px;"/>
+									<!--	<img name="icon_visu" src="<?= $plugin->getPathImgIcon(); ?>" style="max-width:160px;"/> -->
+                                        <img src="core/img/no_image.gif" data-original=".jpg" id="img_device" class="img-responsive" style="max-height : 250px;" onerror="this.src='plugins/kTwinkly/plugin_info/kTwinkly_icon.png'"/>
 									</div>
 								</div>
 <?php if($eqLogics[0] !== NULL && $eqLogics[0]->getConfiguration()["product"] !== NULL) { ?>
-<div class="form-group">
-	<label class="col-sm-3 control-label">{{Produit}}</label>
-	<div class="col-sm-3">
-		<span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="product" id="productfield"></span>
-	</div>
-	<label class="col-sm-3 control-label">{{Nom}}</label>
-	<div class="col-sm-3">
-		<span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="devicename" id="devicenamefield"></span>
-	</div>
-</div>
-<div class="form-group">
-	<label class="col-sm-3 control-label">{{Nombre de leds}}</label>
-	<div class="col-sm-3">
-		<span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="numberleds" id="numberledsfield"></span>
-	</div>
-	<label class="col-sm-3 control-label">{{Type de leds}}</label>
-	<div class="col-sm-3">
-		<span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="ledtype" id="ledtypefield"></span>
-	</div>
-</div>
-<div class="form-group">
-	<label class="col-sm-3 control-label">{{Version du produit}}</label>
-	<div class="col-sm-3">
-		<span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productversion" id="productversionfield"></span>
-	</div>
-	<label class="col-sm-3 control-label">{{Version du matériel}}</label>
-	<div class="col-sm-3">
-		<span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="hardwareversion" id="hardwareversionfield"></span>
-	</div>
-</div>
-<div class="form-group">
-	<label class="col-sm-3 control-label">{{Code produit}}</label>
-	<div class="col-sm-3">
-		<span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productcode" id="productcodefield"></span>
-	</div>
-	<label class="col-sm-3 control-label">{{Identifiant matériel}}</label>
-	<div class="col-sm-3">
-		<span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="hardwareid" id="hardwareidfield"></span>
-	</div>
-</div>
-<div class="form-group">
-	<label class="col-sm-3 control-label">{{Firmware}}</label>
-	<div class="col-sm-3">
-		<span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="firmware" id="firmwarefield"></span>
-	</div>
-</div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{Produit}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productname" id="productfield"></span>
+                                    </div>
+                                    <label class="col-sm-3 control-label">{{Nom}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="devicename" id="devicenamefield"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{Nombre de leds}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="numberleds" id="numberledsfield"></span>
+                                    </div>
+                                    <label class="col-sm-3 control-label">{{Type de leds}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="ledtype" id="ledtypefield"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{Firmware}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="firmware" id="firmwarefield"></span>
+                                    </div>
+                                    <label class="col-sm-3 control-label">{{ID Matériel}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="hardwareid" id="hardwareidfield"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{{Gen}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="hwgen" id="hwgenfield"></span>
+                                    </div>
+                                </div>
 <?php } ?>
 							</fieldset>
 						</form>

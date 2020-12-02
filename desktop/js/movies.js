@@ -16,6 +16,54 @@
 
 $("#moviesList").sortable({axis: "y", cursor: "move", items: ".movie", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
+$('#bt_test').off('click').on('click', function () {
+    $.ajax({
+        type: "POST",
+        url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
+        data: {
+            'id': $('.eqLogicAttr[data-l1key=id]').value(),
+            'action': 'copiecaptures'
+        },
+        datatype: "json",
+        error: function(request, status, error) { },
+        success: function (data) {
+	        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
+        }
+    });
+});
+
+$('#md_modal').on('dialogclose', function(event) {
+    $('#md_modal').off('dialogclose');
+    console.log('equipement id = ' + $('.eqLogicAttr[data-l1key=id]').value());
+
+    $.ajax({
+        type: "POST",
+        url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
+        data: {
+            'action': 'stopProxy',
+            'id': $('.eqLogicAttr[data-l1key=id]').value()
+        },
+        datatype: "json",
+        error: function(request, status, error) { },
+        success: function (data) { }
+    });
+});
+
+$('#bt_uploadMovie').fileupload({
+    replaceFileInput: false,
+    url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php?action=uploadMovie&id=' + $('.eqLogicAttr[data-l1key=id]').value(),
+    dataType: 'json',
+    done: function (e, data) {
+      if (data.result.state != 'ok') {
+        $('#div_alert_movies').showAlert({message: data.result.result, level: 'danger'});
+        return;
+      }else{
+        //$('#div_alert_movies').showAlert({message: '{{Fichier envoyé avec succès}}', level: 'success'});
+        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
+      }
+    }
+});
+
 $('#bt_deleteMovie').off('click').on('click', function() {
     var formData = $("#moviesList").serialize(); 
     $('#moviesList #action').val('deleteMovie');
@@ -30,7 +78,7 @@ $('#bt_deleteMovie').off('click').on('click', function() {
 	  $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
 	  return;
 	}
-	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=<?php echo $eqId; ?>&reload=1');
+	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
       }
     });
 });
@@ -47,9 +95,32 @@ $('#bt_saveMovie').off('click').on('click', function() {
         if(data.state != 'ok') { 
           $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
           return;
-	}
-	$('#md_modal').dialog('close');
+        }
+        //$('#md_modal').dialog('close');
       }
     });
+});
+
+$('.changeProxyState').off('click').on('click', function () {
+    console.log('old proxy state = ' + $(this).attr('data-state'));
+    $.ajax({
+        type: "POST",
+        url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
+        data: {
+            'id': $('.eqLogicAttr[data-l1key=id]').value(),
+            'action': 'changeproxystate',
+            'proxy_enabled': $(this).attr('data-state')
+        },
+        datatype: 'json',
+        error: function(request, status, error) {
+            handleAjaxError(request, status, error);
+        },
+        success: function (data) {
+            newstate = data.result.proxy_enabled;
+            console.log('new proxy state = ' + newstate);
+            $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&proxy=' + newstate + '&reload=1');
+            return;
+        }
+    })
 });
 

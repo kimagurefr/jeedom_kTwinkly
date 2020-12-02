@@ -20,6 +20,8 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 // Fonction exécutée automatiquement après l'installation du plugin
   function kTwinkly_install() {
+      config::save('refreshFrequency','10','kTwinkly');
+
       log::add('kTwinkly','debug','Install cron refreshstate');
       $cron = cron::byClassAndFunction('kTwinkly', 'refreshstate');
       if (!is_object($cron)) {
@@ -38,11 +40,20 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
       foreach (kTwinkly::byType('kTwinkly') as $t) {
           $t->save();
       }
+
+      // Rend mitmproxy executable
+      chmod(__DIR__ . '/../resources/mitmproxy/`dpkg --print-architecture`/mitmdump', 0755);
   }
 
 // Fonction exécutée automatiquement après la mise à jour du plugin
   function kTwinkly_update() {
+      $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
+      if($refreshFrequence == '') {
+        config::save('refreshFrequency','10','kTwinkly');
+      }
+
       log::add('kTwinkly','debug','Update cron refreshstate');
+
       $cron = cron::byClassAndFunction('kTwinkly', 'refreshstate');
       if (!is_object($cron)) {
           $cron = new cron();
@@ -51,7 +62,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
       $cron->setFunction('refreshstate');
       $cron->setEnable(1);
       $cron->setDeamon(1);
-      $cron->setDeamonSleepTime(10);
+      $cron->setDeamonSleepTime(intval($refreshFrequency));
       $cron->setSchedule('* * * * *');
       $cron->setTimeout(1440);
       $cron->save();
@@ -60,6 +71,9 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
       foreach (kTwinkly::byType('kTwinkly') as $t) {
           $t->save();
       }
+
+      // Rend mitmproxy executable
+      chmod(__DIR__ . '/../resources/mitmproxy/`dpkg --print-architecture`/mitmdump', 0755);
   }
 
 // Fonction exécutée automatiquement après la suppression du plugin
