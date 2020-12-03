@@ -16,22 +16,6 @@
 
 $("#moviesList").sortable({axis: "y", cursor: "move", items: ".movie", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
-$('#bt_test').off('click').on('click', function () {
-    $.ajax({
-        type: "POST",
-        url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
-        data: {
-            'id': $('.eqLogicAttr[data-l1key=id]').value(),
-            'action': 'copiecaptures'
-        },
-        datatype: "json",
-        error: function(request, status, error) { },
-        success: function (data) {
-	        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
-        }
-    });
-});
-
 $('#md_modal').on('dialogclose', function(event) {
     $('#md_modal').off('dialogclose');
     console.log('equipement id = ' + $('.eqLogicAttr[data-l1key=id]').value());

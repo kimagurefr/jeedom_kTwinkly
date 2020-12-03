@@ -350,7 +350,7 @@ try {
         $eqLogic->save();
 
         $result["proxy_enabled"] = $newstate;
-        $result["proxy_port"] = kTwinkly::get_mitmport();
+        $result["proxy_port"] = kTwinkly::get_mitm_port(); 
 
         ajax::success($result);
     }

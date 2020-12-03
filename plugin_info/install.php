@@ -21,6 +21,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 // Fonction exécutée automatiquement après l'installation du plugin
   function kTwinkly_install() {
       config::save('refreshFrequency','10','kTwinkly');
+      config::save('mitmPort','14233','kTwinkly');
 
       log::add('kTwinkly','debug','Install cron refreshstate');
       $cron = cron::byClassAndFunction('kTwinkly', 'refreshstate');
@@ -47,9 +48,18 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 // Fonction exécutée automatiquement après la mise à jour du plugin
   function kTwinkly_update() {
+      foreach (kTwinkly::byType('kTwinkly') as $t) {
+          $t->save();
+      }
+
       $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
       if($refreshFrequence == '') {
         config::save('refreshFrequency','10','kTwinkly');
+      }
+
+      $mitmPort = config::byKey('mitmPort','kTwinkly');
+      if($mitmPort == '') {
+        config::save('mitmPort','14233','kTwinkly');
       }
 
       log::add('kTwinkly','debug','Update cron refreshstate');
@@ -68,9 +78,6 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
       $cron->save();
 
       kTwinkly::deamon_start();
-      foreach (kTwinkly::byType('kTwinkly') as $t) {
-          $t->save();
-      }
 
       // Rend mitmproxy executable
       chmod(__DIR__ . '/../resources/mitmproxy/`dpkg --print-architecture`/mitmdump', 0755);

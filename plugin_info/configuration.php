@@ -29,6 +29,12 @@ if (!isConnect('admin')) {
                 <input id="ktrefreshfreq" class="configKey form-control" data-l1key="refreshFrequency" placeholder="10"/>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-lg-4 control-label">{{Port du proxy de capture des animations}}</label>
+            <div class="col-lg-4">
+                <input id="ktmitmport" class="configKey form-control" data-l1key="mitmPort" placeholder="14233"/>
+            </div>
+        </div>
     </fieldset>
 </form>
 

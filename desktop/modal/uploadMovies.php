@@ -117,7 +117,6 @@ if($proxymode) {
 </span>
 <span class="btn btn-default" id="bt_deleteMovie">{{Supprimer}}</span>
 <span class="btn btn-default" id="bt_saveMovie">{{Sauvegarder}}</span>
-<span class="btn btn-default" id="bt_test">{{Test fichiers}}</span>
 </form>
 </div>
 
