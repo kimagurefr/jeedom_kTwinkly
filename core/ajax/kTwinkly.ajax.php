@@ -154,10 +154,10 @@ try {
     }
     require_once __DIR__ . '/../../core/class/Twinkly.class.php';
     
-  /* Fonction permettant l'envoi de l'entête 'Content-Type: application/json'
-    En V3 : indiquer l'argument 'true' pour contrôler le token d'accès Jeedom
-    En V4 : autoriser l'exécution d'une méthode 'action' en GET en indiquant le(s) nom(s) de(s) action(s) dans un tableau en argument
-  */  
+    /* Fonction permettant l'envoi de l'entête 'Content-Type: application/json'
+        En V3 : indiquer l'argument 'true' pour contrôler le token d'accès Jeedom
+        En V4 : autoriser l'exécution d'une méthode 'action' en GET en indiquant le(s) nom(s) de(s) action(s) dans un tableau en argument
+    */  
     ajax::init(array('uploadMovie','saveMovie','deleteMovie','discoverDevices','updateMqtt'));
 
     if (init('action') == 'uploadMovie') {
@@ -167,6 +167,7 @@ try {
         if (!is_object($eqLogic)) {
             throw new Exception(__('EqLogic inconnu verifié l\'id', __FILE__));
         }
+
         if (!isset($_FILES['file'])) {
             throw new Exception(__('Aucun fichier trouvé. Vérifiez paramètre PHP (post size limit)', __FILE__));
         }
@@ -399,7 +400,6 @@ try {
     }
 
     throw new Exception(__('Aucune méthode correspondant à : ', __FILE__) . init('action'));
-    /*     * *********Catch exeption*************** */
 } catch (Exception $e) {
     ajax::error(displayException($e), $e->getCode());
 }

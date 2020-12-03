@@ -20,6 +20,7 @@
 
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
+// Renvoie les informations du produit depuis la table de configuration récupérée de l'appli mobile Android
 function get_product_info($_product_code) {
     $allproducts = json_decode(file_get_contents(__DIR__ . '/../config/products.json'));
     $result = NULL;
@@ -32,6 +33,7 @@ function get_product_info($_product_code) {
     return (array)$result;
 }
 
+// Transforme un numéro de version de firmware de la forme x.x.x en entier pour faciliter la comparaison de versions
 function versionToInt($_str) {
     $split = explode('.',$_str);
     $c = count($split);
@@ -49,6 +51,7 @@ function versionToInt($_str) {
     return $i;
 }
 
+// Indique si la version de firmware supporte la fonctionnalité de réglage de la luminosité
 function version_supports_brigthness($_fw_version) {
     if(versionToInt($_fw_version) >= versionToInt("2.3.0")) {
         return TRUE;
@@ -57,6 +60,7 @@ function version_supports_brigthness($_fw_version) {
     }
 }
 
+// Indique le mode de chargement des animations en fonction de la version du firmware
 function version_upload_type($_fw_version) {
     if(versionToInt($_fw_version) >= versionToInt("2.5.5")) {
         return "v1";
@@ -65,6 +69,7 @@ function version_upload_type($_fw_version) {
     }
 }
 
+// Génère un GUI utilisé pour stocker les animations capturées via le proxy
 function generate_GUID() {
     $data = openssl_random_pseudo_bytes(16);
     $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100

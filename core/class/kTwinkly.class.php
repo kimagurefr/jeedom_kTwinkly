@@ -25,58 +25,23 @@ require_once __DIR__  . '/kTwinkly_utils.php';
 include_file('core', 'kTwinklyCmd', 'class', 'kTwinkly');
 
 class kTwinkly extends eqLogic {
-    /*     * *************************Attributs****************************** */
+    /* Attributs et constantes */
     private static $_eqLogics = null;
     const MITM_DEFAULT_PORT = 14233;
 
-  /*
-   * Permet de définir les possibilités de personnalisation du widget (en cas d'utilisation de la fonction 'toHtml' par exemple)
-   * Tableau multidimensionnel - exemple: array('custom' => true, 'custom::layout' => false)
-	public static $_widgetPossibility = array();
-   */
+    /*
+     * Permet de définir les possibilités de personnalisation du widget (en cas d'utilisation de la fonction 'toHtml' par exemple)
+     * Tableau multidimensionnel - exemple: array('custom' => true, 'custom::layout' => false)
+     public static $_widgetPossibility = array();
+    */
     
-    /*     * ***********************Methode static*************************** */
-
-    /*
-     * Fonction exécutée automatiquement toutes les minutes par Jeedom
-      public static function cron() {
-      }
-     */
-
-    /*
-     * Fonction exécutée automatiquement toutes les 5 minutes par Jeedom
-      public static function cron5() {
-      }
-     */
-
-    /*
-     * Fonction exécutée automatiquement toutes les 10 minutes par Jeedom
-      public static function cron10() {
-      }
-     */
-    
-    /*
-     * Fonction exécutée automatiquement toutes les 15 minutes par Jeedom
-      public static function cron15() {
-      }
-     */
-    
-    /*
-     * Fonction exécutée automatiquement toutes les 30 minutes par Jeedom
-      public static function cron30() {
-      }
-     */
-    
-    /*
-     * Fonction exécutée automatiquement toutes les heures par Jeedom
-      public static function cronHourly() {
-      }
-     */
+    /* ---------------------------------------------------------------------------- */
+    /* Methodes statiques */
 
     /*
      * Fonction exécutée automatiquement tous les jours par Jeedom
      */
-      public static function cronDaily() {
+    public static function cronDaily() {
         try {
             if(date('i') == 0 && date('s') < 10) {
                 sleep(10);
@@ -86,24 +51,17 @@ class kTwinkly extends eqLogic {
         } catch (\Exception $e) {
             log::add('kTwinkly','debug','error in cronDaily : ' . $e->getMessage());
         }
-      }
-
-
-
-    /*     * *********************Méthodes d'instance************************* */
-    
- // Fonction exécutée automatiquement avant la création de l'équipement 
-    public function preInsert() {
-        
     }
 
- // Fonction exécutée automatiquement après la création de l'équipement 
-    public function postInsert() {
-        
-    }
 
- // Fonction exécutée automatiquement avant la mise à jour de l'équipement 
+    /* ---------------------------------------------------------------------------- */
+    /* Methodes d'instance */
+
+
+    // Fonction exécutée automatiquement avant la mise à jour de l'équipement 
     public function preUpdate() {
+        // Vérification des paramètres de l'équipement
+
 	    $ip = $this->getConfiguration('ipaddress');
 	    $mac = $this->getConfiguration('macaddress');
 
@@ -124,49 +82,40 @@ class kTwinkly extends eqLogic {
 	    }
 
 	    try {
-            	$t = new Twinkly($ip, $mac, FALSE);
+            // Récupérations des informations sur l'équipement via l'API
+            $t = new Twinkly($ip, $mac, FALSE);
 
-            	$info = $t->get_details();
-                $this->setConfiguration('productcode',$info["product_code"]);
-                $this->setConfiguration('productname',get_product_info($info["product_code"])["commercial_name"]);
-                $this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
-                $this->setConfiguration('product',$info["product_name"]);
-                $this->setConfiguration('devicename',$info["device_name"]);
-                $this->setConfiguration('numberleds',$info["number_of_led"]);
-                $this->setConfiguration('ledtype',$info["led_profile"]);
-                $this->setConfiguration('hardwareid',$info["hw_id"]);
+            $info = $t->get_details();
+            $this->setConfiguration('productcode',$info["product_code"]);
+            $this->setConfiguration('productname',get_product_info($info["product_code"])["commercial_name"]);
+            $this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
+            $this->setConfiguration('product',$info["product_name"]);
+            $this->setConfiguration('devicename',$info["device_name"]);
+            $this->setConfiguration('numberleds',$info["number_of_led"]);
+            $this->setConfiguration('ledtype',$info["led_profile"]);
+            $this->setConfiguration('hardwareid',$info["hw_id"]);
 
-                $fwversion = $t->firmware_version();
-                $this->setConfiguration('firmware',$fwversion);
-                if (versionToInt($fwversion) >= versionToInt("2.5.5")) {
-                    $this->setConfiguration('hwgen', '2');
+            $fwversion = $t->firmware_version();
+            $this->setConfiguration('firmware',$fwversion);
+            if (versionToInt($fwversion) >= versionToInt("2.5.5")) {
+                $this->setConfiguration('hwgen', '2');
+            } else {
+                if (versionToInt($fwversion) >= versiontoInt("2.3.0")) {
+                    $this->setConfiguration('hwgen', '1');
                 } else {
-                    if (versionToInt($fwversion) >= versiontoInt("2.3.0")) {
-                        $this->setConfiguration('hwgen', '1');
-                    } else {
-                        $this->setConfiguration('hwgen', '0');
-                    }
+                    $this->setConfiguration('hwgen', '0');
                 }
-
-	    } catch (Exception $e) {
+            }
+        } catch (Exception $e) {
 		    throw new Exception(__('Impossible de contacter le contrôleur Twinkly. Vérifiez les paramètres : ' . $e->getMessage(), __FILE__));
 	    }
-
 	    $this->setLogicalId("Twinkly-" . $ip);
     }
 
- // Fonction exécutée automatiquement après la mise à jour de l'équipement 
-    public function postUpdate() {
-
-    }
-
- // Fonction exécutée automatiquement avant la sauvegarde (création ou mise à jour) de l'équipement 
-    public function preSave() {
-
-    }
-
- // Fonction exécutée automatiquement après la sauvegarde (création ou mise à jour) de l'équipement 
+    // Fonction exécutée automatiquement après la sauvegarde (création ou mise à jour) de l'équipement 
     public function postSave() {
+        // Création des commandes
+
 	    $onCmd = $this->getCmd(null, "on");
 	    if(!is_object($onCmd)) {
             $onCmd = new kTwinklyCmd();
@@ -230,6 +179,7 @@ class kTwinkly extends eqLogic {
             $brightnessStateCmd->save();
         } 
 
+        // Liens entre les commandes
         $onCmd->setValue($brightnessStateCmd->getId());
         $onCmd->save();
         $offCmd->setValue($brightnessStateCmd->getId());
@@ -245,7 +195,6 @@ class kTwinkly extends eqLogic {
         	$movieCmd->setLogicalId('movie');
         	$movieCmd->setType('action');
         	$movieCmd->setSubType('select');
-            //$movieCmd->setConfiguration("listValue","");
         	$movieCmd->setIsVisible(1);
         	$movieCmd->setOrder(4);
         	$movieCmd->save();
@@ -283,45 +232,25 @@ class kTwinkly extends eqLogic {
         }
     }
 
- // Fonction exécutée automatiquement avant la suppression de l'équipement 
+    // Fonction exécutée automatiquement avant la suppression de l'équipement 
     public function preRemove() {
-	// Suppression des animations liées à cet équipement
-	$animpath = __DIR__ . '/../../data/twinkly_' . $this->getId() . '_*';
-	log::add('kTwinkly','debug','Suppression des animations liées à l\'équipement : ' . $animpath);
-	array_map( "unlink", glob( $animpath ) );
+	    // Suppression des animations liées à cet équipement
+        $animpath = __DIR__ . '/../../data/twinkly_' . $this->getId() . '_*';
+        log::add('kTwinkly','debug','Suppression des animations liées à l\'équipement : ' . $animpath);
+        array_map( "unlink", glob( $animpath ) );
     }
 
- // Fonction exécutée automatiquement après la suppression de l'équipement 
-    public function postRemove() {
-
-    }
-
-    /*
-     * Non obligatoire : permet de modifier l'affichage du widget (également utilisable par les commandes)
-      public function toHtml($_version = 'dashboard') {
-
-      }
-     */
-
-    /*
-     * Non obligatoire : permet de déclencher une action après modification de variable de configuration
-    public static function postConfig_<Variable>() {
-    }
-     */
-
-    /*
-     * Non obligatoire : permet de déclencher une action avant modification de variable de configuration
-    public static function preConfig_<Variable>() {
-    }
-     */
-
+    // Découverte automatique des équipements sur le réseau
     public static function discover()
     {
 	    log::add('kTwinkly','debug','Démarrage de la recherche d\'équipements');
 	    $devices = Twinkly::discover();
 	    log::add('kTwinkly','debug','Equipements trouvés : ' . print_r($devices,TRUE));
+
 	    foreach($devices as $d) {
+            // Logical id = Twinkly- suivi de l'adresse IP
 		    $lID = "Twinkly-" . $d["ip"];
+
 		    $eqLogic = self::byLogicalId($lID, 'kTwinkly');
 		    if (!is_object($eqLogic)) {
 			    log::add('kTwinkly','debug','Nouvel équipement trouvé : name=' . $d["name"] . '(' . $d["details"]["device_name"] . ') ip=' . $d["ip"] . ' mac=' . $d["mac"]); 
@@ -362,6 +291,7 @@ class kTwinkly extends eqLogic {
 	    }
     }
 
+    // Vérifications de l'état du cron
     public static function deamon_info() {
         $return = array("log" => "", "state" => "nok");
         $cron = cron::byClassAndFunction('kTwinkly','refreshstate');
@@ -373,6 +303,7 @@ class kTwinkly extends eqLogic {
         return $return;
     }
 
+    // Arrêt du cron
     public static function deamon_stop() {
         log::add('kTwinkly','debug','kTwinkly deamon_stop');
         $cron = cron::byClassAndFunction('kTwinkly','refreshstate');
@@ -382,6 +313,7 @@ class kTwinkly extends eqLogic {
         $cron->halt();
     }
 
+    // Démarrage du cron
     public static function deamon_start() {
         log::add('kTwinkly','debug','kTwinkly deamon_start');
         self::deamon_stop();
@@ -406,10 +338,12 @@ class kTwinkly extends eqLogic {
         $cron->save();
     }
 
+    // Rafraîchissement des valeurs par appel à l'API
     public static function refreshstate($_eqLogic_id = null) {
         if (self::$_eqLogics == null) {
             self::$_eqLogics = self::byType('kTwinkly');
         }
+
         foreach (self::$_eqLogics as &$eqLogic) {
             if ($_eqLogic_id != null && $_eqLogic_id != $eqLogic->getId()) {
                 continue;
@@ -420,8 +354,9 @@ class kTwinkly extends eqLogic {
             if ($eqLogic->getLogicalId() == '' || $eqLogic->getIsEnable() == 0) {
                 continue;
             }
+
+            // On vérifie si l'autorefresh est actif
             if ($eqLogic->getConfiguration('autorefresh')==1) {
-                //log::add('kTwinkly','debug','refreshstate = refresh ' . $eqLogic->getLogicalId());
                 try {
                     $changed = false;
     
@@ -453,6 +388,7 @@ class kTwinkly extends eqLogic {
         }
     }
 
+    // Démarre le proxy de capture des animations
     public static function start_mitmproxy($_id) {
         log::add('kTwinkly','debug','start_mitmproxy for eqId='.$_id);
         if(!kTwinkly::is_mitm_running()) {
@@ -488,6 +424,7 @@ class kTwinkly extends eqLogic {
         }
     }
 
+    // Destruction d'un process
     private static function kill_process($_pid) {
         try {
             $result = shell_exec(sprintf('kill %d 2>&1', $_pid));
@@ -499,6 +436,7 @@ class kTwinkly extends eqLogic {
         }
     }
 
+    // Arrêt du proxy de capture
     public static function stop_mitmproxy($_pid = "") {
         if($_pid == "") {
             $pidfile = jeedom::getTmpFolder('kTwinkly') . '/mitmproxy.pid';
@@ -508,6 +446,7 @@ class kTwinkly extends eqLogic {
         }
 
         if($_pid != "" and kTwinkly::is_mitm_running($_pid)) {
+            // On essaye de tuer le process via le PID enregistré lors du démarrage
             log::add('kTwinkly','debug','Arret de mitmproxy en cours d\'exécution (pid=' . $_pid . ')');
             if(kTwinkly::kill_process($_pid)) {
                 log::add('kTwinkly','debug','Process mitmproxy terminé');
@@ -518,9 +457,11 @@ class kTwinkly extends eqLogic {
                 return false;
             }
         } else {
+            // Le PID n'es pas trouvé (cas d'un plantage). On essaye de retrouver le process par son nom
             log::add('kTwinkly','debug','Impossible de trouver le process mitm avec le PID enregistré. On recherche le process par son nom');
             $_pid = kTwinkly::find_mitm_proc();
             log::add('kTwinkly','debug','Process trouvé PID='.$_pid);
+
             if($_pid != "") {
                 if(kTwinkly::kill_process($_pid)) {
                     log::add('kTwinkly','debug','Process mitmproxy terminé');
@@ -536,6 +477,7 @@ class kTwinkly extends eqLogic {
         }
     }
 
+    // Vérification de l'état du proxy
     public static function is_mitm_running($_pid = NULL) {
         log::add('kTwinkly','debug','is_mitm_running (pid=' .$_pid. ')');
         if($_pid !== NULL) {
@@ -558,6 +500,7 @@ class kTwinkly extends eqLogic {
         return false;
     }
 
+    // Recherche du process par son nom
     public static function find_mitm_proc() {
         //$mitmcommand = preg_quote(kTwinkly::get_mitm_command(),'/');
         $mitmcommand = 'mitmdump';
@@ -565,6 +508,7 @@ class kTwinkly extends eqLogic {
         return trim(shell_exec($shellcmd));
     }
 
+    // Récupère le port paramétré dans la config, ou utilise un valeur par défaut
     public static function get_mitm_port() {
         $mitmport = config::byKey('mitmPort','kTwinkly');
         if ($mitmport == '') {
@@ -573,6 +517,8 @@ class kTwinkly extends eqLogic {
         return $mitmport;
     }
 
+    // Renvoie l'image de l'équipement
+    // La table de mapping et les images sont celles fournies par Twinkly dans l'application Android
     public function getImage() {
         $plugin = plugin::byId($this->getEqType_name());
         $defaultImage = $plugin->getPathImgIcon();
@@ -584,6 +530,7 @@ class kTwinkly extends eqLogic {
         }
     }
 
+    // Installation des dépendances (via shell)
     public static function dependancy_install() {
         log::remove(__CLASS__.'_update');
         return array(
@@ -592,6 +539,7 @@ class kTwinkly extends eqLogic {
         );
     }
 
+    // Informations sur l'avancement de l'installation des dépendances
     public static function dependancy_info() {
         $return = array();
         $return['log'] = log::getPathToLog(__CLASS__.'_update');
@@ -606,13 +554,6 @@ class kTwinkly extends eqLogic {
             }
         }
         return $return;
-    }
-        
-
-    /*     * **********************Getteur Setteur*************************** */
-
-    public static function get_mitmport() {
-        return kTwinkly::$_mitmport;
     }
 }
 
