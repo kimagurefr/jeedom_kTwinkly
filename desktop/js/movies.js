@@ -43,7 +43,7 @@ $('#bt_uploadMovie').fileupload({
         return;
       }else{
         //$('#div_alert_movies').showAlert({message: '{{Fichier envoyé avec succès}}', level: 'success'});
-        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
+        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
       }
     }
 });
@@ -58,11 +58,11 @@ $('#bt_deleteMovie').off('click').on('click', function() {
       datatype: "json",
       error: function(request, status, error) { },
       success: function (data) {	      
-        if(data.state != 'ok') {
+        if (data.state != 'ok') {
 	  $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
 	  return;
 	}
-	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
+	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
       }
     });
 });
@@ -76,7 +76,7 @@ $('#bt_saveMovie').off('click').on('click', function() {
       datatype: 'json',
       error: function(request, status, error) { },
       success: function (data) {
-        if(data.state != 'ok') { 
+        if (data.state != 'ok') { 
           $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
           return;
         }
@@ -101,8 +101,10 @@ $('.changeProxyState').off('click').on('click', function () {
         },
         success: function (data) {
             newstate = data.result.proxy_enabled;
-            console.log('new proxy state = ' + newstate);
-            $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&proxy=' + newstate + '&reload=1');
+            newmovies = data.result.newmovies;
+            // console.log('new proxy state = ' + newstate);
+            // console.log('new movies found = ' + newmovies);
+            $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&proxy=' + newstate + '&newmovies=' + newmovies + '&reload=1');
             return;
         }
     })

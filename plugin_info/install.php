@@ -53,12 +53,12 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
       }
 
       $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
-      if($refreshFrequence == '') {
+      if ($refreshFrequency == '') {
         config::save('refreshFrequency','10','kTwinkly');
       }
 
       $mitmPort = config::byKey('mitmPort','kTwinkly');
-      if($mitmPort == '') {
+      if ($mitmPort == '') {
         config::save('mitmPort','14233','kTwinkly');
       }
 

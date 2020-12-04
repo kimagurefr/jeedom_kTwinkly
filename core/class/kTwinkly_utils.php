@@ -25,7 +25,7 @@ function get_product_info($_product_code) {
     $allproducts = json_decode(file_get_contents(__DIR__ . '/../config/products.json'));
     $result = NULL;
     foreach($allproducts as $p) {
-        if($p->product_code == $_product_code) {
+        if ($p->product_code == $_product_code) {
             $result = $p;
             break;
         }
@@ -53,7 +53,7 @@ function versionToInt($_str) {
 
 // Indique si la version de firmware supporte la fonctionnalité de réglage de la luminosité
 function version_supports_brigthness($_fw_version) {
-    if(versionToInt($_fw_version) >= versionToInt("2.3.0")) {
+    if (versionToInt($_fw_version) >= versionToInt("2.3.0")) {
         return TRUE;
     } else {
         return FALSE;
@@ -62,7 +62,7 @@ function version_supports_brigthness($_fw_version) {
 
 // Indique le mode de chargement des animations en fonction de la version du firmware
 function version_upload_type($_fw_version) {
-    if(versionToInt($_fw_version) >= versionToInt("2.5.5")) {
+    if (versionToInt($_fw_version) >= versionToInt("2.5.5")) {
         return "v1";
     } else {
         return "v2";

@@ -44,7 +44,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 			foreach ($eqLogics as $eqLogic) {
 				$opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
 				echo '<div class="eqLogicDisplayCard cursor '.$opacity.'" data-eqLogic_id="' . $eqLogic->getId() . '">';
-				if($eqLogic->getConfiguration("productimage") != '') {
+				if ($eqLogic->getConfiguration("productimage") != '') {
 				    echo '<img src="' . $eqLogic->getImage() . '" alt="'. $eqLogic->getImage() . '"/>';
                 } else {
 				    echo '<img src="' . $plugin->getPathImgIcon() . '"/>';
@@ -197,7 +197,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                         <img src="core/img/no_image.gif" data-original=".jpg" id="img_device" class="img-responsive" style="max-height : 250px;" onerror="this.src='plugins/kTwinkly/plugin_info/kTwinkly_icon.png'"/>
 									</div>
 								</div>
-<?php if($eqLogics[0] !== NULL && $eqLogics[0]->getConfiguration()["product"] !== NULL) { ?>
+<?php if ($eqLogics[0] !== NULL && $eqLogics[0]->getConfiguration()["product"] !== NULL) { ?>
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">{{Produit}}</label>
                                     <div class="col-sm-3">

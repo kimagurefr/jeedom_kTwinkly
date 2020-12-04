@@ -368,7 +368,7 @@ class Twinkly {
 
     public function upload_movie2($movie, $jsonstrparameters) {
         $jsonparameters = json_decode($jsonstrparameters, TRUE);
-        if($jsonparameters === false) {
+        if ($jsonparameters === false) {
             $this->debug('invalid movie parameters');
             throw new Exception("upload_movie2 error : invalid movie parameters");
         }
@@ -419,7 +419,7 @@ class Twinkly {
 
         $this->debug("upload stage 6 (upload data)");
         $result = $this->do_api_post("movies/full", $movie_data, TRUE, FALSE, NULL, "application/octet-stream");
-        if($result["code"] != "1000" || $result["frames_number"] != $jsonparameters["frames_number"]) {
+        if ($result["code"] != "1000" || $result["frames_number"] != $jsonparameters["frames_number"]) {
             $this->debug("upload_movie step 6 error..." . print_r($result, TRUE));
             throw new Exception("upload_movie step 6 error [POST : movies/full] data=" . print_r($result,TRUE));
         }

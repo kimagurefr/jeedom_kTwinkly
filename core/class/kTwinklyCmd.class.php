@@ -32,7 +32,7 @@ class kTwinklyCmd extends cmd {
         }
 
         $eqLogic = $this->getEqLogic();
-        if(!is_object($eqLogic)){
+        if (!is_object($eqLogic)){
             return;
         }
 
@@ -46,7 +46,7 @@ class kTwinklyCmd extends cmd {
         try {
             $t = new Twinkly($ip, $mac, FALSE);
 
-		    if($action == "on") {
+		    if ($action == "on") {
                 // Allumer la guirlande. On active le mode "movie".
 
                 log::add('kTwinkly','debug',"Appel commande movie ip=$ip mac=$mac");
@@ -57,10 +57,10 @@ class kTwinklyCmd extends cmd {
 
                 $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                 $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
-                if($changed) {
+                if ($changed) {
                     $eqLogic->refreshWidget();
                 }
-            } else if($action == "off") {
+            } else if ($action == "off") {
                 // Extinction de la guirlande
 
                 log::add('kTwinkly','debug',"Appel commande off ip=$ip mac=$mac");
@@ -71,10 +71,10 @@ class kTwinklyCmd extends cmd {
 
                 $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                 $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
-                if($changed) {
+                if ($changed) {
                     $eqLogic->refreshWidget();
                 }
-            } else if($action == "brightness") {
+            } else if ($action == "brightness") {
                 // Changement de la luminosité si la fonctionnalité est supportée par le firmware
 
                 if ($eqLogic->getConfiguration("hwgen") != "0") {
@@ -85,25 +85,25 @@ class kTwinklyCmd extends cmd {
                     $newbrightness = $t->get_brightness();
 
                     $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
-                    if($changed) {
+                    if ($changed) {
                         $eqLogic->refreshWidget();
                     }
                 } else {
                     log::add('kTwinkly','debug',"Commande set_brightness ignorée parce que l'équipement ".$eqLogic->getId()." ne la supporte pas.");
                 }
-            } else if($action == "movie") {
+            } else if ($action == "movie") {
                 // Chargemenet d'une animation sur la guirlande
 
                 $value = $_options["select"];
-                if($value != "") {
+                if ($value != "") {
                     // On récupère le flux binaire et les informations JSON depuis le zip
 
                     log::add('kTwinkly','debug',"Appel commande movie avec $value");
 
                     $filepath = __DIR__ . '/../../data/' . $value;
-                    if(file_exists($filepath)) {
+                    if (file_exists($filepath)) {
                         $zip = new ZipArchive();
-                        if($zip->open($filepath) === TRUE) {
+                        if ($zip->open($filepath) === TRUE) {
                             for ($i=0; $i<$zip->numFiles; $i++) {
                                 $zfilename = $zip->statIndex($i)["name"];
                                 if (preg_match('/bin$/',strtolower($zfilename))) {
@@ -144,7 +144,7 @@ class kTwinklyCmd extends cmd {
                         log::add('kTwinkly','error','Fichier introuvable : ' . $filepath);
                     }
                 }
-            } else if($action == "refresh") {
+            } else if ($action == "refresh") {
                 // Rafraichissement manuel des valeurs
                 log::add('kTwinkly','debug',"Appel commande refresh");
 
@@ -153,7 +153,7 @@ class kTwinklyCmd extends cmd {
 
                 $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                 $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
-                if($changed) {
+                if ($changed) {
                     $eqLogic->refreshWidget();
                 }
             }

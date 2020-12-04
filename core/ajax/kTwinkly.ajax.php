@@ -20,7 +20,7 @@ require_once __DIR__  . '/../class/kTwinkly_utils.php';
 
 function add_movie_to_listValue($oldlist, $newitem, $displayname=NULL)
 {
-    if(!$displayname) {
+    if (!$displayname) {
 	    $displayname = substr($newitem, 0, strlen($newitem)-4);
     }
 
@@ -34,6 +34,8 @@ function add_movie_to_listValue($oldlist, $newitem, $displayname=NULL)
 
 function recupere_movies($id) {
     log::add('kTwinkly','debug',"Récupération des captures de l'équipement " . $id);
+
+    $result = 0;
 
     $eqLogic = eqLogic::byId($id);
     $tempdir = jeedom::getTmpFolder('kTwinkly');
@@ -82,6 +84,7 @@ function recupere_movies($id) {
                     // Met à jour la liste déroulante
                     $movieList = add_movie_to_listValue($movieList, $zipfilename);
                     log::add('kTwinkly','debug',"Nouveau fichier ajouté : " . $zippath);
+                    $result += 1;
                 } else {
                     log::add('kTwinkly','error','Impossible de créer le fichier zip '.$zippath);
                 }
@@ -130,6 +133,7 @@ function recupere_movies($id) {
                     // Met à jour la liste déroulante
                     $movieList = add_movie_to_listValue($movieList, $zipfilename, $moviename);
                     log::add('kTwinkly','debug',"Nouveau fichier ajouté : " . $moviename . ' => ' . $zippath);
+                    $result += 1;
                 } else {
                     log::add('kTwinkly','error','Impossible de créer le fichier zip '.$zippath);
                 }
@@ -138,11 +142,19 @@ function recupere_movies($id) {
             }
         }
     }
-    log::add('kTwinkly','debug','new list = ' . $movieList);
-    $movieCmd->setConfiguration('listValue', $movieList);
-    $movieCmd->save();
-    $eqLogic->save();
-    $eqLogic->refreshWidget();
+    if ($result > 0) {
+        log::add('kTwinkly','debug', $result . ' nouvelles animations récupérées');
+        log::add('kTwinkly','debug','Nouvelle liste d\'animations : ' . $movieList);
+        $movieCmd->setConfiguration('listValue', $movieList);
+        $movieCmd->save();
+        $eqLogic->save();
+        $eqLogic->refreshWidget();
+    } else {
+        if ($result == 0) {
+            log::add('kTwinkly','debug', 'Aucun fichier n\'a été enregistré par le proxy.');
+        }
+    }
+    return $result;
 }
 
 try {
@@ -217,10 +229,10 @@ try {
                     $zip->close();
                     throw new Exception(__("Le format de l'animation ne correspond pas au type de guirlande", __FILE__));
                 } else {
-                    if($is_gen2) {
+                    if ($is_gen2) {
                         // Upload fichier GEN2
                         log::add('kTwinkly','debug',"Upload d'un fichier GEN2");
-                        if($json["leds_per_frame"] != $nbleds) {
+                        if ($json["leds_per_frame"] != $nbleds) {
                             $zip->close();
                             log::add('kTwinkly','error',"Le nombre de leds de l'animation (".$json["leds_per_frame"].") ne correspond pas à celui de la guirlande ($nbleds)");
                             throw new Exception(__("Le nombre de leds de l'animation ne correspond pas à celui de la guirlande", __FILE__));
@@ -237,7 +249,7 @@ try {
                     } else {
                         // Upload fichier GEN1
                         log::add('kTwinkly','debug',"Upload d'un fichier GEN1");
-                        if($json["leds_number"] != $nbleds) {
+                        if ($json["leds_number"] != $nbleds) {
                             $zip->close();
                             throw new Exception(__("Le nombre de leds de l'animation ne correspond pas à celui de la guirlande", __FILE__));
                         }
@@ -337,7 +349,8 @@ try {
             }
 
             log::add('kTwinkly','debug',"Récupération des captures de l'équipement " . $id);
-            recupere_movies($id);
+            $newmovies = recupere_movies($id);
+            $result["newmovies"] = $newmovies;
         } else {
             log::add('kTwinkly','debug','Tentative de démarrage de mitmproxy');
             $newstate = "1";

@@ -23,7 +23,7 @@ $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder:
 
 $("#bt_movies").off('click').on('click', function() {
 	$('#md_modal').dialog({title: "{{Gestion des fichiers d'animations}}", dialogClass: "twinklyMovies"});
-	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=uploadMovies&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
 });
 
 $("#bt_mqtt").off('click').on('click', function() {

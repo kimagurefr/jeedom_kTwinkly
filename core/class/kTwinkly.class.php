@@ -43,7 +43,7 @@ class kTwinkly extends eqLogic {
      */
     public static function cronDaily() {
         try {
-            if(date('i') == 0 && date('s') < 10) {
+            if (date('i') == 0 && date('s') < 10) {
                 sleep(10);
             }
             $plugin = plugin::byId(__CLASS__);
@@ -69,7 +69,7 @@ class kTwinkly extends eqLogic {
 		   throw new Exception(__('L\'adresse IP ne peut être vide', __FILE__)); 
 	    }
 
-	    if(!filter_var($ip, FILTER_VALIDATE_IP)) {
+	    if (!filter_var($ip, FILTER_VALIDATE_IP)) {
 		   throw new Exception(__('Le format de l\'adresse IP est incorrect', __FILE__)); 
 	    }
 
@@ -77,7 +77,7 @@ class kTwinkly extends eqLogic {
 		   throw new Exception(__('L\'adresse MAC ne peut être vide', __FILE__)); 
 	    }
 
-	    if(!filter_var($mac, FILTER_VALIDATE_MAC)) {
+	    if (!filter_var($mac, FILTER_VALIDATE_MAC)) {
 		   throw new Exception(__('Le format de l\'adresse MAC est incorrect', __FILE__)); 
 	    }
 
@@ -117,7 +117,7 @@ class kTwinkly extends eqLogic {
         // Création des commandes
 
 	    $onCmd = $this->getCmd(null, "on");
-	    if(!is_object($onCmd)) {
+	    if (!is_object($onCmd)) {
             $onCmd = new kTwinklyCmd();
             $onCmd->setName(__('On', __FILE__));
             $onCmd->setEqLogic_id($this->getId());
@@ -133,7 +133,7 @@ class kTwinkly extends eqLogic {
         }
 
         $offCmd = $this->getCmd(null, "off");
-        if(!is_object($offCmd)) {
+        if (!is_object($offCmd)) {
             $offCmd = new kTwinklyCmd();
         	$offCmd->setName(__('Off', __FILE__));
         	$offCmd->setEqLogic_id($this->getId());
@@ -149,7 +149,7 @@ class kTwinkly extends eqLogic {
         }
 
         $brightnessCmd = $this->getCmd(null, "brightness");
-        if(!is_object($brightnessCmd)) {
+        if (!is_object($brightnessCmd)) {
             $brightnessCmd = new kTwinklyCmd();
         	$brightnessCmd->setName(__('Luminosité', __FILE__));
         	$brightnessCmd->setEqLogic_id($this->getId());
@@ -166,7 +166,7 @@ class kTwinkly extends eqLogic {
         }
         
         $brightnessStateCmd = $this->getCmd(null, "brightness_state");
-        if(!is_object($brightnessStateCmd)) {
+        if (!is_object($brightnessStateCmd)) {
             $brightnessStateCmd = new kTwinklyCmd();
         	$brightnessStateCmd->setName(__('Etat Luminosité', __FILE__));
         	$brightnessStateCmd->setEqLogic_id($this->getId());
@@ -188,7 +188,7 @@ class kTwinkly extends eqLogic {
         $brightnessCmd->save();
 
         $movieCmd = $this->getCmd(null, "movie");
-        if(!is_object($movieCmd)) {
+        if (!is_object($movieCmd)) {
             $movieCmd = new kTwinklyCmd();
         	$movieCmd->setName(__('Animation', __FILE__));
         	$movieCmd->setEqLogic_id($this->getId());
@@ -201,7 +201,7 @@ class kTwinkly extends eqLogic {
         }
 
         $stateCmd = $this->getCmd(null, "state");
-        if(!is_object($stateCmd)) {
+        if (!is_object($stateCmd)) {
             $stateCmd = new kTwinklyCmd();
             $stateCmd->setName(__('Etat', __FILE__));
             $stateCmd->setEqLogic_id($this->getId());
@@ -214,7 +214,7 @@ class kTwinkly extends eqLogic {
         }
 
         $refreshCmd = $this->getCmd(null, "refresh");
-        if(!is_object($refreshCmd)) {
+        if (!is_object($refreshCmd)) {
             $refreshCmd = new kTwinklyCmd();
         	$refreshCmd->setName(__('Refresh', __FILE__));
         	$refreshCmd->setEqLogic_id($this->getId());
@@ -227,7 +227,7 @@ class kTwinkly extends eqLogic {
         	$refreshCmd->save();
         }
 
-        if($this->getChanged()){
+        if ($this->getChanged()){
             self::deamon_start();
         }
     }
@@ -348,7 +348,7 @@ class kTwinkly extends eqLogic {
             if ($_eqLogic_id != null && $_eqLogic_id != $eqLogic->getId()) {
                 continue;
             }
-            if($eqLogic->getIsEnable() == 0){
+            if ($eqLogic->getIsEnable() == 0){
                 $eqLogic->refresh();
             }
             if ($eqLogic->getLogicalId() == '' || $eqLogic->getIsEnable() == 0) {
@@ -371,7 +371,7 @@ class kTwinkly extends eqLogic {
                     $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
                     $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $brightness, false) || $changed;
     
-                    if($changed) {
+                    if ($changed) {
                         $eqLogic->refreshWidget();
                     }
                 } catch (Exception $e) {
@@ -391,7 +391,7 @@ class kTwinkly extends eqLogic {
     // Démarre le proxy de capture des animations
     public static function start_mitmproxy($_id) {
         log::add('kTwinkly','debug','start_mitmproxy for eqId='.$_id);
-        if(!kTwinkly::is_mitm_running()) {
+        if (!kTwinkly::is_mitm_running()) {
             $eqLogic = eqLogic::byId($_id);
 
             $confdir = jeedom::getTmpFolder('kTwinkly');
@@ -402,7 +402,7 @@ class kTwinkly extends eqLogic {
 
             $mitmport = kTWinkly::get_mitm_port();
             
-            if($eqLogic->getConfiguration("hwgen")=="1") {
+            if ($eqLogic->getConfiguration("hwgen")=="1") {
                 $command = 'mitmdump -p ' . $mitmport . ' -s ' . __DIR__ . '/../../resources/mitmdump/twinkly_v1.py --set filename='.$tempfile.' --set ipaddress='.$ipaddress.' --set confdir=' . $confdir . ' --confdir=' . $confdir;
             } else {
                 $command = 'mitmdump -p ' . $mitmport . ' -s ' . __DIR__ . '/../../resources/mitmdump/twinkly_v2.py --set filename='.$tempfile.' --set ipaddress='.$ipaddress.' --set confdir=' . $confdir . ' --confdir=' . $confdir;
@@ -410,7 +410,7 @@ class kTwinkly extends eqLogic {
             log::add('kTwinkly','debug','Start MITM command = ' . $command);
             $pid = shell_exec(sprintf('%s > /dev/null 2>&1 & echo $!', $command));
 
-            if(kTwinkly::is_mitm_running($pid)) {
+            if (kTwinkly::is_mitm_running($pid)) {
                 file_put_contents($pidfile, $pid);
                 log::add('kTwinkly','debug','mitmproxy démarré avec PID='.$pid);
                 return true;
@@ -438,17 +438,17 @@ class kTwinkly extends eqLogic {
 
     // Arrêt du proxy de capture
     public static function stop_mitmproxy($_pid = "") {
-        if($_pid == "") {
+        if ($_pid == "") {
             $pidfile = jeedom::getTmpFolder('kTwinkly') . '/mitmproxy.pid';
-            if(file_exists($pidfile)) {
+            if (file_exists($pidfile)) {
                 $_pid = file_get_contents($pidfile);
             }
         }
 
-        if($_pid != "" and kTwinkly::is_mitm_running($_pid)) {
+        if ($_pid != "" and kTwinkly::is_mitm_running($_pid)) {
             // On essaye de tuer le process via le PID enregistré lors du démarrage
             log::add('kTwinkly','debug','Arret de mitmproxy en cours d\'exécution (pid=' . $_pid . ')');
-            if(kTwinkly::kill_process($_pid)) {
+            if (kTwinkly::kill_process($_pid)) {
                 log::add('kTwinkly','debug','Process mitmproxy terminé');
                 unlink($pidfile);
                 return true;
@@ -462,8 +462,8 @@ class kTwinkly extends eqLogic {
             $_pid = kTwinkly::find_mitm_proc();
             log::add('kTwinkly','debug','Process trouvé PID='.$_pid);
 
-            if($_pid != "") {
-                if(kTwinkly::kill_process($_pid)) {
+            if ($_pid != "") {
+                if (kTwinkly::kill_process($_pid)) {
                     log::add('kTwinkly','debug','Process mitmproxy terminé');
                     return true;
                 } else {
@@ -479,24 +479,23 @@ class kTwinkly extends eqLogic {
 
     // Vérification de l'état du proxy
     public static function is_mitm_running($_pid = NULL) {
-        log::add('kTwinkly','debug','is_mitm_running (pid=' .$_pid. ')');
-        if($_pid !== NULL) {
+        // log::add('kTwinkly','debug','is_mitm_running (pid=' .$_pid. ')');
+        if ($_pid !== NULL) {
             try {
                 $result = shell_exec(sprintf('ps %d', $_pid));
-                if(count(preg_split("/\n/", $result)) > 2) {
-                    log::add('kTwinkly','debug','found pid=' .$_pid);
+                if (count(preg_split("/\n/", $result)) > 2) {
+                    // log::add('kTwinkly','debug','found pid=' .$_pid);
                     return true;
                 }
             } catch(Exception $e) {}
         } else {
             $_pid = kTwinkly::find_mitm_proc();
-            log::add('kTwinkly','debug','résultat de la recherche du process : pid='.$_pid);
-            if($i_pid != "") {
-                log::add('kTwinkly','debug','found pid=' .$_pid);
+            if ($i_pid != "") {
+                // log::add('kTwinkly','debug','found pid=' .$_pid);
                 return true;
             }
         }
-        log::add('kTwinkly','debug','Process MITM non trouvé');
+        // log::add('kTwinkly','debug','Process MITM non trouvé');
         return false;
     }
 
@@ -523,7 +522,7 @@ class kTwinkly extends eqLogic {
         $plugin = plugin::byId($this->getEqType_name());
         $defaultImage = $plugin->getPathImgIcon();
         $deviceImage = $this->getConfiguration("productimage");
-        if($deviceImage) {
+        if ($deviceImage) {
             return 'plugins/kTwinkly/core/config/images/'.$deviceImage;
         } else {
             return $defaultImage;
