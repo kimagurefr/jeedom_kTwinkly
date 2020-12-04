@@ -12,5 +12,5 @@
 	"changelog" : "https://kimagurefr.github.io/kTwinkly/#language#/changelog",
 	"documentation" : "https://kimagurefr.github.io/kTwinkly/#language#/",
 	"language" : ["fr_FR","en_US"],
-	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile","v4"]
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","v4"]
 }
