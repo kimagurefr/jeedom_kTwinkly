@@ -9,8 +9,8 @@
 	"hasDependency" : true,
 	"hasOwnDeamon" : false,
 	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://kimagurefr.github.io/kTwinkly/#language#/changelog",
-	"documentation" : "https://kimagurefr.github.io/kTwinkly/#language#/",
+	"changelog" : "https://kimagurefr.github.io/jeedom_kTwinkly/#language#/changelog",
+	"documentation" : "https://kimagurefr.github.io/jeedom_kTwinkly/#language#/",
 	"language" : ["fr_FR","en_US"],
 	"compatibility" : ["miniplus","smart","rpi","docker","diy","v4"]
 }
