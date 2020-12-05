@@ -4,11 +4,11 @@ Ce plugin pour Jeedom permet le pilotage des guirlandes connectées [Twinkly](ht
 
 Listes des fonctionnalités disponibles :
 
-- [Découverte automatique](#Découverte et paramétrage des équipements) des guirlandes connectées sur le réseau et de leurs caractéristiques
+- [Découverte automatique](#découverte-et-paramétrage-des-équipements) des guirlandes connectées sur le réseau et de leurs caractéristiques
 - Pilotage simple on/off
 - Contrôle du niveau de luminosité
 - Chargement d'une animation sur la guirlande
-- [Capture des animations](#Capture des animations) envoyés vers la guirlande depuis l'application mobile officielle Twinkly pour pouvoir ensuite les charger sur le sapin.
+- [Capture des animations](#capture-des-animations) envoyés vers la guirlande depuis l'application mobile officielle Twinkly pour pouvoir ensuite les charger sur le sapin.
 
 Certaines fonctionnalités peuvent ne pas être disponibles sur les guirlandes d'anciennes générations ("gen 1") à cause de limitation du contrôleur ou du firmware.
 
@@ -29,7 +29,7 @@ Après installation du plugin depuis le market Jeedom et son activation, il est 
 Il y a 2 paramètres disponibles dans la configuration générale du plugin :
 
 - la fréquence à laquelle le plugin appelera l'API des différents contrôleurs Twinkly pour récupérer la mise à jour des informations (état, luminosité). Cette fréquence est de 10 secondes par défaut.
-- le port HTTP du proxy qui sera lancé sur le serveur Jeedom pour [capturer les animations](#Capture des animations) depuis l'application mobile.
+- le port HTTP du proxy qui sera lancé sur le serveur Jeedom pour [capturer les animations](#capture-des-animations) depuis l'application mobile.
 
 ![](https://kimagurefr.github.io/jeedom_kTwinkly/images/config_plugin.png)
 
@@ -117,7 +117,7 @@ Les étapes du processus de capture sont décrites ci-dessous.
 
 #### Etape 1 - Arrêt du rafraîchissement automatique
 
-Comme expliqué en [introduction](#Information importante), le contrôleur Twinkly est limité à un seul appareil de commande à la fois.
+Comme expliqué en [introduction](#information-importante), le contrôleur Twinkly est limité à un seul appareil de commande à la fois.
 
 Comme on doit utiliser l'application mobile dans la procédure ci-dessous, il est nécessaire d'interrompre temporairement la collecte automatique des données par le plugin, sous peine de déconnecter l'application mobile pendant son utilisation.
 
@@ -129,7 +129,7 @@ Il suffit de décocher la case **Rafraîchissement auto** de l'équipement et de
 
 Il suffit de cliquer sur le bouton <img src="http://kimagurefr.github.io/jeedom_kTwinkly/images/bouton_capture.png" style="zoom:33%;" /> pour démarrer le proxy.
 
-Un message s'affiche avec les informations à utiliser pour configurer le proxy sur le smartphone (adresse IP et port). L'adresse IP est l'IP interne du serveur Jeedom. Le port est celui choisi dans la [page de configuration générale du plugin]( #Installation du plugin), ou 14233 par défaut.
+Un message s'affiche avec les informations à utiliser pour configurer le proxy sur le smartphone (adresse IP et port). L'adresse IP est l'IP interne du serveur Jeedom. Le port est celui choisi dans la [page de configuration générale du plugin]( #installation-du-plugin), ou 14233 par défaut.
 
 ![](http://kimagurefr.github.io/jeedom_kTwinkly/images/proxy_demarre.png)
 
