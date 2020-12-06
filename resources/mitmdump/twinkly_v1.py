@@ -40,7 +40,7 @@ class Twinkly:
         if flow.request.pretty_url == f"http://{ctx.options.ipaddress}/xled/v1/led/movie/config":
             ctx.log.info(f"Second step (config)")
             config = json.loads(flow.request.content)
-            jsondata = '{"leds_number": %s", "frames_number": %s, "frame_delay": %s}' % (config['leds_number'],config['frames_number'],config['frame_delay'])
+            jsondata = '{"leds_number": %s, "frames_number": %s, "frame_delay": %s}' % (config['leds_number'],config['frames_number'],config['frame_delay'])
             jsonfile = str(ctx.options.filename) + "-" + str(self.num) + ".json"
             self.fs = open(jsonfile, "w")
             self.fs.write(jsondata)
