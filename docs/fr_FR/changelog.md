@@ -16,3 +16,7 @@
 
 ``BETA`` Utilisation du mode "effect" au lieu du mode "movie" pour les guirlandes GEN2.
 
+``BETA`` Correction du process de démarrage du proxy mitmdump.
+
+
+
