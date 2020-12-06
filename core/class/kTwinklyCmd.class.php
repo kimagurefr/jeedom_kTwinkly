@@ -38,6 +38,7 @@ class kTwinklyCmd extends cmd {
 
         $ip = $eqLogic->getConfiguration('ipaddress');
         $mac = $eqLogic->getConfiguration('macaddress');
+        $hwgen = $eqLogic->getConfiguration('hwgen');
 
         $action = $this->getLogicalId();
 
@@ -49,9 +50,13 @@ class kTwinklyCmd extends cmd {
 		    if ($action == "on") {
                 // Allumer la guirlande. On active le mode "movie".
 
-                log::add('kTwinkly','debug',"Appel commande movie ip=$ip mac=$mac");
-
-                $t->set_mode("movie");
+                if ($hwgen == "1") {
+                    log::add('kTwinkly','debug',"Appel commande movie ip=$ip mac=$mac");
+                    $t->set_mode("movie");
+                } else {
+                    log::add('kTwinkly','debug',"Appel commande effect ip=$ip mac=$mac");
+                    $t->set_mode("effect");
+                }
                 $newstate = $t->get_mode();
                 $newbrightness = $t->get_brightness();
 
