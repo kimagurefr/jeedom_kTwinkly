@@ -345,28 +345,31 @@ try {
             $newstate = "0";
             log::add('kTwinkly','debug','Tentative d\'arrêt de mitmproxy');
             if (!kTwinkly::stop_mitmproxy()) {
+                $result["proxy_enabled"] = "1";
                 ajax::error(__("Erreur lors de l'arrêt de mitmproxy", __FILE__));
             }
 
             log::add('kTwinkly','debug',"Récupération des captures de l'équipement " . $id);
             $newmovies = recupere_movies($id);
+            $result["proxy_enabled"] = "0";
             $result["newmovies"] = $newmovies;
+            $eqLogic->setConfiguration("proxy_enabled", "0");
+            $eqLogic->save();
+            ajax::success($result);
         } else {
             log::add('kTwinkly','debug','Tentative de démarrage de mitmproxy');
-            $newstate = "1";
             if (kTwinkly::start_mitmproxy($id)) {
                 $result["proxy_pid"] = kTwinkly::find_mitm_proc();
+                $result["proxy_port"] = kTwinkly::get_mitm_port(); 
+                $result["proxy_enabled"] = "1";
+                $eqLogic->setConfiguration("proxy_enabled", "1");
+                $eqLogic->save();
+                ajax::success($result);
             } else {
+                $result["proxy_enabled"] = "0";
                 ajax::error(__('Impossible de démarrer mitmproxy', __FILE__));
             }
         }
-        $eqLogic->setConfiguration("proxy_enabled", $newstate);
-        $eqLogic->save();
-
-        $result["proxy_enabled"] = $newstate;
-        $result["proxy_port"] = kTwinkly::get_mitm_port(); 
-
-        ajax::success($result);
     }
 
     // Arrete le proxy et ignore les fichiers capturés : appelé lors de la fermeture de la modale

@@ -100,11 +100,16 @@ $('.changeProxyState').off('click').on('click', function () {
             handleAjaxError(request, status, error);
         },
         success: function (data) {
-            newstate = data.result.proxy_enabled;
-            newmovies = data.result.newmovies;
-            // console.log('new proxy state = ' + newstate);
-            // console.log('new movies found = ' + newmovies);
-            $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&proxy=' + newstate + '&newmovies=' + newmovies + '&reload=1');
+            console.log('ajax result = ' + data.state);
+            if (data.state != 'ok') {
+                 $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
+            } else {
+                newstate = data.result.proxy_enabled;
+                newmovies = data.result.newmovies;
+                console.log('new proxy state = ' + newstate);
+                console.log('new movies found = ' + newmovies);
+                $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&proxy=' + newstate + '&newmovies=' + newmovies + '&reload=1');
+            }
             return;
         }
     })
