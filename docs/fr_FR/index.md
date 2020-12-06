@@ -85,9 +85,9 @@ Ces valeurs sont rafraîchies automatiquement à la fréquence choisie sur la pa
 
 ## Gestion des animations
 
-Les animations disponibles pour un équipement (guirlandes) sont gérées par la fenêtre accessible en utilisant le bouton <img src="http://kimagurefr.github.io/jeedom_kTwinkly/images/bouton_animations.png" style="zoom:33%;" />
+Les animations disponibles pour un équipement (guirlandes) sont gérées par la fenêtre accessible en utilisant le bouton <img src="https://kimagurefr.github.io/jeedom_kTwinkly/images/bouton_animations.png" style="zoom:33%;" />
 
-![Fenêtre de gestion des animations](http://kimagurefr.github.io/jeedom_kTwinkly/images/animations.png)
+![Fenêtre de gestion des animations](https://kimagurefr.github.io/jeedom_kTwinkly/images/animations.png)
 
 Depuis cette fenêtre, il est possible :
 
@@ -127,7 +127,7 @@ Il suffit de décocher la case **Rafraîchissement auto** de l'équipement et de
 
 **Attention** : cette étape nécessite que l'installation des dépendances depuis la page de configuration du proxy ait été réalisée. Le processus de capture s'appuie sur l'outil *mitmdump* du projet [mitmproxy](https://mitmproxy.org/) qui est installé depuis les repos de la distribution Linux du serveur (Debian la plupart du temps).
 
-Il suffit de cliquer sur le bouton <img src="http://kimagurefr.github.io/jeedom_kTwinkly/images/bouton_capture.png" style="zoom:33%;" /> pour démarrer le proxy.
+Il suffit de cliquer sur le bouton <img src="https://kimagurefr.github.io/jeedom_kTwinkly/images/bouton_capture.png" style="zoom:33%;" /> pour démarrer le proxy.
 
 Un message s'affiche avec les informations à utiliser pour configurer le proxy sur le smartphone (adresse IP et port). L'adresse IP est l'IP interne du serveur Jeedom. Le port est celui choisi dans la [page de configuration générale du plugin]( #installation-du-plugin), ou 14233 par défaut.
 
@@ -135,7 +135,43 @@ Un message s'affiche avec les informations à utiliser pour configurer le proxy 
 
 #### Etape 3 - Configuration du smartphone
 
-*TODO*
+##### Sur iOS
+
+- Aller dans Réglages > Wi-Fi > Cliquer sur l'icône ![i](https://kimagurefr.github.io/jeedom_kTwinkly/images/info-circle.png) à côté du nom du réseau.
+
+![](https://kimagurefr.github.io/jeedom_kTwinkly/images/proxy1.png)
+
+- En bas de la page, sélectionner "PROXY HTTP / Configurer le proxy"
+
+![](https://kimagurefr.github.io/jeedom_kTwinkly/images/proxy2.png)
+
+- Puis dans la page de configuration, entrer les informations du proxy affichées sur l'écran du plugin
+
+  ![](https://kimagurefr.github.io/jeedom_kTwinkly/images/proxy3.png)
+
+- Enregistrer la configuration
+
+##### Sur Android
+
+En fonction versions d'Android et des différentes surcouches constructeur ou opérateurs, les écrans peuvent être différents sur votre propre smartphone, mais le principe devrait rester le même.
+
+- Accéder à la page des paramètres du réseau Wifi
+
+  <img src="https://kimagurefr.github.io/jeedom_kTwinkly/images/proxy-android1.png" alt="Paramètres wifi" style="zoom:50%;" />
+
+- Accéder aux paramètres avancés
+
+  <img src="https://kimagurefr.github.io/jeedom_kTwinkly/images/proxy-android2.png" style="zoom:50%;" />
+
+- Sélectionner l'entrée "Proxy" et choisir "Manuel"
+
+  <img src="https://kimagurefr.github.io/jeedom_kTwinkly/images/proxy-android3.png" style="zoom:50%;" />
+
+- Entrer les paramètres du proxy affichés sur la page du plugin
+
+  <img src="https://kimagurefr.github.io/jeedom_kTwinkly/images/proxy-android4.png" style="zoom:50%;" />
+
+- Enregistrer la configuration
 
 #### Etape 4 - Utilisation de l'app mobile Twinkly
 
