@@ -19,7 +19,7 @@
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
-require_once __DIR__  . '/Twinkly.class.php';
+require_once __DIR__  . '/TwinklyString.class.php';
 require_once __DIR__  . '/kTwinkly_utils.php';
 
 include_file('core', 'kTwinklyCmd', 'class', 'kTwinkly');
@@ -83,7 +83,7 @@ class kTwinkly extends eqLogic {
 
 	    try {
             // Récupérations des informations sur l'équipement via l'API
-            $t = new Twinkly($ip, $mac, FALSE);
+            $t = new TwinklyString($ip, $mac, FALSE);
 
             $info = $t->get_details();
             $this->setConfiguration('productcode',$info["product_code"]);
@@ -244,7 +244,7 @@ class kTwinkly extends eqLogic {
     public static function discover()
     {
 	    log::add('kTwinkly','debug','Démarrage de la recherche d\'équipements');
-	    $devices = Twinkly::discover();
+	    $devices = TwinklyString::discover();
 	    log::add('kTwinkly','debug','Equipements trouvés : ' . print_r($devices,TRUE));
 
 	    foreach($devices as $d) {
@@ -363,7 +363,7 @@ class kTwinkly extends eqLogic {
                     $ip = $eqLogic->getConfiguration('ipaddress');
                     $mac = $eqLogic->getConfiguration('macaddress');
     
-                    $t = new Twinkly($ip, $mac, FALSE);
+                    $t = new TwinklyString($ip, $mac, FALSE);
     
                     $state = $t->get_mode();
                     $brightness = $t->get_brightness();

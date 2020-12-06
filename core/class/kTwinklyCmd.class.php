@@ -19,7 +19,7 @@
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
-require_once __DIR__  . '/Twinkly.class.php';
+require_once __DIR__  . '/TwinklyString.class.php';
 require_once __DIR__  . '/kTwinkly_utils.php';
 
 class kTwinklyCmd extends cmd {
@@ -45,7 +45,7 @@ class kTwinklyCmd extends cmd {
         $tempdir = jeedom::getTmpFolder('kTwinkly');
 
         try {
-            $t = new Twinkly($ip, $mac, FALSE);
+            $t = new TwinklyString($ip, $mac, FALSE);
 
 		    if ($action == "on") {
                 // Allumer la guirlande. On active le mode "movie".

@@ -20,7 +20,7 @@ if (!isConnect('admin')) {
     throw new Exception('{{401 - Accès non autorisé}}');
 }
 
-require_once __DIR__ . '/../../core/class/Twinkly.class.php';
+require_once __DIR__ . '/../../core/class/TwinklyString.class.php';
 
 $eqId = $_GET["id"];
 
@@ -29,7 +29,7 @@ $eqLogic = eqLogic::byId($eqId);
 $ip = $eqLogic->getConfiguration('ipaddress');
 $mac = $eqLogic->getConfiguration('macaddress');
 
-$t = new Twinkly($ip, $mac, FALSE);
+$t = new TwinklyString($ip, $mac, FALSE);
 $mqtt = $t->get_mqtt_configuration();
 
 $broker_ip = $mqtt["broker_host"];

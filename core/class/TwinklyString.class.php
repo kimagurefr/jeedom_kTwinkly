@@ -1,5 +1,5 @@
 <?php
-class Twinkly {
+class TwinklyString {
     const SHARED_KEY_CHALLENGE = "evenmoresecret!!";
     const DISCOVER_MESSAGE = "\x01discover";
     const DISCOVER_PORT = 5555;
@@ -14,9 +14,9 @@ class Twinkly {
     {
         $this->ip = $ip;
         $this->mac = $mac;
-        $this->endpoint = Twinkly::get_endpoint($ip);
+        $this->endpoint = TwinklyString::get_endpoint($ip);
         $this->debug = $debug;
-        $this->debug("Init Twinkly : mac=$mac ip=$ip debug=$debug");
+        $this->debug("Init TwinklyString : mac=$mac ip=$ip debug=$debug");
     }
 
     // Ecrit un message  sur stdout si le mode debug est actif
@@ -223,13 +223,13 @@ class Twinkly {
     // Renvoie la version actuelle du firmware
     public function firmware_version()
     {
-        return Twinkly::get_firmware_version($this->ip);
+        return TwinklyString::get_firmware_version($this->ip);
     }
 
     // Renvoie la version actuelle du firmware (méthode statique)
     public static function get_firmware_version($ip)
     {
-        $endpoint = Twinkly::get_endpoint($ip);
+        $endpoint = TwinklyString::get_endpoint($ip);
         $ch = curl_init($endpoint . "/fw/version");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = json_decode(curl_exec($ch), true) or NULL;
@@ -448,7 +448,7 @@ class Twinkly {
         $sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP); 
         socket_set_option($sock, SOL_SOCKET, SO_BROADCAST, 1);
         socket_set_option($sock, SOL_SOCKET, SO_RCVTIMEO, array("sec"=>$timeout, "usec"=>0));
-        socket_sendto($sock, Twinkly::DISCOVER_MESSAGE, strlen(Twinkly::DISCOVER_MESSAGE), 0, $broadcastip, Twinkly::DISCOVER_PORT);
+        socket_sendto($sock, TwinklyString::DISCOVER_MESSAGE, strlen(TwinklyString::DISCOVER_MESSAGE), 0, $broadcastip, TwinklyString::DISCOVER_PORT);
 
 
         while(true) {
@@ -469,7 +469,7 @@ class Twinkly {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $details = json_decode(curl_exec($ch),true) or NULL;
             curl_close($ch);
-            $fw = Twinkly::get_firmware_version($decodedip);
+            $fw = TwinklyString::get_firmware_version($decodedip);
             $details["firmware_version"] = $fw;
             if ($details) {
                 $devices[] = array("ip" => $decodedip, "name" => $devicename, "mac" => $details["mac"], "details" => $details);

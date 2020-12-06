@@ -164,7 +164,7 @@ try {
     if (!isConnect('admin')) {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
-    require_once __DIR__ . '/../../core/class/Twinkly.class.php';
+    require_once __DIR__ . '/../../core/class/TwinklyString.class.php';
     
     /* Fonction permettant l'envoi de l'entête 'Content-Type: application/json'
         En V3 : indiquer l'argument 'true' pour contrôler le token d'accès Jeedom
