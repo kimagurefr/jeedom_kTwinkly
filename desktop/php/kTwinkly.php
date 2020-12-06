@@ -133,42 +133,22 @@ $eqLogics = eqLogic::byType($plugin->getId());
 								<legend><i class="fas fa-cogs"></i> {{Paramètres}}</legend>
 								<div class="form-group">
 									<label class="col-sm-3 control-label">{{Adresse IP}}</label>
-									<div class="col-xs-11 col-sm-7">
+									<div class="col-sm-3">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ipaddress" placeholder="{{Adresse IP}}"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label">{{Adresse MAC}}</label>
-									<div class="col-xs-11 col-sm-7">
+									<div class="col-sm-3">
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="macaddress" placeholder="12:34:56:78:90"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label">{{Rafraichissement auto}}</label>
-									<div class="col-xs-11 col-sm-7">
-										<input type="checkbox" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="autorefresh"/>
+									<div class="col-sm-3">
+										<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autorefresh"/>
 									</div>
 								</div>
-								<!-- Champ de saisie du cron d'auto-actualisation + assistant cron -->
-								<!-- La fonction cron de la classe du plugin doit contenir le code prévu pour que ce champ soit fonctionnel -->
-<!--
-								<div class="form-group">
-									<label class="col-sm-3 control-label">{{Auto-actualisation}}
-										<sup><i class="fas fa-question-circle" title="{{Fréquence de rafraîchissement de l'équipement}}"></i></sup>
-									</label>
-									<div class="col-xs-11 col-sm-7">
-										<div class="input-group">
-											<input type="text" class="eqLogicAttr form-control roundedLeft" data-l1key="configuration" data-l2key="autorefresh" placeholder="{{Cliquer sur ? pour afficher l'assistant cron}}"/>
-											<span class="input-group-btn">
-												<a class="btn btn-default cursor jeeHelper roundedRight" data-helper="cron" title="Assistant cron">
-													<i class="fas fa-question-circle"></i>
-												</a>
-											</span>
-										</div>
-									</div>
-								</div>
-!-->
-
 								<div class="form-group">
 									<label class="col-sm-3 control-label"></label>
 									<div class="col-sm-8">

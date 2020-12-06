@@ -183,10 +183,6 @@ class Twinkly {
     // Authentification sur l'API et récupération d'un access token
 	// Attention : le contrôleur Twinkly est limité à un seul access token actif à la fois : toute authentification invalidera les précédents tokens
 	// et déconnectera donc les autres clients déjà connectés (notamment l'application mobile)
-
-    // Authentification sur l'API et récupération d'un access token
-	// Attention : le contrôleur Twinkly est limité à un seul access token actif à la fois : toute authentification invalidera les précédents tokens
-	// et déconnectera donc les autres clients déjà connectés (notamment l'application mobile)
     private function authenticate()
     {
         $this->debug('authenticate');
