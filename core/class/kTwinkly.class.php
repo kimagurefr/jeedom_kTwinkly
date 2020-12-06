@@ -19,7 +19,7 @@
 /* * ***************************Includes********************************* */
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
-require_once __DIR__  . '/Twinkly.class.php';
+require_once __DIR__  . '/TwinklyString.class.php';
 require_once __DIR__  . '/kTwinkly_utils.php';
 
 include_file('core', 'kTwinklyCmd', 'class', 'kTwinkly');
@@ -28,6 +28,7 @@ class kTwinkly extends eqLogic {
     /* Attributs et constantes */
     private static $_eqLogics = null;
     const MITM_DEFAULT_PORT = 14233;
+    const MITM_START_WAIT = 3;
 
     /*
      * Permet de définir les possibilités de personnalisation du widget (en cas d'utilisation de la fonction 'toHtml' par exemple)
@@ -83,7 +84,7 @@ class kTwinkly extends eqLogic {
 
 	    try {
             // Récupérations des informations sur l'équipement via l'API
-            $t = new Twinkly($ip, $mac, FALSE);
+            $t = new TwinklyString($ip, $mac, FALSE);
 
             $info = $t->get_details();
             $this->setConfiguration('productcode',$info["product_code"]);
@@ -244,7 +245,7 @@ class kTwinkly extends eqLogic {
     public static function discover()
     {
 	    log::add('kTwinkly','debug','Démarrage de la recherche d\'équipements');
-	    $devices = Twinkly::discover();
+	    $devices = TwinklyString::discover();
 	    log::add('kTwinkly','debug','Equipements trouvés : ' . print_r($devices,TRUE));
 
 	    foreach($devices as $d) {
@@ -363,7 +364,7 @@ class kTwinkly extends eqLogic {
                     $ip = $eqLogic->getConfiguration('ipaddress');
                     $mac = $eqLogic->getConfiguration('macaddress');
     
-                    $t = new Twinkly($ip, $mac, FALSE);
+                    $t = new TwinklyString($ip, $mac, FALSE);
     
                     $state = $t->get_mode();
                     $brightness = $t->get_brightness();
@@ -390,7 +391,7 @@ class kTwinkly extends eqLogic {
 
     // Démarre le proxy de capture des animations
     public static function start_mitmproxy($_id) {
-        log::add('kTwinkly','debug','start_mitmproxy for eqId='.$_id);
+        log::add('kTwinkly','debug','Démarre mitmproxy pour eqId='.$_id);
         if (!kTwinkly::is_mitm_running()) {
             $eqLogic = eqLogic::byId($_id);
 
@@ -408,15 +409,17 @@ class kTwinkly extends eqLogic {
                 $command = 'mitmdump -p ' . $mitmport . ' -s ' . __DIR__ . '/../../resources/mitmdump/twinkly_v2.py --set filename='.$tempfile.' --set ipaddress='.$ipaddress.' --set confdir=' . $confdir . ' --confdir=' . $confdir;
             }
             log::add('kTwinkly','debug','Start MITM command = ' . $command);
-            $pid = shell_exec(sprintf('%s > /dev/null 2>&1 & echo $!', $command));
+            $pid = shell_exec(sprintf('%s > /tmp/kTwinkly_mitm.log 2>&1 & echo $!', $command));
+            sleep(kTwinkly::MITM_START_WAIT);
 
-            if (kTwinkly::is_mitm_running($pid)) {
+            if ($pid !== "" && kTwinkly::is_mitm_running($pid)) {
                 file_put_contents($pidfile, $pid);
                 log::add('kTwinkly','debug','mitmproxy démarré avec PID='.$pid);
                 return true;
             } else {
-                log::add('kTwinkly','error','Impossible de démarrer mitmproxy. Vérifiez l\'installation des dépendances');
-                throw new Exception(__('Impossible de démarrer mitmproxy', __FILE__));
+                log::add('kTwinkly','error','Impossible de démarrer mitmproxy. Vérifiez l\'installation des dépendances ou un éventuel mesage d\'erreur : ' . file_get_contents('/tmp/kTwinkly_mitm.log'));
+                //throw new Exception(__('Impossible de démarrer mitmproxy', __FILE__));
+                return false;
             }
         } else {
             log::add('kTwinkly','debug','start_mitmproxy : mitmproxy est déjà démarré');
@@ -479,23 +482,21 @@ class kTwinkly extends eqLogic {
 
     // Vérification de l'état du proxy
     public static function is_mitm_running($_pid = NULL) {
-        // log::add('kTwinkly','debug','is_mitm_running (pid=' .$_pid. ')');
         if ($_pid !== NULL) {
+            log::add('kTwinkly','debug','is_mitm_running appelé avec PID='.$_pid);
             try {
                 $result = shell_exec(sprintf('ps %d', $_pid));
                 if (count(preg_split("/\n/", $result)) > 2) {
-                    // log::add('kTwinkly','debug','found pid=' .$_pid);
                     return true;
                 }
             } catch(Exception $e) {}
         } else {
+            log::add('kTwinkly','debug','is_mitm_running appelé sans PID');
             $_pid = kTwinkly::find_mitm_proc();
-            if ($i_pid != "") {
-                // log::add('kTwinkly','debug','found pid=' .$_pid);
+            if ($_pid != "") {
                 return true;
             }
         }
-        // log::add('kTwinkly','debug','Process MITM non trouvé');
         return false;
     }
 
