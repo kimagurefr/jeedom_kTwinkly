@@ -543,7 +543,7 @@ class kTwinkly extends eqLogic {
     public static function dependancy_info() {
         $return = array();
         $return['log'] = log::getPathToLog(__CLASS__.'_update');
-        $return['progress_file'] = jeedom::getTmpFolder(__CLASS__) . '/dependences';
+        $return['progress_file'] = jeedom::getTmpFolder(__CLASS__) . '/dependencies';
         if (file_exists(jeedom::getTmpFolder(__CLASS__) . '/dependencies')) {
             $return['state'] = 'in_progress';
         } else {
