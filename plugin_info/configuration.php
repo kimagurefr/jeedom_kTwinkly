@@ -35,6 +35,12 @@ if (!isConnect('admin')) {
                 <input id="ktmitmport" class="configKey form-control" data-l1key="mitmPort" placeholder="14233"/>
             </div>
         </div>
+        <div class="form-group">
+            <label class="col-lg-4 control-label">{{Logs de debuggage additionelles}}</label>
+            <div class="col-lg-4">
+                <input type="checkbox" class="configKey" data-l1key="additionalDebugLogs"/>
+            </div>
+        </div>
     </fieldset>
 </form>
 

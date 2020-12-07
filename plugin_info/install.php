@@ -22,6 +22,7 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
   function kTwinkly_install() {
       config::save('refreshFrequency','10','kTwinkly');
       config::save('mitmPort','14233','kTwinkly');
+      config::save('additionalDebugLogs','0','kTwinkly');
 
       log::add('kTwinkly','debug','Install cron refreshstate');
       $cron = cron::byClassAndFunction('kTwinkly', 'refreshstate');

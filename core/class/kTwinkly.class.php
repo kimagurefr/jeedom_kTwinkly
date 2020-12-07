@@ -401,6 +401,12 @@ class kTwinkly extends eqLogic {
             $ipaddress = $eqLogic->getConfiguration('ipaddress');
             $hwgen = $eqLogic->getConfiguration("hwgen");
 
+            if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
+                $destlog = __DIR__ . '/../../../../log/kTwinkly_mitm';
+            } else {
+                $destlog = '/dev/null';
+            }
+
             $mitmport = kTWinkly::get_mitm_port();
             
             if ($eqLogic->getConfiguration("hwgen")=="1") {
@@ -409,7 +415,7 @@ class kTwinkly extends eqLogic {
                 $command = 'mitmdump -p ' . $mitmport . ' -s ' . __DIR__ . '/../../resources/mitmdump/twinkly_v2.py --set filename='.$tempfile.' --set ipaddress='.$ipaddress.' --set confdir="'.$confdir.'"';
             }
             log::add('kTwinkly','debug','Start MITM command = ' . $command);
-            $pid = shell_exec(sprintf('%s > /tmp/kTwinkly_mitm.log 2>&1 & echo $!', $command));
+            $pid = shell_exec(sprintf('%s > '.$destlog.' 2>&1 & echo $!', $command));
             sleep(kTwinkly::MITM_START_WAIT);
 
             if ($pid !== "" && kTwinkly::is_mitm_running($pid)) {
