@@ -404,9 +404,9 @@ class kTwinkly extends eqLogic {
             $mitmport = kTWinkly::get_mitm_port();
             
             if ($eqLogic->getConfiguration("hwgen")=="1") {
-                $command = 'mitmdump -p ' . $mitmport . ' -s ' . __DIR__ . '/../../resources/mitmdump/twinkly_v1.py --set filename='.$tempfile.' --set ipaddress='.$ipaddress.' --set confdir=' . $confdir . ' --confdir=' . $confdir;
+                $command = 'mitmdump -p ' . $mitmport . ' -s ' . __DIR__ . '/../../resources/mitmdump/twinkly_v1.py --set filename='.$tempfile.' --set ipaddress='.$ipaddress.' --set confdir="' . $confdir . '"';
             } else {
-                $command = 'mitmdump -p ' . $mitmport . ' -s ' . __DIR__ . '/../../resources/mitmdump/twinkly_v2.py --set filename='.$tempfile.' --set ipaddress='.$ipaddress.' --set confdir=' . $confdir . ' --confdir=' . $confdir;
+                $command = 'mitmdump -p ' . $mitmport . ' -s ' . __DIR__ . '/../../resources/mitmdump/twinkly_v2.py --set filename='.$tempfile.' --set ipaddress='.$ipaddress.' --set confdir="'.$confdir.'"';
             }
             log::add('kTwinkly','debug','Start MITM command = ' . $command);
             $pid = shell_exec(sprintf('%s > /tmp/kTwinkly_mitm.log 2>&1 & echo $!', $command));
@@ -534,7 +534,7 @@ class kTwinkly extends eqLogic {
     public static function dependancy_install() {
         log::remove(__CLASS__.'_update');
         return array(
-            'script' => __DIR__ . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder(__CLASS__) . '/dependency',
+            'script' => __DIR__ . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder(__CLASS__) . '/dependencies',
             'log' => log::getPathToLog(__CLASS__.'_update')
         );
     }
@@ -543,11 +543,11 @@ class kTwinkly extends eqLogic {
     public static function dependancy_info() {
         $return = array();
         $return['log'] = log::getPathToLog(__CLASS__.'_update');
-        $return['progress_file'] = jeedom::getTmpFolder(__CLASS__) . '/dependency';
-        if (file_exists(jeedom::getTmpFolder(__CLASS__) . '/dependency')) {
+        $return['progress_file'] = jeedom::getTmpFolder(__CLASS__) . '/dependences';
+        if (file_exists(jeedom::getTmpFolder(__CLASS__) . '/dependencies')) {
             $return['state'] = 'in_progress';
         } else {
-            if (exec(system::getCmdSudo() . system::get('cmd_check') . '-Ec "mitmproxy"') < 1) {
+            if (exec(system::getCmdSudo() . ' python3.7 -m pip list | grep -Ec "mitmproxy"') < 1) {
                 $return['state'] = 'nok';
             } else {
                 $return['state'] = 'ok';
