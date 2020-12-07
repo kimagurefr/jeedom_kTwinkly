@@ -523,10 +523,10 @@ class kTwinkly extends eqLogic {
         $plugin = plugin::byId($this->getEqType_name());
         $defaultImage = $plugin->getPathImgIcon();
         $deviceImage = $this->getConfiguration("productimage");
-        if ($deviceImage) {
+        if ($deviceImage && file_exists(__DIR__ . '/../config/images/'.$deviceImage)) {
             return 'plugins/kTwinkly/core/config/images/'.$deviceImage;
         } else {
-            return $defaultImage;
+            return 'plugins/kTwinkly/core/config/images/default.jpg';
         }
     }
 

@@ -72,9 +72,6 @@ function addCmdToTable(_cmd) {
    tr += '<div class="row">';
    tr += '<div class="col-xs-7">';
    tr += '<input class="cmdAttr form-control input-sm" data-l1key="name" placeholder="{{Nom de la commande}}">';
-   //tr += '<select class="cmdAttr form-control input-sm" data-l1key="value" style="display : none;margin-top : 5px;" title="{{Commande information liée}}">';
-   //tr += '<option value="">{{Aucune}}</option>';
-   //tr += '</select>';
    tr += '</div>';
    tr += '<div class="col-xs-5">';
    tr += '<a class="cmdAction btn btn-default btn-sm" data-l1key="chooseIcon"><i class="fas fa-flag"></i> {{Icône}}</a>';
@@ -82,20 +79,8 @@ function addCmdToTable(_cmd) {
    tr += '</div>';
    tr += '</div>';
    tr += '</td>';
-   //tr += '<td>';
-   //tr += '<span class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType() + '</span>';
-   //tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span>';
-   //tr += '</td>';
    tr += '<td style="min-width:120px;width:140px;">';
    tr += '<div><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isVisible" checked/>{{Afficher}}</label></div> ';
-   //tr += '<div><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></div> ';
-   //tr += '<div><label class="checkbox-inline"><input type="checkbox" class="cmdAttr" data-l1key="display" data-l2key="invertBinary"/>{{Inverser}}</label></div>';
-   //tr += '</td>';
-   //tr += '<td style="min-width:180px;">';
-   //tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="minValue" placeholder="{{Min.}}" title="{{Min.}}" style="width:30%;display:inline-block;"/> ';
-   //tr += '<input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="maxValue" placeholder="{{Max.}}" title="{{Max.}}" style="width:30%;display:inline-block;"/> ';
-   //tr += '<input class="cmdAttr form-control input-sm" data-l1key="unite" placeholder="{{Unité}}" title="{{Unité}}" style="width:30%;display:inline-block;"/>';
-   //tr += '</td>';
    tr += '<td>';
    if (is_numeric(_cmd.id)) {
      tr += '<a class="btn btn-default btn-xs cmdAction" data-action="configure"><i class="fas fa-cogs"></i></a> ';
@@ -123,7 +108,5 @@ function addCmdToTable(_cmd) {
 function printEqLogic(_eqLogic) {
   if (_eqLogic.id != '') {
     $('#img_device').attr("src", $('.eqLogicDisplayCard[data-eqLogic_id=' + _eqLogic.id + '] img').attr('src'));
-  } else {
-    $('#img_device').attr("src", 'plugins/openzwave/plugin_info/openzwave_icon.png');
-  }
+  } 
 }
