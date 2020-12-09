@@ -61,7 +61,7 @@ function recupere_movies($id) {
             if (file_exists($tempdir . '/' . $jsonfilename)) {
                 log::add('kTwinkly','debug','Fichier trouvé : '. $filename . ' & ' . $jsonfilename);
 
-                $newbasefile = generate_GUID();
+                $newbasefile = 'movie_' . $id . '_' . date('YmdHis');
                 $zipfilename = $newbasefile . '.zip';
                 $zippath = $tempdir . '/' . $zipfilename;
 
@@ -82,7 +82,7 @@ function recupere_movies($id) {
                     unlink($tempdir . '/' . $jsonfilename);
 
                     // Met à jour la liste déroulante
-                    $movieList = add_movie_to_listValue($movieList, $zipfilename);
+                    $movieList = add_movie_to_listValue($movieList, $zipfilename, $newbasefile);
                     log::add('kTwinkly','debug',"Nouveau fichier ajouté : " . $zippath);
                     $result += 1;
                 } else {
@@ -110,7 +110,7 @@ function recupere_movies($id) {
 
                 $json = json_decode(file_get_contents($tempdir.'/'.$jsonfilename), TRUE);
                 $moviename = $json["name"];
-                $newbasefile = generate_GUID();
+                $newbasefile = 'movie_' . $id . '_' . date('YmdHis') . '_' . sanitize_filename($moviename);
                 $zipfilename = $newbasefile . '.zip';
                 $zippath = $tempdir . '/' . $zipfilename;
 
@@ -238,7 +238,8 @@ try {
                             throw new Exception(__("Le nombre de leds de l'animation ne correspond pas à celui de la guirlande", __FILE__));
                         }
 
-                        $destfilepath = dirname(__FILE__) . '/../../data/' . generate_GUID() . '.zip';
+                        //$destfilepath = dirname(__FILE__) . '/../../data/' . generate_GUID() . '.zip';
+                        $destfilepath = dirname(__FILE__) . '/../../data/movie_' . $id . '_' . date('YmdHis') . '_' . sanitize_filename($json["name"]) . '.zip';
                         log::add('kTwinkly','debug',"upload d'un fichier pour id $id : $destfilepath");
                         file_put_contents($destfilepath, file_get_contents($_FILES['file']['tmp_name']));
 
@@ -253,7 +254,8 @@ try {
                             $zip->close();
                             throw new Exception(__("Le nombre de leds de l'animation ne correspond pas à celui de la guirlande", __FILE__));
                         }
-                        $destfilepath = dirname(__FILE__) . '/../../data/' . generate_GUID() . '.zip';
+                        //$destfilepath = dirname(__FILE__) . '/../../data/' . generate_GUID() . '.zip';
+                        $destfilepath = dirname(__FILE__) . '/../../data/movie_' . $id . '_' . date('YmdHis') . '.zip';
                         log::add('kTwinkly','debug',"upload d'un fichier pour id $id : $destfilepath");
                         file_put_contents($destfilepath, file_get_contents($_FILES['file']['tmp_name']));
 

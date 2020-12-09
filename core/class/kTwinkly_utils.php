@@ -77,4 +77,15 @@ function generate_GUID() {
     return strtoupper(vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4)));
 }
 
+function sanitize_filename($filename) {
+    // Remplace les caractères accentués
+    $newname = iconv(mb_detect_encoding($filename, mb_detect_order(), true),'ASCII//TRANSLIT',$filename);
+    // Supprime les espaces et caractères spéciaux
+    $newname = mb_ereg_replace("([^\w\d\-_~,;\[\]\(\).])", '', $newname);
+    // Supprime les '..'
+    $newname = mb_ereg_replace("([\.]{2,})", '', $newname);
+
+    return $newname;
+}
+
 ?>
