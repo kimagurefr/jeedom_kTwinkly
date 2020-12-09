@@ -238,7 +238,6 @@ try {
                             throw new Exception(__("Le nombre de leds de l'animation ne correspond pas à celui de la guirlande", __FILE__));
                         }
 
-                        //$destfilepath = dirname(__FILE__) . '/../../data/' . generate_GUID() . '.zip';
                         $destfilepath = dirname(__FILE__) . '/../../data/movie_' . $id . '_' . date('YmdHis') . '_' . sanitize_filename($json["name"]) . '.zip';
                         log::add('kTwinkly','debug',"upload d'un fichier pour id $id : $destfilepath");
                         file_put_contents($destfilepath, file_get_contents($_FILES['file']['tmp_name']));
@@ -254,7 +253,6 @@ try {
                             $zip->close();
                             throw new Exception(__("Le nombre de leds de l'animation ne correspond pas à celui de la guirlande", __FILE__));
                         }
-                        //$destfilepath = dirname(__FILE__) . '/../../data/' . generate_GUID() . '.zip';
                         $destfilepath = dirname(__FILE__) . '/../../data/movie_' . $id . '_' . date('YmdHis') . '.zip';
                         log::add('kTwinkly','debug',"upload d'un fichier pour id $id : $destfilepath");
                         file_put_contents($destfilepath, file_get_contents($_FILES['file']['tmp_name']));
