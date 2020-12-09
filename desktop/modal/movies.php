@@ -78,7 +78,7 @@ if ($proxymode == 1) {
 <?php
 } else if ($newmovies > 0) {
 ?>
-        <div style="width : 100%; padding: 5px 30px; background-color: var(--al-success-color); color: var(--sc-lightTxt-color) !important; border: none;" id="div_messages_movies"<?= $newmovies ?> nouvelles animations ont été récupérées. Vous pouvez changer leur nom dans la liste ci-dessous ou les télécharger sur votre ordinateur pour les sauvegarder. Les animations capturées ne sont valables que pour cette guirlande, et correspondent à son positionnement actuel uniquement.</div>
+        <div style="width : 100%; padding: 5px 30px; background-color: var(--al-success-color); color: var(--sc-lightTxt-color) !important; border: none;" id="div_messages_movies"><?= $newmovies ?> nouvelle(s) animation(s) a (ont) été récupérée(s). Vous pouvez changer leur nom dans la liste ci-dessous ou les télécharger sur votre ordinateur pour les sauvegarder. Les animations capturées ne sont valables que pour cette guirlande, et correspondent à son positionnement actuel uniquement.</div>
 <?php
 }
 ?>
