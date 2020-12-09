@@ -1,0 +1,16 @@
+{
+	"id" : "kTwinkly",
+	"name" : "Twinkly",
+	"description" : "Pilotage des guirlandes connectées Twinkly.",
+	"licence" : "AGPL",
+	"author" : "Kimagure",
+	"require" : "3.3.39",
+	"category" : "devicecommunication",
+	"hasDependency" : true,
+	"hasOwnDeamon" : false,
+	"maxDependancyInstallTime" : 0,
+	"changelog" : "https://kimagurefr.github.io/jeedom_docs/kTwinkly/#language#/changelog",
+	"documentation" : "https://kimagurefr.github.io/jeedom_docs/kTwinkly/#language#/",
+	"language" : ["fr_FR"],
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","v4"]
+}
