@@ -90,13 +90,12 @@ if ($proxymode == 1) {
 <?php
   if (count($moviesList) > 0) {
 ?>
-                    <table id="table_movies" class="table table-bordered table-condensed"> 
+                    <table id="table_movies" class="table table-bordered table-condensed">
                         <thead>
                             <tr>
-                                <th class="center">{{Sélection}}</th>
+                                <th style="width: 50px"></th>
+                                <th style="width: 50px"></th>
                                 <th>{{Titre}}</th>
-                                <th>{{Fichier}}</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,27 +110,22 @@ if ($proxymode == 1) {
     $title = $listItem[1];
 
 	echo '<tr class="movie">';
+	echo '  <input type="hidden" id="file_' . $cnt . '" name="files[]" value="' . $filename . '"/>';
 
     // Case de sélection
-	echo '  <td class="center">';
+	echo '  <td class="center" style="width: 50px">';
 	echo '      <input type="checkbox" name="deletedFilenames[]" value="' . $filename . '"/>';
 	echo '  </td>';
 
-    // Titre de l'animation
-	echo '  <td>';
-	echo '      <input type="hidden" id="file_' . $cnt . '" name="files[]" value="' . $filename . '"/>';
-	echo '      <input class="movieAttr form-control input-sm" id="label_' . $cnt . '" name="labels[]" value="' . $title . '"/>';
-	echo '  </td>';
-
-    // Nom du fichier zip
-	echo '  <td>';
-	echo '      <input class="movieAttr form-control input-sm" disabled="disabled" value="' . $filename . '"/>';
-	echo '  </td>';
-
     // Bouton de téléchargement
-    echo '  <td class="center">';
+    echo '  <td class="center" style="width: 50px">';
     echo '      <a href="plugins/kTwinkly/data/'.$filename.'" target="_blank"><i class="fas fa-file-download"></i></a>';
     echo '  </td>';
+
+    // Titre de l'animation
+	echo '  <td>';
+	echo '      <input class="movieAttr form-control input-sm" maxlength="50" id="label_' . $cnt . '" name="labels[]" value="' . $title . '"/>';
+	echo '  </td>';
 
 	echo '</tr>';
   }
