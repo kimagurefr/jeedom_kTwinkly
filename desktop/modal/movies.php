@@ -23,6 +23,9 @@ if (!isConnect('admin')) {
 $eqId = $_GET["id"];
 $eqLogic = eqLogic::byId($eqId);
 
+// Génération de l'équipement (support des playlists)
+$hwgen = $eqLogic->getConfiguration("hwgen");
+
 // Liste des animations disponibles pour cet équipement
 $cmdMovies = $eqLogic->getCmd(null, 'movie');
 $lv = $cmdMovies->getConfiguration("listValue");
@@ -114,7 +117,7 @@ if ($proxymode == 1) {
 
     // Case de sélection
 	echo '  <td class="center" style="width: 50px">';
-	echo '      <input type="checkbox" name="deletedFilenames[]" value="' . $filename . '"/>';
+	echo '      <input type="checkbox" class="kTWinklyMovieItem" name="selectedFilenames[]" value="' . $filename . '"/>';
 	echo '  </td>';
 
     // Bouton de téléchargement
@@ -137,6 +140,15 @@ if ($proxymode == 1) {
                         {{Ajouter}}... <input id="bt_uploadMovie" type="file" name="file" style="display: inline-block">
                     </span>
                     <span class="btn btn-default" id="bt_deleteMovie">{{Supprimer}}</span>
+                    <?php 
+                        if ($hwgen != "1") {
+                    ?>
+                    <span class="btn btn-default" id="bt_createPlaylist">{{Créer une nouvelle playlist}}</span>
+                    <span class="btn btn-default" id="bt_addToPlaylist">{{Ajouter à la playlist courante}}</span>
+                    <span class="btn btn-default" id="bt_deletePlaylist">{{Supprimer la playlist courante}}</span>
+                    <?php
+                        }
+                    ?>
                     <span class="btn btn-default" id="bt_saveMovie">{{Sauvegarder}}</span>
                 </fieldset>
             </form>

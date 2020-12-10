@@ -88,4 +88,30 @@ function sanitize_filename($filename) {
     return $newname;
 }
 
+function create_playlist_item($zipfile) {
+    $zip = new ZipArchive();
+    if ($zip->open($zipfile) === TRUE) {
+        for ($i=0; $i<$zip->numFiles; $i++) {
+            $zfilename = $zip->statIndex($i)["name"];
+            if (preg_match('/bin$/',strtolower($zfilename))) {
+                $bin_data = $zip->getFromIndex($i);
+            }
+            if (preg_match('/json$/',strtolower($zfilename))) {
+                $jsonstring = $zip->getFromIndex($i);
+                $json = json_decode($jsonstring, TRUE);
+            }
+        }
+
+        $item = [
+            "unique_id" => $json["unique_id"],
+            "json" => $jsonstring,
+            "bin" => $bin_data,
+        ];
+
+        return $item;
+    } else {
+        return NULL;
+    }
+}
+
 ?>
