@@ -49,22 +49,29 @@ $('#bt_uploadMovie').fileupload({
 });
 
 $('#bt_deleteMovie').off('click').on('click', function() {
-    var formData = $("#moviesList").serialize(); 
-    $('#moviesList #action').val('deleteMovie');
-    $.ajax({
-      type: "POST",
-      url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
-      data: $("#moviesList").serialize(),
-      datatype: "json",
-      error: function(request, status, error) { },
-      success: function (data) {	      
-        if (data.state != 'ok') {
-	  $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
-	  return;
-	}
-	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
-      }
-    });
+    var nbdeletions = $('.kTWinklyMovieItem:checked').length;
+    if (nbdeletions > 0) {
+        bootbox.confirm('{{Etes-vous sûr de vouloir supprimer les}} ' + nbdeletions + ' {{élément(s) sélectionné(s)}} ?', function (result) {
+            if (result) {
+                var formData = $("#moviesList").serialize();
+                $('#moviesList #action').val('deleteMovie');
+                $.ajax({
+                    type: "POST",
+                    url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
+                    data: $("#moviesList").serialize(),
+                    datatype: "json",
+                    error: function(request, status, error) { },
+                    success: function (data) {
+                        if (data.state != 'ok') {
+                            $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
+                            return;
+                        }
+                        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
+                    }
+                });
+            }
+        });
+    }
 });
 
 $('#bt_saveMovie').off('click').on('click', function() {

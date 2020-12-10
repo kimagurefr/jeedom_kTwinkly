@@ -114,7 +114,7 @@ if ($proxymode == 1) {
 
     // Case de sélection
 	echo '  <td class="center" style="width: 50px">';
-	echo '      <input type="checkbox" name="deletedFilenames[]" value="' . $filename . '"/>';
+	echo '      <input type="checkbox" class="kTWinklyMovieItem" name="deletedFilenames[]" value="' . $filename . '"/>';
 	echo '  </td>';
 
     // Bouton de téléchargement
