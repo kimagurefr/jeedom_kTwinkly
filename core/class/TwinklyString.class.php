@@ -298,14 +298,6 @@ class TwinklyString {
         }
     }
 
-    // Renvoie le nom de l'animation courante
-	// TODO : vérifier la version minimale
-    public function get_current_movie() {
-        $this->debug('get_current_movie');
-        $result = $this->do_api_get("movies/current");
-        return $result;
-    }
-
     // Renvoie les informations sur la guirlande
     public function get_details()
     {
@@ -362,75 +354,49 @@ class TwinklyString {
         return TRUE;
     }
 
-    public function upload_movie2($movie, $jsonstrparameters) {
+    public function upload_movie2($movie_data, $jsonstrparameters) {
+        $this->debug("upload movie GEN2");
+
         $jsonparameters = json_decode($jsonstrparameters, TRUE);
         if ($jsonparameters === false) {
             $this->debug('invalid movie parameters');
             throw new Exception("upload_movie2 error : invalid movie parameters");
         }
 
-        $movie_data = file_get_contents($movie);
-        if ($movie_data === false) {
-            $this->debug("movie file not found");
-            throw new Exception("upload_movie2 error : file not found");
-        }
 
-        $this->debug("upload stage 1 (off)");
+        $this->set_mode('off');
 
-        $json = json_encode(array("mode" => "off"));
-        $result = $this->do_api_post("led/mode", $json);
-        if ($result["code"] != "1000") {
-            $this->debug("upload_movie2 step 1 error...");
-            throw new Exception("upload_movie2 step 1 error [POST : led/mode] data=" . print_r($result,TRUE));
-        }
-
-        $this->debug("upload stage 2 (delete playlist)");
-        $result = $this->do_api_delete("movies");
+        $this->debug("upload stage 1 (delete movies from memory)");
+        $result = $this->delete_movies();
         if ($result["code"] != "1000") {
             $this->debug("upload_movie2 step 2 error...");
             throw new Exception("upload_movie2 step 2 error [DELETE : movies] data=" . print_r($result,TRUE));
         }
-
-        $this->debug("upload stage 3 (off)");
-        $json = json_encode(array("mode" => "off"));
-        $result = $this->do_api_post("led/mode", $json);
-        if ($result["code"] != "1000") {
-            $this->debug("upload_movie2 step 3 error...");
-            throw new Exception("upload_movie2 step 3 error [POST : led/mode] data=" . print_r($result,TRUE));
-        }
+        
 
         // GET movies to check capacity
-        $this->debug("upload stage 4 (check available frames)");
+        $this->debug("upload stage 2 (check available frames)");
         $result = $this->do_api_get("movies");
         $capacity = $result["available_frames"];
         // TODO : Check available capacity
 
-        $this->debug("upload stage 5 (configure movie)");
-        $json = $jsonstrparameters;
-        $result = $this->do_api_post("movies/new", $json);
+        $this->debug("upload stage 3 (add movie to device)");
+        if($this->add_movie($movie_data, $jsonstrparameters) !== TRUE) {
+            $this->debug("upload_movie2 step 3 error...");
+            throw new Exception("upload_movie2 step 3 error [POST : movies/new] data=" . print_r($result,TRUE));
+        }
+
+        //$this->set_mode("movie"); //effects ?
+
+
+        $this->debug("upload stage 4 (set current movie)");
+        $result = $this->set_current_movie($jsonparameters["unique_id"]);
         if ($result["code"] != "1000") {
             $this->debug("upload_movie2 step 5 error...");
-            throw new Exception("upload_movie2 step 5 error [POST : movies/new] data=" . print_r($result,TRUE));
+            throw new Exception("upload_movie2 step 5 error [POST : movies/current] data=" . print_r($result,TRUE));
         }
 
-        $this->debug("upload stage 6 (upload data)");
-        $result = $this->do_api_post("movies/full", $movie_data, TRUE, FALSE, NULL, "application/octet-stream");
-        if ($result["code"] != "1000" || $result["frames_number"] != $jsonparameters["frames_number"]) {
-            $this->debug("upload_movie step 6 error..." . print_r($result, TRUE));
-            throw new Exception("upload_movie step 6 error [POST : movies/full] data=" . print_r($result,TRUE));
-        }
-
-        $this->set_mode("movie");
-
-        $this->debug("upload stage 7 (set current movie)");
-        $json = json_encode(array("unique_id" => $jsonparameters["unique_id"]));
-        $result = $this->do_api_post("movies/current", $json);
-        if ($result["code"] != "1000") {
-            $this->debug("upload_movie2 step 7 error...");
-            throw new Exception("upload_movie2 step 7 error [POST : movies/current] data=" . print_r($result,TRUE));
-        }
-
-        $this->set_mode("movie");
+        $this->set_mode("movie"); //effects ?
 
         return TRUE;
     }
@@ -497,12 +463,200 @@ class TwinklyString {
 
         $result = $this->do_api_post('mqtt/config', $json, TRUE);
 
-                if ($result["code"] != "1000") {
-                        $this->debug("set_mqtt_configuration error...");
-                        throw new Exception("set_mqtt_configuration error [POST : $method] data=" . print_r($result, TRUE));
-                }
-                return TRUE;
+        if ($result["code"] != "1000") {
+                $this->debug("set_mqtt_configuration error...");
+                throw new Exception("set_mqtt_configuration error [POST : $method] data=" . print_r($result, TRUE));
+        }
+        return TRUE;
+    }
 
+    public function get_movies()
+    {
+        $this->debug("get_movies");
+        $result = $this->do_api_get("movies");
+        if ($result["code"] != "1000") {
+            $this->debug("get_movies error...");
+            throw new Exception("get_movies error [GET : movies] data=" . print_r($result,TRUE));
+        }
+        return $result;
+    }
+
+    public function delete_movies()
+    {
+        $this->debug("delete_movies");
+        $result = $this->do_api_delete("movies");
+        if ($result["code"] != "1000") {
+            $this->debug("delete_movies error...");
+            throw new Exception("delete_movies error [DELETE : movies] data=" . print_r($result,TRUE));
+        }
+        return $result;
+    }
+
+    public function get_current_movie()
+    {
+        $this->debug("get_current_movie");
+        $result = $this->do_api_get("movies/current");
+        if ($result["code"] != "1000") {
+            $this->debug("get_current_movie error...");
+            throw new Exception("get_current_movie error [GET : movies/current] data=" . print_r($result,TRUE));
+        }
+        return $result;
+    }
+
+    public function set_current_movie($movieId)
+    {
+        $this->debug('set_current_movie');
+        $json = json_encode(array("unique_id" => $movieId));
+        $result = $this->do_api_post("movies/current", $json);
+        if ($result["code"] != "1000") {
+            $this->debug("set_current_movie error...");
+            throw new Exception("set_current_movie error [POST : movies/current] data=" . print_r($result,TRUE));
+        }
+        return $result;
+    }
+
+    public function get_current_playlist()
+    {
+        $this->debug("get_current_playlist");
+        $result = $this->do_api_get("playlist");
+        if ($result["code"] != "1000") {
+            $this->debug("get_current_playlist error...");
+            throw new Exception("get_current_playlist error [GET : playlist] data=" . print_r($result,TRUE));
+        }
+        return $result["entries"];
+    }
+
+    public function update_playlist($json)
+    {
+        $this->debug("update_playlist");
+        $result = $this->do_api_post("playlist", $json);
+        if ($result["code"] != "1000") {
+            $this->debug("update_playlist error...");
+            throw new Exception("update_playlist error [POST : playlist] data=" . print_r($result,TRUE));
+        }
+
+    }
+
+    public function add_movie($movie_data, $jsondata)
+    {
+        $this->debug('add_movie');
+
+        $jsonparameters = json_decode($jsondata, TRUE);
+
+        $result = $this->do_api_post("movies/new", $jsondata);
+        if ($result["code"] != "1000") {
+            $this->debug("add_movie step 1 error...");
+            throw new Exception("add_movie step 1 error [POST : movies/new] data=" . print_r($result,TRUE));
+        }
+
+        $result = $this->do_api_post("movies/full", $movie_data, TRUE, FALSE, NULL, "application/octet-stream");
+        if ($result["code"] != "1000" || $result["frames_number"] != $jsonparameters["frames_number"]) {
+            $this->debug("add_movie step 2 error..." . print_r($result, TRUE));
+            throw new Exception("add_movie step 2 error [POST : movies/full] data=" . print_r($result,TRUE));
+        }
+
+        return TRUE;
+    }
+
+    public function get_network_status()
+    {
+        $this->debug("get_network_status");
+        $result = $this->do_api_get("network/status");
+        if ($result["code"] != "1000") {
+            $this->debug("get_network_status error...");
+            throw new Exception("get_network_status error [GET : network/status] data=" . print_r($result,TRUE));
+        }
+        return $result;
+    }
+
+    public function delete_playlist()
+    {
+        $this->debug("delete_playlist");
+        $result = $this->do_api_delete("playlist");
+        if ($result["code"] != "1000") {
+            $this->debug("delete_playlist error...");
+            throw new Exception("delete_playlist error [DELETE : playlist] data=" . print_r($result,TRUE));
+        }
+        return $result;
+    }
+
+    // Créer une nouvelle playlist avec la liste d'animation fournies
+    // Le format est un tableau de ["unique_id","json","bin"]
+    public function create_new_playlist($movies) 
+    {
+        $this->set_mode('off');
+        $this->delete_movies();
+        return $this->add_to_playlist($movies, TRUE);
+    }
+
+    // Ajoute des animations à la playlist courante
+    // Le format d'entrée est un tableau de ["unique_id","json","bin"]
+    public function add_to_playlist($movies, $newplaylist = FALSE)
+    {
+        if (is_array($movies) == TRUE) {
+            try {
+                $current_movie = $this->get_current_movie();
+            } catch (Exception $e) {
+                $current_movie = NULL;
+            }
+
+            $all_movies = $this->get_movies();
+            $current_playlist = $this->get_current_playlist();
+
+            $pldata = [ "entries" => [] ];            
+            if ($newplaylist != TRUE) {
+                foreach ($current_playlist as $e) {
+                    $pldata["entries"][] = [
+                        "duration" => $e["duration"],
+                        "unique_id" => $e["unique_id"],
+                    ];
+                }
+            } 
+
+            $this->delete_playlist();
+            $this->set_mode('off');
+
+            foreach($movies as $movie) {
+                $unique_id = $movie["unique_id"];
+                $jsonstr = $movie["json"];
+                $json = json_decode($jsonstr, TRUE);
+                $bindata = $movie["bin"];
+
+                $this->debug("Ajout playlist : uid=$unique_id - json=$jsonstr");
+
+                $found = FALSE;
+                foreach ($all_movies["movies"] as $m) {
+                    if ($m["unique_id"] == $unique_id) {
+                        $found = TRUE;
+                    }
+                }
+                if ($found == FALSE) {
+                    $this->debug('Loading movie ' . $json["name"] . ' to the controller');
+                    $this->add_movie($bindata, $jsonstr);
+                } else {
+                    $this->debug('Movie ' . $json["name"] . ' already loaded on controller');
+                }
+
+                $pldata["entries"][] = [
+                    "duration" => 30,
+                    "unique_id" => $unique_id,
+                ];
+            }
+
+            $this->update_playlist(json_encode($pldata));
+            if ($current_movie !== NULL) {
+                $this->set_current_movie($current_movie["unique_id"]);
+            } else {
+                $firstitem = reset($movies);
+                $this->set_current_movie($firstitem["unique_id"]);
+            }
+            $this->set_mode('playlist');
+
+            return TRUE;
+        } else {
+            $this->debug('add_to_playlist : wrong parameter format');
+            throw new Exception("add_to_playlist error - wrong parameter format");
+        }
     }
 }
 ?>

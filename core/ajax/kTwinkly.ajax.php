@@ -283,7 +283,7 @@ try {
 	    $id = init(id);
 	    $eqLogic = eqLogic::byId($id);
 
-	    $deletedfilenames = $_POST["deletedFilenames"];
+	    $deletedfilenames = $_POST["selectedFilenames"];
 	    $filenames = $_POST["files"];
         $labels = $_POST["labels"];
 
@@ -314,7 +314,7 @@ try {
 	    $labels = $_POST["labels"];
 
 	    $newList = "";
-	    for($i=0; $i < sizeof($filenames); $i++) {
+	    for ($i=0; $i < sizeof($filenames); $i++) {
 		$newList .= ';' . $filenames[$i] . '|' . $labels[$i];
 	    }
 	    $newList = substr($newList, 1);
@@ -332,6 +332,74 @@ try {
 
 	    ajax::success();
     }
+
+    if (init('action') == 'createPlaylist') {
+        $id = init(id);
+        $eqLogic = eqLogic::byId($id);
+
+        $ip = $eqLogic->getConfiguration("ipaddress");
+        $mac = $eqLogic->getConfiguration("macaddress");
+
+        $filenames = $_POST["files"];
+        $labels = $_POST["labels"];
+        $selectedfilenames = $_POST["selectedFilenames"];
+
+        $playlist = "";
+        $movies = [];
+        foreach ($selectedfilenames as $f) {
+            $playlist_item = create_playlist_item(__DIR__ . '/../../data/' . $f);
+            $movies[] = $playlist_item;
+        }
+
+        if (sizeof($movies) > 0) {
+            $t = new TwinklyString($ip, $mac, FALSE);
+            if ($t->create_new_playlist($movies)) {
+                ajax::success(sizeof($movies) . " élements ont été ajoutés à la playlist.");
+            }
+        }
+        ajax::error("Aucun élément n'a été ajouté à la playlist");
+    }
+
+    if (init('action') == 'addToPlaylist') {
+	    $id = init(id);
+	    $eqLogic = eqLogic::byId($id);
+
+        $ip = $eqLogic->getConfiguration("ipaddress");
+        $mac = $eqLogic->getConfiguration("macaddress");
+
+        $filenames = $_POST["files"];
+        $labels = $_POST["labels"];
+        $selectedfilenames = $_POST["selectedFilenames"];
+
+        $playlist = "";
+        $movies = [];
+        foreach ($selectedfilenames as $f) {
+            $playlist_item = create_playlist_item(__DIR__ . '/../../data/' . $f);
+            $movies[] = $playlist_item;
+        }
+
+        if (sizeof($movies) > 0) {
+            $t = new TwinklyString($ip, $mac, FALSE);
+            if ($t->add_to_playlist($movies)) {
+                ajax::success("Elements ajoutés : " . sizeof($movies));
+            }
+        }
+        ajax::error("Aucun élément n'a été ajouté à la playlist");
+    }
+
+    if (init('action') == 'deletePlaylist') {
+        $id = init(id);
+        $eqLogic = eqLogic::byId($id);
+
+        $ip = $eqLogic->getConfiguration("ipaddress");
+        $mac = $eqLogic->getConfiguration("macaddress");
+
+        $t = new TwinklyString($ip, $mac, FALSE);
+        $t->delete_playlist();
+
+        ajax::success("La playlist a été effacée.");
+    }
+
 
     if (init('action') == 'changeproxystate') {
         $id = init(id);
@@ -401,7 +469,7 @@ try {
 	    $client_id = $_POST["mqttClientId"];
 	    $mqtt_user = $_POST["mqttUser"];
 
-	    $t = new Twinkly($ip, $mac, FALSE);
+	    $t = new TwinklyString($ip, $mac, FALSE);
 	    //$t->set_mqtt_configuration($broker_ip, $broker_port, $client_id, $mqtt_user);
 
 

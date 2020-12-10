@@ -54,9 +54,16 @@ class kTwinklyCmd extends cmd {
                     log::add('kTwinkly','debug',"Appel commande movie ip=$ip mac=$mac");
                     $t->set_mode("movie");
                 } else {
-                    log::add('kTwinkly','debug',"Appel commande effect ip=$ip mac=$mac");
-                    $t->set_mode("effect");
+                    $pl = $t->get_current_playlist();
+                    if (sizeof($pl) != 0) {
+                        log::add('kTwinkly','debug',"Appel commande playlist ip=$ip mac=$mac");
+                        $t->set_mode("playlist");
+                    } else {
+                        log::add('kTwinkly','debug',"Appel commande effect ip=$ip mac=$mac");
+                        $t->set_mode("effect");
+                    }
                 }
+
                 $newstate = $t->get_mode();
                 $newbrightness = $t->get_brightness();
 
