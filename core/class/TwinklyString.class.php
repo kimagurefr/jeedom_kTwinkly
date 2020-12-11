@@ -388,19 +388,6 @@ class TwinklyString {
         }
 
         if ($found == FALSE) {
-            // GET movies to check capacity
-            $this->debug("upload : check available frames");
-            $result = $this->do_api_get("movies");
-            $capacity = $result["available_frames"];
-
-            // TODO : Check available capacity
-            //$this->debug("upload : delete all movies from memory");
-            //$result = $this->delete_movies();
-            //if ($result["code"] != "1000") {
-            //    $this->debug("upload_movie2 step 2 error...");
-            //    throw new Exception("upload_movie2 step 2 error [DELETE : movies] data=" . print_r($result,TRUE));
-            //}
-            
             $this->debug("upload : add movie to device");
             if($this->add_movie($movie_data, $jsonstrparameters) !== TRUE) {
                 $this->debug("upload_movie2 add movie  error...");
@@ -415,8 +402,7 @@ class TwinklyString {
             throw new Exception("upload_movie2 set movie error [POST : movies/current] data=" . print_r($result,TRUE));
         }
 
-        //$this->set_mode("movie");
-        $this->set_mode("effect");
+        $this->set_mode("movie");
     
         return TRUE;
     }
@@ -560,8 +546,22 @@ class TwinklyString {
     public function add_movie($movie_data, $jsondata)
     {
         $this->debug('add_movie');
-
         $jsonparameters = json_decode($jsondata, TRUE);
+
+        // Vérifie la place disponible
+        $result = $this->do_api_get("movies");
+        if ($result["code"] != "1000") {
+            $this->debug("add_movie check available memory error...");
+            throw new Exception("add_movie check available memory error [GET : movies] data=" . print_r($result,TRUE));
+        }
+
+        $capacity = intval($result["available_frames"]);
+        $size = intval($jsonparameters["frames_number"]);
+
+        if($size > $capacity) {
+            $this->debug("add_movie : not enough memory left on controler (size = " . $size . " / remaining = " . $capacity . ")");
+            throw new Exception("add_movie : not enough memory left on controler (size = " . $size . " / remaining = " . $capacity . ")");
+        }
 
         $result = $this->do_api_post("movies/new", $jsondata);
         if ($result["code"] != "1000") {
@@ -605,7 +605,8 @@ class TwinklyString {
     public function create_new_playlist($movies) 
     {
         $this->set_mode('off');
-        $this->delete_movies();
+        //$this->delete_movies();
+        $this->delete_playlist();
         return $this->add_to_playlist($movies, TRUE);
     }
 

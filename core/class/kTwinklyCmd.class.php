@@ -54,13 +54,17 @@ class kTwinklyCmd extends cmd {
                     log::add('kTwinkly','debug',"Appel commande movie ip=$ip mac=$mac");
                     $t->set_mode("movie");
                 } else {
-                    $pl = $t->get_current_playlist();
-                    if (sizeof($pl) != 0) {
-                        log::add('kTwinkly','debug',"Appel commande playlist ip=$ip mac=$mac");
+                    try {
+                        log::add('kTwinkly','debug',"Changement mode : playlist ip=$ip mac=$mac");
                         $t->set_mode("playlist");
-                    } else {
-                        log::add('kTwinkly','debug',"Appel commande effect ip=$ip mac=$mac");
-                        $t->set_mode("effect");
+                    } catch (Exception $e1) {
+                        try {
+                            log::add('kTwinkly','debug',"Changement mode : movie ip=$ip mac=$mac");
+                            $t->set_mode("movie");
+                        } catch (Exception $e2) {
+                            log::add('kTwinkly','debug',"Changement mode : effect ip=$ip mac=$mac");
+                            $t->set_mode("effect");
+                        }
                     }
                 }
 
@@ -104,7 +108,7 @@ class kTwinklyCmd extends cmd {
                     log::add('kTwinkly','debug',"Commande set_brightness ignorée parce que l'équipement ".$eqLogic->getId()." ne la supporte pas.");
                 }
             } else if ($action == "movie") {
-                // Chargemenet d'une animation sur la guirlande
+                // Chargement d'une animation sur la guirlande
 
                 $value = $_options["select"];
                 if ($value != "") {

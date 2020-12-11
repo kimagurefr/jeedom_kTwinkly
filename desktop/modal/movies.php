@@ -143,13 +143,14 @@ if ($proxymode == 1) {
                     <?php 
                         if ($hwgen != "1") {
                     ?>
-                    <span class="btn btn-default" id="bt_createPlaylist">{{Créer une nouvelle playlist}}</span>
-                    <span class="btn btn-default" id="bt_addToPlaylist">{{Ajouter à la playlist courante}}</span>
-                    <span class="btn btn-default" id="bt_deletePlaylist">{{Supprimer la playlist courante}}</span>
+                    <span class="btn btn-default" id="bt_createPlaylist"><i class="fas fa-folder"></i> {{Créer une nouvelle playlist}}</span>
+                    <span class="btn btn-default" id="bt_addToPlaylist"><i class="fas fa-folder-plus"></i> {{Ajouter à la playlist courante}}</span>
+                    <span class="btn btn-default" id="bt_deletePlaylist"><i class="fas fa-folder-minus"></i> {{Supprimer la playlist courante}}</span>
+                    <span class="btn btn-default" id="bt_clearMemory"><i class="fas fa-trash"></i> {{Effacer la mémoire}}</span>
                     <?php
                         }
                     ?>
-                    <span class="btn btn-default" id="bt_saveMovie">{{Sauvegarder}}</span>
+                    <span class="btn btn-success" id="bt_saveMovie"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</span>
                 </fieldset>
             </form>
         </div>

@@ -155,9 +155,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
 										<span class="btn btn-default" id="bt_movies">
 											Gérer les animations...
 										</span>
+                                        <!--
 										<span class="btn btn-default" id="bt_mqtt">
 											Configurer MQTT...
 										</span>
+                                        -->
 									</div>
 								</div>
 								<br/>

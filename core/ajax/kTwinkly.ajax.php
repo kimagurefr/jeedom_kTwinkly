@@ -381,7 +381,7 @@ try {
         if (sizeof($movies) > 0) {
             $t = new TwinklyString($ip, $mac, FALSE);
             if ($t->add_to_playlist($movies)) {
-                ajax::success("Elements ajoutés : " . sizeof($movies));
+                ajax::success(sizeof($movies) . " élements ont été ajoutés à la playlist.");
             }
         }
         ajax::error("Aucun élément n'a été ajouté à la playlist");
@@ -398,6 +398,20 @@ try {
         $t->delete_playlist();
 
         ajax::success("La playlist a été effacée.");
+    }
+
+    if (init('action') == 'clearMemory') {
+        $id = init(id);
+        $eqLogic = eqLogic::byId($id);
+
+        $ip = $eqLogic->getConfiguration("ipaddress");
+        $mac = $eqLogic->getConfiguration("macaddress");
+
+        $t = new TwinklyString($ip, $mac, FALSE);
+        $t->set_mode('off');
+        $t->delete_movies();
+
+        ajax::success("Les animations en mémoire ont été supprimées.");
     }
 
 
