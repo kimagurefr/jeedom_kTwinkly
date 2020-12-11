@@ -605,7 +605,8 @@ class TwinklyString {
     public function create_new_playlist($movies) 
     {
         $this->set_mode('off');
-        $this->delete_movies();
+        //$this->delete_movies();
+        $this->delete_playlist();
         return $this->add_to_playlist($movies, TRUE);
     }
 

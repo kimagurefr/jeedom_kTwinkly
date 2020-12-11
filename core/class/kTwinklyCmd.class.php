@@ -67,6 +67,7 @@ class kTwinklyCmd extends cmd {
                         }
                     }
                 }
+
                 $newstate = $t->get_mode();
                 $newbrightness = $t->get_brightness();
 

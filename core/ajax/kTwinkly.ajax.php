@@ -408,6 +408,7 @@ try {
         $mac = $eqLogic->getConfiguration("macaddress");
 
         $t = new TwinklyString($ip, $mac, FALSE);
+        $t->set_mode('off');
         $t->delete_movies();
 
         ajax::success("Les animations en mémoire ont été supprimées.");

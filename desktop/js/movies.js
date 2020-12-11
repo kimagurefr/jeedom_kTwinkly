@@ -164,10 +164,12 @@ $('#bt_addToPlaylist').off('click').on('click', function() {
             datatype: "json",
             error: function(request, status, error) { },
             success: function (data) {
+                console.log('data.state = ' + data.state);
                 if (data.state != 'ok') {
                     $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
                     return;
                 } else {
+                    console.log('data state ok! showing message : ' + data.result);
                     $('#div_alert_movies').showAlert({message: data.result, level: 'info'});
                 }
             }
