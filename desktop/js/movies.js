@@ -200,3 +200,26 @@ $('#bt_deletePlaylist').off('click').on('click', function() {
         }
     });
 });
+
+$('#bt_clearMemoery').off('click').on('click', function() {
+    bootbox.confirm('{{Etes-vous sûr de vouloir effacer les animations en mémoire}} ?', function (result) {
+        if (result) {
+            $('#moviesList #action').val('clearMemory');
+            $.ajax({
+                type: "POST",
+                url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
+                data: $("#moviesList").serialize(),
+                datatype: 'json',
+                error: function(request, status, error) { },
+                success: function (data) {
+                    if (data.state != 'ok') { 
+                        $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
+                        return;
+                    } else {
+                        $('#div_alert_movies').showAlert({message: data.result, level: 'info'});
+                    }
+                }
+            });
+        }
+    });
+});

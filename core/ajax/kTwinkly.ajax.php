@@ -400,6 +400,19 @@ try {
         ajax::success("La playlist a été effacée.");
     }
 
+    if (init('action') == 'clearMemory') {
+        $id = init(id);
+        $eqLogic = eqLogic::byId($id);
+
+        $ip = $eqLogic->getConfiguration("ipaddress");
+        $mac = $eqLogic->getConfiguration("macaddress");
+
+        $t = new TwinklyString($ip, $mac, FALSE);
+        $t->delete_movies();
+
+        ajax::success("Les animations en mémoire ont été supprimées.");
+    }
+
 
     if (init('action') == 'changeproxystate') {
         $id = init(id);
