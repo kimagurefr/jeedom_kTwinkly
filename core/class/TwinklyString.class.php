@@ -308,10 +308,14 @@ class TwinklyString {
     // Charge une animation dans le contrôleur (mode GEN1)
     public function upload_movie($movie, $leds_number, $frames_number, $frame_delay)
     {
-        $movie_data = file_get_contents($movie);
-        if ($movie_data === false) {
-            $this->debug("movie file not found");
-            throw new Exception("upload_movie error : file not found");
+        if (ctype_print($movie)) {
+            $movie_data = file_get_contents($movie);
+            if ($movie_data === false) {
+                $this->debug("movie file not found");
+                throw new Exception("upload_movie error : file not found");
+            }
+        } else {
+            $movie_data = $movie;
         }
 
         $this->set_mode("off");
@@ -363,41 +367,57 @@ class TwinklyString {
             throw new Exception("upload_movie2 error : invalid movie parameters");
         }
 
+        // Si un nom de fichier est passé, on le charge
+        if(ctype_print($movie_data)) {
+            $movie_data = file_get_contents($movie_data);
+            if ($movie_data === false) {
+                $this->debug("movie file not found");
+                throw new Exception("upload_movie error : file not found");
+            }
+        }
 
         $this->set_mode('off');
+        $all_movies = $this->get_movies();
+        $unique_id = $jsonparameters["unique_id"];
 
-        $this->debug("upload stage 1 (delete movies from memory)");
-        $result = $this->delete_movies();
-        if ($result["code"] != "1000") {
-            $this->debug("upload_movie2 step 2 error...");
-            throw new Exception("upload_movie2 step 2 error [DELETE : movies] data=" . print_r($result,TRUE));
-        }
-        
-
-        // GET movies to check capacity
-        $this->debug("upload stage 2 (check available frames)");
-        $result = $this->do_api_get("movies");
-        $capacity = $result["available_frames"];
-        // TODO : Check available capacity
-
-        $this->debug("upload stage 3 (add movie to device)");
-        if($this->add_movie($movie_data, $jsonstrparameters) !== TRUE) {
-            $this->debug("upload_movie2 step 3 error...");
-            throw new Exception("upload_movie2 step 3 error [POST : movies/new] data=" . print_r($result,TRUE));
+        $found = FALSE;
+        foreach ($all_movies["movies"] as $m) {
+            if ($m["unique_id"] == $unique_id) {
+                $found = TRUE;
+            }
         }
 
-        //$this->set_mode("movie"); //effects ?
+        if ($found == FALSE) {
+            // GET movies to check capacity
+            $this->debug("upload : check available frames");
+            $result = $this->do_api_get("movies");
+            $capacity = $result["available_frames"];
 
+            // TODO : Check available capacity
+            //$this->debug("upload : delete all movies from memory");
+            //$result = $this->delete_movies();
+            //if ($result["code"] != "1000") {
+            //    $this->debug("upload_movie2 step 2 error...");
+            //    throw new Exception("upload_movie2 step 2 error [DELETE : movies] data=" . print_r($result,TRUE));
+            //}
+            
+            $this->debug("upload : add movie to device");
+            if($this->add_movie($movie_data, $jsonstrparameters) !== TRUE) {
+                $this->debug("upload_movie2 add movie  error...");
+                throw new Exception("upload_movie2 add movie error [POST : movies/new] data=" . print_r($result,TRUE));
+            }
+        }    
 
-        $this->debug("upload stage 4 (set current movie)");
+        $this->debug("upload : set current movie");
         $result = $this->set_current_movie($jsonparameters["unique_id"]);
         if ($result["code"] != "1000") {
-            $this->debug("upload_movie2 step 5 error...");
-            throw new Exception("upload_movie2 step 5 error [POST : movies/current] data=" . print_r($result,TRUE));
+            $this->debug("upload_movie2 set movie error...");
+            throw new Exception("upload_movie2 set movie error [POST : movies/current] data=" . print_r($result,TRUE));
         }
 
-        $this->set_mode("movie"); //effects ?
-
+        //$this->set_mode("movie");
+        $this->set_mode("effect");
+    
         return TRUE;
     }
 
