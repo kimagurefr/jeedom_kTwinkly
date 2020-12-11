@@ -47,7 +47,7 @@ class kTwinklyCmd extends cmd {
         try {
             $t = new TwinklyString($ip, $mac, FALSE);
 
-		    if ($action == "on") {
+            if ($action == "on") {
                 // Allumer la guirlande. On active le mode "movie".
 
                 if ($hwgen == "1") {
