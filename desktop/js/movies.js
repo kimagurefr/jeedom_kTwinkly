@@ -201,7 +201,7 @@ $('#bt_deletePlaylist').off('click').on('click', function() {
     });
 });
 
-$('#bt_clearMemoery').off('click').on('click', function() {
+$('#bt_clearMemory').off('click').on('click', function() {
     bootbox.confirm('{{Etes-vous sûr de vouloir effacer les animations en mémoire}} ?', function (result) {
         if (result) {
             $('#moviesList #action').val('clearMemory');
