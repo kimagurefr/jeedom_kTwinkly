@@ -402,8 +402,7 @@ class TwinklyString {
             throw new Exception("upload_movie2 set movie error [POST : movies/current] data=" . print_r($result,TRUE));
         }
 
-        //$this->set_mode("movie");
-        $this->set_mode("effect");
+        $this->set_mode("movie");
     
         return TRUE;
     }
