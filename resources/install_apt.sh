@@ -27,7 +27,9 @@ if python3.7 --version 2>&1 | grep 'Python 3.7.'; then
 else
     echo "* Looking for package in Debian repositories"
     sudo apt-cache show python3.7
-    if [ $? -ne 0 ] ; then
+    if [ $? -eq 0 ] ; then
+        sudo apt-get install -y python3.7
+    else
         echo "* Python3.7 not found in debian repos. Installation manually."
         echo "* Install required modules to build Python 3.7.3"
         sudo apt-get install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev
