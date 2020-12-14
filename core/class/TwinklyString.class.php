@@ -205,8 +205,8 @@ class TwinklyString {
         //$this->debug("computed response = " . $rsp);"
 
         if ($rsp != $challenge_response) {
-            $this->debug("Authentication ERROR : incorrect challenge-response!!!");
-            throw new Exception("Twinkly Authentication error. Incorrect challenge-response. [POST : $method]");
+            $this->debug("Authentication WARNING : incorrect challenge-response!!!");
+            //throw new Exception("Twinkly Authentication error. Incorrect challenge-response. [POST : login]");
         }
 
         $json = json_encode(array("challenge-response" => $challenge_response));
@@ -214,7 +214,7 @@ class TwinklyString {
 
         if ($result["code"] != "1000") {
             $this->debug("Authentication error...");
-            throw new Exception("Twinkly Authentication error. [POST : $method]");
+            throw new Exception("Twinkly Authentication error. [POST : verify]");
         }
         $expiry_timestamp = (new DateTime())->getTimestamp() + $auth_expiry;
         $this->token = array("auth_token" => $auth_token, "expiry" => $expiry_timestamp);
