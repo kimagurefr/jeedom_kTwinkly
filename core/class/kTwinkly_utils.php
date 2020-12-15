@@ -88,7 +88,7 @@ function sanitize_filename($filename) {
     return $newname;
 }
 
-function create_playlist_item($zipfile) {
+function create_playlist_item($zipfile, $duration=30) {
     $zip = new ZipArchive();
     if ($zip->open($zipfile) === TRUE) {
         for ($i=0; $i<$zip->numFiles; $i++) {
@@ -106,6 +106,7 @@ function create_playlist_item($zipfile) {
             "unique_id" => $json["unique_id"],
             "json" => $jsonstring,
             "bin" => $bin_data,
+            "duration" => $duration,
         ];
 
         return $item;

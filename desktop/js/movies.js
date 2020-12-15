@@ -53,7 +53,6 @@ $('#bt_deleteMovie').off('click').on('click', function() {
     if (nbdeletions > 0) {
         bootbox.confirm('{{Etes-vous sûr de vouloir supprimer les}} ' + nbdeletions + ' {{élément(s) sélectionné(s)}} ?', function (result) {
             if (result) {
-                var formData = $("#moviesList").serialize();
                 $('#moviesList #action').val('deleteMovie');
                 $.ajax({
                     type: "POST",
@@ -120,108 +119,4 @@ $('.changeProxyState').off('click').on('click', function () {
             return;
         }
     })
-});
-
-$('#bt_createPlaylist').off('click').on('click', function() {
-    var nbmovies = $('.kTWinklyMovieItem:checked').length;
-    if (nbmovies != 0) {
-        bootbox.confirm('{{Etes-vous sûr de vouloir remplacer la playlist courante}} ?', function (result) {
-            if (result) {
-                var formData = $("#moviesList").serialize();
-                $('#moviesList #action').val('createPlaylist');
-                $.ajax({
-                    type: "POST",
-                    url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
-                    data: $("#moviesList").serialize(),
-                    datatype: "json",
-                    error: function(request, status, error) { },
-                    success: function (data) {
-                        if (data.state != 'ok') {
-                            $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
-                            return;
-                        } else {
-                            $('#div_alert_movies').showAlert({message: data.result, level: 'info'});
-                        }
-                    }
-                });
-            }
-        });
-    } else {
-        $('#div_alert_movies').showAlert({message: '{{Vous devez sélectionner les animations à ajouter à la playlist}}', level: 'info'});
-    }
-    return;
-});
-
-$('#bt_addToPlaylist').off('click').on('click', function() {
-    var nbmovies = $('.kTWinklyMovieItem:checked').length;
-    if (nbmovies != 0) {
-        var formData = $("#moviesList").serialize();
-        $('#moviesList #action').val('addToPlaylist');
-        $.ajax({
-            type: "POST",
-            url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
-            data: $("#moviesList").serialize(),
-            datatype: "json",
-            error: function(request, status, error) { },
-            success: function (data) {
-                console.log('data.state = ' + data.state);
-                if (data.state != 'ok') {
-                    $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
-                    return;
-                } else {
-                    console.log('data state ok! showing message : ' + data.result);
-                    $('#div_alert_movies').showAlert({message: data.result, level: 'info'});
-                }
-            }
-        });
-    } else {
-        $('#div_alert_movies').showAlert({message: '{{Vous devez sélectionner les animations à ajouter à la playlist}}', level: 'info'});
-    }
-    return;
-});
-
-$('#bt_deletePlaylist').off('click').on('click', function() {
-    bootbox.confirm('{{Etes-vous sûr de vouloir supprimer la playlist courante}} ?', function (result) {
-        if (result) {
-            $('#moviesList #action').val('deletePlaylist');
-            $.ajax({
-                type: "POST",
-                url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
-                data: $("#moviesList").serialize(),
-                datatype: 'json',
-                error: function(request, status, error) { },
-                success: function (data) {
-                    if (data.state != 'ok') { 
-                        $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
-                        return;
-                    } else {
-                        $('#div_alert_movies').showAlert({message: data.result, level: 'info'});
-                    }
-                }
-            });
-        }
-    });
-});
-
-$('#bt_clearMemory').off('click').on('click', function() {
-    bootbox.confirm('{{Etes-vous sûr de vouloir effacer les animations en mémoire}} ?', function (result) {
-        if (result) {
-            $('#moviesList #action').val('clearMemory');
-            $.ajax({
-                type: "POST",
-                url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
-                data: $("#moviesList").serialize(),
-                datatype: 'json',
-                error: function(request, status, error) { },
-                success: function (data) {
-                    if (data.state != 'ok') { 
-                        $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
-                        return;
-                    } else {
-                        $('#div_alert_movies').showAlert({message: data.result, level: 'info'});
-                    }
-                }
-            });
-        }
-    });
 });

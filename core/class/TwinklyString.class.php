@@ -26,6 +26,7 @@ class TwinklyString {
         {
             $msg = '[' . date('Y-m-d H:i:s') . '] ' . $msg . "\n";
             echo $msg;
+            file_put_contents('/tmp/Twinkly.log',$msg, FILE_APPEND);
         }
     }
 
@@ -601,7 +602,7 @@ class TwinklyString {
     }
 
     // Créer une nouvelle playlist avec la liste d'animation fournies
-    // Le format est un tableau de ["unique_id","json","bin"]
+    // Le format est un tableau de ["unique_id","json","bin","duration"]
     public function create_new_playlist($movies) 
     {
         $this->set_mode('off');
@@ -611,9 +612,10 @@ class TwinklyString {
     }
 
     // Ajoute des animations à la playlist courante
-    // Le format d'entrée est un tableau de ["unique_id","json","bin"]
+    // Le format d'entrée est un tableau de ["unique_id","json","bin","duration"]
     public function add_to_playlist($movies, $newplaylist = FALSE)
     {
+        $this->debug('add_to_playlist');
         if (is_array($movies) == TRUE) {
             try {
                 $current_movie = $this->get_current_movie();
@@ -642,8 +644,12 @@ class TwinklyString {
                 $jsonstr = $movie["json"];
                 $json = json_decode($jsonstr, TRUE);
                 $bindata = $movie["bin"];
+                $duration = 30;
+                if (isset($movie["duration"])) {
+                    $duration = intval($movie["duration"]);
+                }
 
-                $this->debug("Ajout playlist : uid=$unique_id - json=$jsonstr");
+                $this->debug("Ajout playlist : uid=$unique_id - duration=$duration - json=$jsonstr");
 
                 $found = FALSE;
                 foreach ($all_movies["movies"] as $m) {
@@ -659,7 +665,7 @@ class TwinklyString {
                 }
 
                 $pldata["entries"][] = [
-                    "duration" => 30,
+                    "duration" => $duration,
                     "unique_id" => $unique_id,
                 ];
             }

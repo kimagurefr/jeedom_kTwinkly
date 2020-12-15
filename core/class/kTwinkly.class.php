@@ -389,6 +389,16 @@ class kTwinkly extends eqLogic {
         }
     }
 
+    public static function get_playlist($_id)
+    {
+        $eqLogic = eqLogic::byId($_id);
+        $ip = $eqLogic->getConfiguration('ipaddress');
+        $mac = $eqLogic->getConfiguration('macaddress');
+        $t = new TwinklyString($ip, $mac, FALSE);
+        $playlist = $t->get_current_playlist();
+        return $playlist;
+    }
+
     // Démarre le proxy de capture des animations
     public static function start_mitmproxy($_id) {
         log::add('kTwinkly','debug','Démarre mitmproxy pour eqId='.$_id);

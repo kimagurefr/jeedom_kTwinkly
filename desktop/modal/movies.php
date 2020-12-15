@@ -140,16 +140,6 @@ if ($proxymode == 1) {
                         {{Ajouter}}... <input id="bt_uploadMovie" type="file" name="file" style="display: inline-block">
                     </span>
                     <span class="btn btn-default" id="bt_deleteMovie">{{Supprimer}}</span>
-                    <?php 
-                        if ($hwgen != "1") {
-                    ?>
-                    <span class="btn btn-default" id="bt_createPlaylist"><i class="fas fa-folder"></i> {{Créer une nouvelle playlist}}</span>
-                    <span class="btn btn-default" id="bt_addToPlaylist"><i class="fas fa-folder-plus"></i> {{Ajouter à la playlist courante}}</span>
-                    <span class="btn btn-default" id="bt_deletePlaylist"><i class="fas fa-folder-minus"></i> {{Supprimer la playlist courante}}</span>
-                    <span class="btn btn-default" id="bt_clearMemory"><i class="fas fa-trash"></i> {{Effacer la mémoire}}</span>
-                    <?php
-                        }
-                    ?>
                     <span class="btn btn-success" id="bt_saveMovie"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</span>
                 </fieldset>
             </form>
