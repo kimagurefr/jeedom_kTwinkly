@@ -47,16 +47,27 @@ class kTwinklyCmd extends cmd {
         try {
             $t = new TwinklyString($ip, $mac, FALSE);
 
-		    if ($action == "on") {
+            if ($action == "on") {
                 // Allumer la guirlande. On active le mode "movie".
 
                 if ($hwgen == "1") {
                     log::add('kTwinkly','debug',"Appel commande movie ip=$ip mac=$mac");
                     $t->set_mode("movie");
                 } else {
-                    log::add('kTwinkly','debug',"Appel commande effect ip=$ip mac=$mac");
-                    $t->set_mode("effect");
+                    try {
+                        log::add('kTwinkly','debug',"Changement mode : playlist ip=$ip mac=$mac");
+                        $t->set_mode("playlist");
+                    } catch (Exception $e1) {
+                        try {
+                            log::add('kTwinkly','debug',"Changement mode : movie ip=$ip mac=$mac");
+                            $t->set_mode("movie");
+                        } catch (Exception $e2) {
+                            log::add('kTwinkly','debug',"Changement mode : effect ip=$ip mac=$mac");
+                            $t->set_mode("effect");
+                        }
+                    }
                 }
+
                 $newstate = $t->get_mode();
                 $newbrightness = $t->get_brightness();
 
@@ -97,7 +108,7 @@ class kTwinklyCmd extends cmd {
                     log::add('kTwinkly','debug',"Commande set_brightness ignorée parce que l'équipement ".$eqLogic->getId()." ne la supporte pas.");
                 }
             } else if ($action == "movie") {
-                // Chargemenet d'une animation sur la guirlande
+                // Chargement d'une animation sur la guirlande
 
                 $value = $_options["select"];
                 if ($value != "") {
