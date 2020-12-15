@@ -6,3 +6,5 @@ Remerciements à Pavol Babinčák (scrool) pour sa librairie [xled](https://gith
 
 Les guirlandes doivent être paramétrées via l'application mobile et connectées au réseau pour être détectées automatiquement par le plugin.
 
+La documentation est disponible [ici](https://kimagurefr.github.io/jeedom_docs/kTwinkly/).
+
