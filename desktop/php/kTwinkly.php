@@ -153,11 +153,14 @@ $eqLogics = eqLogic::byType($plugin->getId());
 									<label class="col-sm-3 control-label"></label>
 									<div class="col-sm-8">
 										<span class="btn btn-default" id="bt_movies">
-											Gérer les animations...
+											{{Gérer les animations}}...
+										</span>
+										<span class="btn btn-default" style="visibility: hidden" id="bt_playlists" data-l1key="gen2button">
+											{{Gérer la playlist}}...
 										</span>
                                         <!--
 										<span class="btn btn-default" id="bt_mqtt">
-											Configurer MQTT...
+											{{Configurer MQTT}}...
 										</span>
                                         -->
 									</div>

@@ -50,7 +50,7 @@ if (isset($_GET["newmovies"])) {
 <div style="display: none;width : 100%" id="div_alert_movies"></div>
 
 <div class="row row-overflow">
-    <div class="col-xs-12 eqLogicThumbnailDisplay">
+    <div class="col-xs-12">
         <div class="eqLogicThumbnailContainer">
 <?php
 if (!$proxymode) {
@@ -140,21 +140,27 @@ if ($proxymode == 1) {
                         {{Ajouter}}... <input id="bt_uploadMovie" type="file" name="file" style="display: inline-block">
                     </span>
                     <span class="btn btn-default" id="bt_deleteMovie">{{Supprimer}}</span>
-                    <?php 
-                        if ($hwgen != "1") {
-                    ?>
-                    <span class="btn btn-default" id="bt_createPlaylist"><i class="fas fa-folder"></i> {{Créer une nouvelle playlist}}</span>
-                    <span class="btn btn-default" id="bt_addToPlaylist"><i class="fas fa-folder-plus"></i> {{Ajouter à la playlist courante}}</span>
-                    <span class="btn btn-default" id="bt_deletePlaylist"><i class="fas fa-folder-minus"></i> {{Supprimer la playlist courante}}</span>
-                    <span class="btn btn-default" id="bt_clearMemory"><i class="fas fa-trash"></i> {{Effacer la mémoire}}</span>
-                    <?php
-                        }
-                    ?>
                     <span class="btn btn-success" id="bt_saveMovie"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</span>
                 </fieldset>
             </form>
         </div>
     </div>
 </div>
-
+<script>
+$(function() {
+    var parentWidth = $( window ).width()
+    var parentHeight = $( window ).height()
+    if (parentWidth > 850 && parentHeight > 750) {
+      $('#md_modal').dialog("option", "width", 800).dialog("option", "height", 650)
+      $("#md_modal").dialog({
+        position: {
+          my: "center center",
+          at: "center center",
+          of: window
+        }
+      })
+    }
+    moviesNotSaved = 0;
+})
+</script>
 <?php include_file('desktop', 'movies', 'js', 'kTwinkly');?>

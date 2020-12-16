@@ -79,9 +79,6 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
       $cron->save();
 
       kTwinkly::deamon_start();
-
-      // Rend mitmproxy executable
-      chmod(__DIR__ . '/../resources/mitmproxy/`dpkg --print-architecture`/mitmdump', 0755);
   }
 
 // Fonction exécutée automatiquement après la suppression du plugin
