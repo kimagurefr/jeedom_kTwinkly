@@ -50,7 +50,7 @@ if (isset($_GET["newmovies"])) {
 <div style="display: none;width : 100%" id="div_alert_movies"></div>
 
 <div class="row row-overflow">
-    <div class="col-xs-12 eqLogicThumbnailDisplay">
+    <div class="col-xs-12">
         <div class="eqLogicThumbnailContainer">
 <?php
 if (!$proxymode) {
@@ -146,5 +146,21 @@ if ($proxymode == 1) {
         </div>
     </div>
 </div>
-
+<script>
+$(function() {
+    var parentWidth = $( window ).width()
+    var parentHeight = $( window ).height()
+    if (parentWidth > 850 && parentHeight > 750) {
+      $('#md_modal').dialog("option", "width", 800).dialog("option", "height", 650)
+      $("#md_modal").dialog({
+        position: {
+          my: "center center",
+          at: "center center",
+          of: window
+        }
+      })
+    }
+    moviesNotSaved = 0;
+})
+</script>
 <?php include_file('desktop', 'movies', 'js', 'kTwinkly');?>

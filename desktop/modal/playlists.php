@@ -45,7 +45,7 @@ $eqLogic = eqLogic::byId($eqId);
                 <table id="table_playlists" class="table table-bordered table-condensed">
                     <thead>
                         <tr>
-                            <th>{{Titre}}</th>
+                            <th>{{Animation}}</th>
                             <th>{{Durée}}</th>
                             <th style="width: 150px; align"></th>
                         </tr>
@@ -57,5 +57,20 @@ $eqLogic = eqLogic::byId($eqId);
         </div>
     </div>
 </div>
-
+<script>
+$(function() {
+    var parentWidth = $( window ).width()
+    var parentHeight = $( window ).height()
+    if (parentWidth > 850 && parentHeight > 750) {
+      $('#md_modal').dialog("option", "width", 800).dialog("option", "height", 650)
+      $("#md_modal").dialog({
+        position: {
+          my: "center center",
+          at: "center center",
+          of: window
+        }
+      })
+    }
+})
+</script>
 <?php include_file('desktop', 'playlists', 'js', 'kTwinkly');?>

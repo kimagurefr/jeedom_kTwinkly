@@ -115,7 +115,7 @@ $('.addToPlaylist').off('click').on('click', function() {
     tr += '      </select>';
     tr += '  </td>';
     tr += '  <td>';
-    tr += '      <input class="playlistAttr form-control input-sm playlistDuration" style="width: 10%" maxlength="10" name="duration[]" value="30"/>';
+    tr += '      <input class="playlistAttr form-control input-sm playlistDuration" type="text" style="width: 15%" maxlength="3" name="duration[]" value="30"/>';
     tr += '  </td>';
     tr += '  <td>';
     tr += '     <i class="fas fa-minus-circle pull-right cursor removeFromPlaylist" data-plitem="1234"></i>';
@@ -150,27 +150,40 @@ $.ajax({
                     "data-movieid" : e.unique_id
                 }));
             });
+            var allmoviesfound = 1;
             playlist.forEach(function(e) {
+                var moviefound = 0;
                 var tr = '<tr class="plitem">';
                 tr += '  <td>';
                 tr += '      <select class="form-control playlistAttr playlistMovie" name="plItems[]">';
                 $('#availableMoviesList option').each(function() {
-                    //tr += '<option value="' + $(this).val() + '"' + ($(this).val() === e.unique_id?" selected":"") + '>' + $(this).text() + '</option>';
-                    tr += '<option value="' + $(this).val() + '"' + ($(this).attr('data-movieid') === e.unique_id?" selected":"") + '>' + $(this).text() + '</option>';
+                    tr += '<option value="' + $(this).val() + '"';
+                    if ($(this).attr('data-movieid') === e.unique_id) {
+                        tr += " selected";
+                        moviefound = 1;
+                    }
+                    tr += '>' + $(this).text() + '</option>';
                 });
                 tr += '      </select>';
                 tr += '  </td>';
                 tr += '  <td>';
-                tr += '      <input class="playlistAttr form-control input-sm playlistDuration" style="width: 10%" maxlength="10" name="duration[]" value="' + e.duration + '"/>';
+                tr += '      <input class="playlistAttr form-control input-sm playlistDuration" type="text" maxlength="3" style="width: 15%" name="duration[]" value="' + e.duration + '"/>';
                 tr += '  </td>';
                 tr += '  <td>';
                 tr += '     <i class="fas fa-minus-circle pull-right cursor removeFromPlaylist"></i>';
                 tr += '  </td>';
                 tr += '</tr>';
 
-                $('#playlist tbody').append(tr);
+                if (moviefound == 1) {
+                    $('#playlist tbody').append(tr);
+                }  else {
+                    allmoviesfound = 0;
+                }
             });
             playlistNotSaved=0;
+            if (allmoviesfound != 1) {
+                $('#div_alert_playlists').showAlert({message: "{{Les fichiers pour certaines animations de la playlist actuelle ont été supprimés}}", level: 'warn'});
+            }
         }
     }
 });
@@ -182,4 +195,12 @@ $("#playlist").on("click", ".removeFromPlaylist", function(){
 
 $("#playlist").on("change", ".playlistAttr", function() {
     playlistNotSaved = 1;
+});
+
+$("#playlist").on("keyup",".playlistDuration", function(event) {
+    if (event.which !== 8 && event.which !== 0 && event.which < 48 || event.which > 57) {
+        $(this).val(function (index, value) {
+            return value.replace(/[^0-9]/g, "");
+        });
+    }
 });

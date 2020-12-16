@@ -22,14 +22,27 @@
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
 $("#bt_movies").off('click').on('click', function() {
-	$('#md_modal').dialog({title: "{{Gestion des animations}}", dialogClass: "twinklyMovies" });
-	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+	$('#md_modal').dialog({
+        title: "{{Gestion des animations}}",
+        beforeClose: function() {
+            if (moviesNotSaved == 1) {
+                bootbox.confirm('{{Etes-vous sûr de vouloir quitter sans sauvegarder les modifications}} ?', function (result) {
+                    if(result) {
+                        $('#md_modal').dialog('option', 'beforeClose', function() {})
+                        $('#md_modal').dialog("close");
+                    }
+                });
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }).load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
 });
 
 $("#bt_playlists").off('click').on('click', function() {
 	$('#md_modal').dialog({
         title: "{{Gestion de la playlist}}",
-        dialogClass: "twinklyPlaylists",
         beforeClose: function() {
             if (playlistNotSaved == 1) {
                 bootbox.confirm('{{Etes-vous sûr de vouloir quitter sans sauvegarder les modifications}} ?', function (result) {
@@ -43,13 +56,13 @@ $("#bt_playlists").off('click').on('click', function() {
                 return true;
             }
         } 
-    });
-	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=playlists&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+    }).load('index.php?v=d&plugin=kTwinkly&modal=playlists&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
 });
 
 $("#bt_mqtt").off('click').on('click', function() {
-	$('#md_modal').dialog({ title: "{{Configuration MQTT}}", dialogClass: "twinklyMQTT" });
-	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=mqtt&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+	$('#md_modal')
+        .dialog({ title: "{{Configuration MQTT}}" })
+	    .load('index.php?v=d&plugin=kTwinkly&modal=mqtt&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
 });
 
 $('#bt_discover').off('click').on('click',function(){
