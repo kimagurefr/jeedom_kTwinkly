@@ -56,7 +56,7 @@ $("#bt_playlists").off('click').on('click', function() {
                 return true;
             }
         } 
-    }).load('index.php?v=d&plugin=kTwinkly&modal=playlists&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+    }).load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
 });
 
 $("#bt_mqtt").off('click').on('click', function() {

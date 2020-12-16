@@ -73,4 +73,4 @@ $(function() {
     }
 })
 </script>
-<?php include_file('desktop', 'playlists', 'js', 'kTwinkly');?>
+<?php include_file('desktop', 'playlist', 'js', 'kTwinkly');?>
