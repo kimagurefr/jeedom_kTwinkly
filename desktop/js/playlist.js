@@ -44,6 +44,8 @@ $('.deletePlaylist').off('click').on('click', function() {
                         $('#div_alert_playlists').showAlert({message: data.result, level: 'danger'});
                         return;
                     } else {
+                        playlistNotSaved = 0;
+                        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
                         $('#div_alert_playlists').showAlert({message: data.result, level: 'info'});
                     }
                 }
