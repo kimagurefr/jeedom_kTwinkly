@@ -40,6 +40,9 @@ class kTwinklyCmd extends cmd {
         $mac = $eqLogic->getConfiguration('macaddress');
         $hwgen = $eqLogic->getConfiguration('hwgen');
 
+        $autorefresh = $eqLogic->getConfiguration('autorefresh');
+        $eqLogic->setConfiguration('autorefresh', 0);
+
         $action = $this->getLogicalId();
 
         $tempdir = jeedom::getTmpFolder('kTwinkly');
@@ -177,11 +180,17 @@ class kTwinklyCmd extends cmd {
                 try {
                     log::add('kTwinkly','debug',"Changement mode : playlist ip=$ip mac=$mac");
                     $t->set_mode("playlist");
+                    $newstate = $t->get_mode();
+                    if ($eqLogic->checkAndUpdateCmd('state', $newstate, false)) {
+                        $eqLogic->refreshWidget();
+                    }
                 } catch (Exception $e1) {}
             }
         } catch (Exception $e) {
             //log::add('kTwinkly','error', __('Impossible d\'exécuter la commande sur le contrôleur Twinkly : ' . $e->getMessage(), __FILE__));
             throw new Exception(__('Impossible d\'exécuter la commande sur le contrôleur Twinkly : ' . $e->getMessage(), __FILE__));
+        } finally {
+            $eqLogic->setConfiguration('autorefresh', $autorefresh);
         }
     }
 }
