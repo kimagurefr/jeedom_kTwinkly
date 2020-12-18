@@ -214,6 +214,21 @@ class kTwinkly extends eqLogic {
             $stateCmd->save();
         }
 
+        if ($this->getConfiguration("hwgen") == "2") {
+            $playlistCmd = $this->getCmd(null, "playlist");
+            if (!is_object($playlistCmd)) {
+                $playlistCmd = new kTwinklyCmd();
+                $playlistCmd->setName(__('Playlist', __FILE__));
+                $playlistCmd->setEqLogic_id($this->getId());
+                $playlistCmd->setLogicalId('playlist');
+                $playlistCmd->setType('action');
+                $playlistCmd->setSubType('other');
+                $playlistCmd->setIsvisible(1);
+                $playlistCmd->setOrder(7);
+                $playlistCmd->save();
+            }
+        }
+
         $refreshCmd = $this->getCmd(null, "refresh");
         if (!is_object($refreshCmd)) {
             $refreshCmd = new kTwinklyCmd();

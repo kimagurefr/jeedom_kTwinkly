@@ -172,6 +172,12 @@ class kTwinklyCmd extends cmd {
                 if ($changed) {
                     $eqLogic->refreshWidget();
                 }
+            } else if ($action == "playlist") {
+                log::add('kTwinkly','debug','Appel commande playlist');
+                try {
+                    log::add('kTwinkly','debug',"Changement mode : playlist ip=$ip mac=$mac");
+                    $t->set_mode("playlist");
+                } catch (Exception $e1) {}
             }
         } catch (Exception $e) {
             //log::add('kTwinkly','error', __('Impossible d\'exécuter la commande sur le contrôleur Twinkly : ' . $e->getMessage(), __FILE__));
