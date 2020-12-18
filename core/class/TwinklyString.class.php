@@ -80,7 +80,8 @@ class TwinklyString {
         $expiry = $this->token["expiry"];
         if ((new DateTime())->getTimestamp() >= ($expiry - 60)) return FALSE;
 
-        $result = $this->do_api_post('verify','', TRUE,FALSE);
+        //$result = $this->do_api_post('verify','', TRUE,FALSE);
+        $result = $this->do_api_post('echo','{ "m":"" }', TRUE,FALSE);
         if ($result["code"]=="1000") {
             return TRUE;
         } else {

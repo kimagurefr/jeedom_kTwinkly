@@ -473,7 +473,6 @@ try {
         $id = init('id');
         $eqLogic = eqLogic::byId($id);
 
-
         $movieCmd = $eqLogic->getCmd(null, 'movie');
         $lv = $movieCmd->getConfiguration('listValue');
 
@@ -491,12 +490,12 @@ try {
                         $zfilename = $zip->statIndex($i)["name"];
                         if (preg_match('/json$/',strtolower($zfilename))) {
                             $json = json_decode($zip->getFromIndex($i), TRUE);
-                            $unique_id=$json['unique_id'];
+                            $unique_id = $json['unique_id'];
                             break;
                         }
                     }
                 }
-                $moviesList[] = array('unique_id' => $unique_id, 'filename' => $item[0], 'title' => $item[1]);;
+                $moviesList[] = array('unique_id' => $unique_id, 'filename' => $item[0], 'title' => $item[1]);
             }
         }
 
