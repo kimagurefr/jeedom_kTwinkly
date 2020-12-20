@@ -9,24 +9,36 @@ class TwinklyString {
     private $endpoint;
     private $token;
     private $debug;
+    private $debuglog;
 
-    function __construct($ip, $mac, $debug=FALSE)
+    function __construct($ip, $mac, $debug=FALSE, $debuglog="/tmp/kTwinkly.log")
     {
         $this->ip = $ip;
         $this->mac = $mac;
         $this->endpoint = TwinklyString::get_endpoint($ip);
         $this->debug = $debug;
-        $this->debug("Init TwinklyString : mac=$mac ip=$ip debug=$debug");
+        $this->debuglog = $debuglog;
+        $this->debug("TwinklyString::new(mac=$mac ip=$ip)");
     }
 
-    // Ecrit un message  sur stdout si le mode debug est actif
-    private function debug($msg)
+    // Ecrit un message sur stdout et dans la log si le mode debug est actif
+    private function debug($msg, $iserror=FALSE)
     {
         if ($this->debug === TRUE)
         {
-            $msg = '[' . date('Y-m-d H:i:s') . '] ' . $msg . "\n";
-            echo $msg;
-            file_put_contents('/tmp/Twinkly.log',$msg, FILE_APPEND);
+            $msg = '[' . date('Y-m-d H:i:s') . ']' . ($iserror?'[ERROR]':'[DEBUG]') . ' ' . $msg . "\n";
+            //echo $msg;
+            file_put_contents($this->debuglog, $msg, FILE_APPEND);
+        }
+    }
+
+    // Formate un message json pour qu'il soit facilement lisible
+    private function json_print($json)
+    {
+        if (is_array($json) || is_object($json)) {
+            return json_encode($json, JSON_PRETTY_PRINT);
+        } else {
+            return json_encode(json_decode($json), JSON_PRETTY_PRINT);
         }
     }
 
@@ -71,22 +83,24 @@ class TwinklyString {
         return $enc;
     }
 
-    // Teste la validité de l'access token
-	private function is_valid_token()
+
+    // Vérifie la validite du token, ou appelle l'API d'authentification pour en générer un nouveau
+    private function check_token_or_auth()
     {
-        $this->debug('is_valid_token');
-        if ($this->token === NULL) return FALSE;
-
-        $expiry = $this->token["expiry"];
-        if ((new DateTime())->getTimestamp() >= ($expiry - 60)) return FALSE;
-
-        //$result = $this->do_api_post('verify','', TRUE,FALSE);
-        $result = $this->do_api_post('echo','{ "m":"" }', TRUE,FALSE);
-        if ($result["code"]=="1000") {
-            return TRUE;
-        } else {
-            return FALSE;
+        if ($this->token !== NULL) {
+            // Token exists
+            $expiry = $this->token["expiry"];
+            if ((new DateTime())->getTimestamp() - $expiry > 60) {
+                // Token not expired
+                $result = $this->do_api_post('echo','{ "m":"" }', TRUE, FALSE);
+                if ($result["code"]=="1000") {
+                    // Token valid
+                    return TRUE;
+                }
+            }
         }
+        // Token missing, expired or invalid
+        $this->authenticate();
     }
 
     // Envoie une méthode POST à l'API
@@ -98,7 +112,16 @@ class TwinklyString {
 	// $content_type = type de contenu de $postdata
     private function do_api_post($method, $postdata, $authenticated=TRUE, $verify_auth=TRUE, $special_token=NULL, $content_type="application/json")
     {
-        $this->debug('do_api_post : '.$method.' auth='.$authenticated.' verifyauth='.$verify_auth);
+        $this->debug("## CALL TWINKLY API [POST : $method] - auth=$authenticated verifyauth=$verify_auth");
+        /*
+        if ($content_type == "application/json") {
+            $this->debug('POST data :\n' . $this->json_print($postdata));
+        } else {
+            $this->debug('POST data : ' . $postdata);
+        }
+        */
+        $this->debug('POST data : ' . $postdata);
+
         $ch = curl_init($this->endpoint . "/" . $method);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
@@ -107,10 +130,7 @@ class TwinklyString {
             if ($special_token === NULL)
             {
                 if ($verify_auth) {
-                    if ($this->is_valid_token() === FALSE)
-                    {
-                        $this->authenticate();
-                    }
+                    $this->check_token_or_auth();
                 }
                 $auth_token = $this->token["auth_token"];
             } else {
@@ -121,10 +141,13 @@ class TwinklyString {
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: " . $content_type, "Content-Length: ".strlen($postdata)));
         }
         $data = curl_exec($ch);
-        $result = json_decode($data,true) or NULL;
+        $result = json_decode($data, true) or NULL;
+        //$this->debug("API RESULT:\n" . $this->json_print($data) . "\n");
+        $this->debug("API RESULT : $data");
         curl_close($ch);
 
         if (is_null($result)) {
+            $this->debug("Twinkly API error [POST : $method] data=" . print_r($data,TRUE), TRUE);
             throw new Exception("Twinkly API error [POST : $method] data=" . print_r($data,TRUE));
         }
         return $result;
@@ -135,24 +158,25 @@ class TwinklyString {
 	// $authenticated = indique si la requête doit être envoyée avec un access token (TRUE) ou s'il s'agit d'une requête non authentifiée (FALSE)
     private function do_api_get($method, $authenticated=TRUE)
     {
-        $this->debug('do_api_get : '.$method . ' auth='.$authenticated);
+        $this->debug("## CALL TWINKLY API [GET : $method] - auth=$authenticated");
         $ch = curl_init($this->endpoint . "/" . $method);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         if ($authenticated === TRUE) {
-            if ($this->is_valid_token() === FALSE)
-            {
-                $this->authenticate();
-            }
+            $this->check_token_or_auth();
             $auth_token = $this->token["auth_token"];
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("X-Auth-Token: " . $auth_token));
         }
-        $result = json_decode(curl_exec($ch),true) or NULL;
+        $data = curl_exec($ch);
+        $result = json_decode($data, true) or NULL;
+        //$this->debug("API RESULT:\n" . $this->json_print($data) . "\n");
+        $this->debug("API RESULT : $data");
         curl_close($ch);
 
         if ($result) {
             return $result;
         } else {
+            $this->debug("Twinkly API error [GET : $method] data=" . print_r($data,TRUE), TRUE);
             throw new Exception("Twinkly API error [GET : $method]");
         }
     }
@@ -160,24 +184,25 @@ class TwinklyString {
     // Envoie une methode DELETE à l'API
     private function do_api_delete($method, $authenticated=TRUE)
     {
-        $this->debug('do_api_delete : '.$method . ' auth='.$authenticated);
+        $this->debug("## CALL TWINKLY API [DELETE : $method] - auth=$authenticated");
         $ch = curl_init($this->endpoint . "/" . $method);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         if ($authenticated === TRUE) {
-            if ($this->is_valid_token() === FALSE)
-            {
-                $this->authenticate();
-            }
+            $this->check_token_or_auth();
             $auth_token = $this->token["auth_token"];
             curl_setopt($ch, CURLOPT_HTTPHEADER, array("X-Auth-Token: " . $auth_token));
         }
-        $result = json_decode(curl_exec($ch),true) or NULL;
+        $data = curl_exec($ch);
+        $result = json_decode($data, true) or NULL;
+        //$this->debug("API RESULT:\n" . $this->json_print($data) . "\n");
+        $this->debug("API RESULT : $data");
         curl_close($ch);
 
         if ($result) {
             return $result;
         } else {
+            $this->debug("Twinkly API error [DELETE : $method] data=" . print_r($data,TRUE), TRUE);
             throw new Exception("Twinkly API error [DELETE : $method]");
         }
     }
@@ -187,7 +212,7 @@ class TwinklyString {
 	// et déconnectera donc les autres clients déjà connectés (notamment l'application mobile)
     private function authenticate()
     {
-        $this->debug('authenticate');
+        $this->debug('#### Get new Auth token');
         $challenge = random_bytes(32);
         $b64_challenge = base64_encode($challenge);
 
@@ -198,13 +223,10 @@ class TwinklyString {
         $auth_expiry = $result["authentication_token_expires_in"];
         $challenge_response = $result["challenge-response"];
 
-        //$this->debug("token = " . $auth_token);
-        //$this->debug("challenge-response = " . $challenge_response);
-
         $dk = $this->derive_key($this::SHARED_KEY_CHALLENGE, $this->mac);
         $enc = $this->rc4($challenge, $dk);
         $rsp = sha1($enc);
-        //$this->debug("computed response = " . $rsp);"
+        $this->debug("Computed challenge response = " . $rsp);
 
         if ($rsp != $challenge_response) {
             $this->debug("Authentication WARNING : incorrect challenge-response!!!");
@@ -231,6 +253,7 @@ class TwinklyString {
     // Renvoie la version actuelle du firmware (méthode statique)
     public static function get_firmware_version($ip)
     {
+        $this->debug("TwinklyString::get_firmware_version($ip)");
         $endpoint = TwinklyString::get_endpoint($ip);
         $ch = curl_init($endpoint . "/fw/version");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -245,7 +268,7 @@ class TwinklyString {
     // Renvoie le mode actif : off, movie, playlist
     public function get_mode()
     {
-        $this->debug('get_mode');
+        $this->debug('TwinklyString::get_mode');
         $result = $this->do_api_get("led/mode");
         if ($result["code"] != "1000") {
             $this->debug("get_mode error...");
@@ -257,7 +280,7 @@ class TwinklyString {
     // Active le mode indiqué : off, movie, playlist
     public function set_mode($mode)
     {
-        $this->debug('set_mode : '.$mode);
+        $this->debug("TwinklyString::set_mode($mode)");
         $json = json_encode(array("mode" => $mode));
         $result = $this->do_api_post("led/mode", $json);
 
@@ -271,7 +294,7 @@ class TwinklyString {
     // Renvoie le niveau de luminosité de la guirlande (de 0 à 100)
     public function get_brightness()
     {
-        $this->debug("get_brightness");
+        $this->debug("TwinklyString::get_brightness");
         $result = $this->do_api_get("led/out/brightness");
         if ($result["code"] != "1000") {
             $this->debug("get_brightness error...");
@@ -283,7 +306,7 @@ class TwinklyString {
     // Choisit le niveau de luminosité de la guirlande (de 0 à 100)
 	public function set_brightness($value)
     {
-        $this->debug('set_brightness : '.$value);
+        $this->debug("TwinklyString::set_brightness($value)");
         $current_mode = $this->get_mode();
         if ($current_mode == "movie")
         {
@@ -303,7 +326,7 @@ class TwinklyString {
     // Renvoie les informations sur la guirlande
     public function get_details()
     {
-        $this->debug('get_details');
+        $this->debug('TwinklyString::get_details');
         return $result = $this->do_api_get("gestalt", FALSE);
     }
 
@@ -311,12 +334,14 @@ class TwinklyString {
     public function upload_movie($movie, $leds_number, $frames_number, $frame_delay)
     {
         if (ctype_print($movie)) {
+            $this->debug("TwinklyString::upload_movie($movie, $leds_number, $frames_number, $frame_delay)");
             $movie_data = file_get_contents($movie);
             if ($movie_data === false) {
-                $this->debug("movie file not found");
+                $this->debug("upload_movie : file not found", TRUE);
                 throw new Exception("upload_movie error : file not found");
             }
         } else {
+            $this->debug("TwinklyString::upload_movie(bindata, $leds_number, $frames_number, $frame_delay)");
             $movie_data = $movie;
         }
 
@@ -327,14 +352,14 @@ class TwinklyString {
         $json = json_encode(array());
         $result = $this->do_api_post("led/reset", $json);
         if ($result["code"] != "1000") {
-            $this->debug("upload_movie step 1 error...");
+            $this->debug("upload_movie step 1 error...", TRUE);
             throw new Exception("upload_movie step 1 error [POST : led/reset] data=" . print_r($result,TRUE));
         }
 
         $this->debug("upload stage 2 (upload data)");
         $result = $this->do_api_post("led/movie/full", $movie_data, TRUE, FALSE, NULL, "application/octet-stream");
         if ($result["code"] != "1000" || $result["frames_number"] != $frames_number) {
-            $this->debug("upload_movie step 2 error..." . print_r($result, TRUE));
+            $this->debug("upload_movie step 2 error...", TRUE);
             throw new Exception("upload_movie step 2 error [POST : led/movie/full] data=" . print_r($result,TRUE));
         }
 
@@ -342,7 +367,7 @@ class TwinklyString {
         $json = json_encode(array("frame_delay" => $frame_delay, "leds_number" => $leds_number, "frames_number" => $frames_number));
         $result = $this->do_api_post("led/movie/config", $json, TRUE, FALSE);
         if ($result["code"] != "1000") {
-            $this->debug("upload_movie step 3 error...");
+            $this->debug("upload_movie step 3 error...", TRUE);
             throw new Exception("upload_movie step 3 error [POST : led/movie/config] data=" . print_r($result,TRUE));
         }
 
@@ -350,7 +375,7 @@ class TwinklyString {
         $json = json_encode(array());
         $result = $this->do_api_post("led/reset", $json, TRUE, FALSE);
         if ($result["code"] != "1000") {
-            $this->debug("upload_movie step 4 error...");
+            $this->debug("upload_movie step 4 error...", TRUE);
             throw new Exception("upload_movie step 4 error [POST : led/reset] data=" . print_r($result,TRUE));
         }
 
@@ -361,21 +386,23 @@ class TwinklyString {
     }
 
     public function upload_movie2($movie_data, $jsonstrparameters) {
-        $this->debug("upload movie GEN2");
-
-        $jsonparameters = json_decode($jsonstrparameters, TRUE);
-        if ($jsonparameters === false) {
-            $this->debug('invalid movie parameters');
-            throw new Exception("upload_movie2 error : invalid movie parameters");
-        }
 
         // Si un nom de fichier est passé, on le charge
         if(ctype_print($movie_data)) {
+            $this->debug("TwinklyString::upload_movie2($movie_data, $jsonstrparameters)");
             $movie_data = file_get_contents($movie_data);
             if ($movie_data === false) {
                 $this->debug("movie file not found");
                 throw new Exception("upload_movie error : file not found");
             }
+        } else {
+            $this->debug("TwinklyString::upload_movie2(bindata, $jsonstrparameters)");
+        }
+
+        $jsonparameters = json_decode($jsonstrparameters, TRUE);
+        if ($jsonparameters === false) {
+            $this->debug('upload_movie2 : invalid movie parameters', TRUE);
+            throw new Exception("upload_movie2 error : invalid movie parameters");
         }
 
         $this->set_mode('off');
@@ -392,7 +419,7 @@ class TwinklyString {
         if ($found == FALSE) {
             $this->debug("upload : add movie to device");
             if($this->add_movie($movie_data, $jsonstrparameters) !== TRUE) {
-                $this->debug("upload_movie2 add movie  error...");
+                $this->debug("upload_movie2 add movie  error...", TRUE);
                 throw new Exception("upload_movie2 add movie error [POST : movies/new] data=" . print_r($result,TRUE));
             }
         }    
@@ -400,7 +427,7 @@ class TwinklyString {
         $this->debug("upload : set current movie");
         $result = $this->set_current_movie($jsonparameters["unique_id"]);
         if ($result["code"] != "1000") {
-            $this->debug("upload_movie2 set movie error...");
+            $this->debug("upload_movie2 set movie error...", TRUE);
             throw new Exception("upload_movie2 set movie error [POST : movies/current] data=" . print_r($result,TRUE));
         }
 
@@ -462,6 +489,8 @@ class TwinklyString {
     // Définit la configuration MQTT du contrôleur
     public function set_mqtt_configuration($broker_ip, $broker_port, $client_id, $mqtt_user)
     {
+        $this->debug("TwinklyString::set_mqtt_configuration($broker_ip, $broker_port, $client_id, $mqtt_user)");
+
         $json = json_encode(array(
             "broker_host" => $broker_ip,
             "broker_port" => $broker_port,
@@ -480,7 +509,7 @@ class TwinklyString {
 
     public function get_movies()
     {
-        $this->debug("get_movies");
+        $this->debug("TwinklyString::get_movies");
         $result = $this->do_api_get("movies");
         if ($result["code"] != "1000") {
             $this->debug("get_movies error...");
@@ -491,7 +520,7 @@ class TwinklyString {
 
     public function delete_movies()
     {
-        $this->debug("delete_movies");
+        $this->debug("TwinklyString::delete_movies");
         $result = $this->do_api_delete("movies");
         if ($result["code"] != "1000") {
             $this->debug("delete_movies error...");
@@ -502,7 +531,7 @@ class TwinklyString {
 
     public function get_current_movie()
     {
-        $this->debug("get_current_movie");
+        $this->debug("TwinklyString::get_current_movie");
         $result = $this->do_api_get("movies/current");
         if ($result["code"] != "1000") {
             $this->debug("get_current_movie error...");
@@ -513,7 +542,7 @@ class TwinklyString {
 
     public function set_current_movie($movieId)
     {
-        $this->debug('set_current_movie');
+        $this->debug('TwinklyString::set_current_movie');
         $json = json_encode(array("unique_id" => $movieId));
         $result = $this->do_api_post("movies/current", $json);
         if ($result["code"] != "1000") {
@@ -525,7 +554,7 @@ class TwinklyString {
 
     public function get_current_playlist()
     {
-        $this->debug("get_current_playlist");
+        $this->debug("TwinklyString::get_current_playlist");
         $result = $this->do_api_get("playlist");
         if ($result["code"] != "1000") {
             $this->debug("get_current_playlist error...");
@@ -536,7 +565,7 @@ class TwinklyString {
 
     public function update_playlist($json)
     {
-        $this->debug("update_playlist");
+        $this->debug("TwinklyString::update_playlist($json)");
         $result = $this->do_api_post("playlist", $json);
         if ($result["code"] != "1000") {
             $this->debug("update_playlist error...");
@@ -547,13 +576,13 @@ class TwinklyString {
 
     public function add_movie($movie_data, $jsondata)
     {
-        $this->debug('add_movie');
+        $this->debug("TwinklyString::add_movie(bindata, $jsondata)");
         $jsonparameters = json_decode($jsondata, TRUE);
 
         // Vérifie la place disponible
         $result = $this->do_api_get("movies");
         if ($result["code"] != "1000") {
-            $this->debug("add_movie check available memory error...");
+            $this->debug("TwinklyString::add_movie check available memory error...", TRUE);
             throw new Exception("add_movie check available memory error [GET : movies] data=" . print_r($result,TRUE));
         }
 
@@ -561,19 +590,19 @@ class TwinklyString {
         $size = intval($jsonparameters["frames_number"]);
 
         if($size > $capacity) {
-            $this->debug("add_movie : not enough memory left on controler (size = " . $size . " / remaining = " . $capacity . ")");
+            $this->debug("TwinklyString::add_movie : not enough memory left on controler (size = " . $size . " / remaining = " . $capacity . ")", TRUE);
             throw new Exception("add_movie : not enough memory left on controler (size = " . $size . " / remaining = " . $capacity . ")");
         }
 
         $result = $this->do_api_post("movies/new", $jsondata);
         if ($result["code"] != "1000") {
-            $this->debug("add_movie step 1 error...");
+            $this->debug("add_movie step 1 error...", TRUE);
             throw new Exception("add_movie step 1 error [POST : movies/new] data=" . print_r($result,TRUE));
         }
 
         $result = $this->do_api_post("movies/full", $movie_data, TRUE, FALSE, NULL, "application/octet-stream");
         if ($result["code"] != "1000" || $result["frames_number"] != $jsonparameters["frames_number"]) {
-            $this->debug("add_movie step 2 error..." . print_r($result, TRUE));
+            $this->debug("add_movie step 2 error..." . print_r($result, TRUE), TRUE);
             throw new Exception("add_movie step 2 error [POST : movies/full] data=" . print_r($result,TRUE));
         }
 
@@ -582,7 +611,7 @@ class TwinklyString {
 
     public function get_network_status()
     {
-        $this->debug("get_network_status");
+        $this->debug("TwinklyString::get_network_status");
         $result = $this->do_api_get("network/status");
         if ($result["code"] != "1000") {
             $this->debug("get_network_status error...");
@@ -593,7 +622,7 @@ class TwinklyString {
 
     public function delete_playlist()
     {
-        $this->debug("delete_playlist");
+        $this->debug("TwinklyString::delete_playlist");
         $result = $this->do_api_delete("playlist");
         if ($result["code"] != "1000") {
             $this->debug("delete_playlist error...");
@@ -616,7 +645,7 @@ class TwinklyString {
     // Le format d'entrée est un tableau de ["unique_id","json","bin","duration"]
     public function add_to_playlist($movies, $newplaylist = FALSE)
     {
-        $this->debug('add_to_playlist');
+        $this->debug('TwinklyString::add_to_playlist');
         if (is_array($movies) == TRUE) {
             try {
                 $current_movie = $this->get_current_movie();
@@ -682,7 +711,7 @@ class TwinklyString {
 
             return TRUE;
         } else {
-            $this->debug('add_to_playlist : wrong parameter format');
+            $this->debug('add_to_playlist : wrong parameter format', TRUE);
             throw new Exception("add_to_playlist error - wrong parameter format");
         }
     }

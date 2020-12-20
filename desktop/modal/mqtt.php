@@ -29,7 +29,13 @@ $eqLogic = eqLogic::byId($eqId);
 $ip = $eqLogic->getConfiguration('ipaddress');
 $mac = $eqLogic->getConfiguration('macaddress');
 
-$t = new TwinklyString($ip, $mac, FALSE);
+$debug = FALSE;
+$additionalDebugLog = __DIR__ . '/../../../../log/kTwinkly_debug';
+if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
+    $debug = TRUE;
+}
+
+$t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
 $mqtt = $t->get_mqtt_configuration();
 
 $broker_ip = $mqtt["broker_host"];

@@ -170,8 +170,14 @@ try {
         En V3 : indiquer l'argument 'true' pour contrôler le token d'accès Jeedom
         En V4 : autoriser l'exécution d'une méthode 'action' en GET en indiquant le(s) nom(s) de(s) action(s) dans un tableau en argument
     */  
-    ajax::init(array('uploadMovie','saveMovie','deleteMovie','discoverDevices','updateMqtt'));
+    ajax::init(array('uploadMovie','saveMovie','deleteMovie','createPlaylist','deletePlaylist','clearMemory','changeproxystate','stopProxy','discoverDevices','updateMqtt','copiecaptures','getDetailedPlaylist'));
 
+    $debug = FALSE;
+    $additionalDebugLog = __DIR__ . '/../../../../log/kTwinkly_debug';
+    if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
+        $debug = TRUE;
+    }
+    
     if (init('action') == 'uploadMovie') {
         $id = init(id);
         $eqLogic = eqLogic::byId($id);
@@ -350,7 +356,7 @@ try {
         }
 
         if (sizeof($movies) > 0) {
-            $t = new TwinklyString($ip, $mac, FALSE);
+            $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
             if ($t->create_new_playlist($movies)) {
                 ajax::success("La playlist de " . sizeof($movies) . " élements a été créée avec succès.");
                 return;
@@ -366,7 +372,7 @@ try {
         $ip = $eqLogic->getConfiguration("ipaddress");
         $mac = $eqLogic->getConfiguration("macaddress");
 
-        $t = new TwinklyString($ip, $mac, FALSE);
+        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
         $t->delete_playlist();
 
         ajax::success("La playlist a été effacée.");
@@ -379,7 +385,7 @@ try {
         $ip = $eqLogic->getConfiguration("ipaddress");
         $mac = $eqLogic->getConfiguration("macaddress");
 
-        $t = new TwinklyString($ip, $mac, FALSE);
+        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
         $t->set_mode('off');
         $t->delete_movies();
 
@@ -455,7 +461,7 @@ try {
 	    $client_id = $_POST["mqttClientId"];
 	    $mqtt_user = $_POST["mqttUser"];
 
-	    $t = new TwinklyString($ip, $mac, FALSE);
+	    $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
 	    //$t->set_mqtt_configuration($broker_ip, $broker_port, $client_id, $mqtt_user);
 
 
