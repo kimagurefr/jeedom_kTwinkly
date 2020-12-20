@@ -83,8 +83,13 @@ class kTwinkly extends eqLogic {
 	    }
 
 	    try {
+            $debug = FALSE;
+            $additionalDebugLog = __DIR__ . '/../../../../log/kTwinkly_debug';
+            if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
+                $debug = TRUE;
+            }
             // Récupérations des informations sur l'équipement via l'API
-            $t = new TwinklyString($ip, $mac, FALSE);
+            $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
 
             $info = $t->get_details();
             $this->setConfiguration('productcode',$info["product_code"]);
@@ -379,7 +384,12 @@ class kTwinkly extends eqLogic {
                     $ip = $eqLogic->getConfiguration('ipaddress');
                     $mac = $eqLogic->getConfiguration('macaddress');
     
-                    $t = new TwinklyString($ip, $mac, FALSE);
+                    $debug = FALSE;
+                    $additionalDebugLog = __DIR__ . '/../../../../log/kTwinkly_debug';
+                    if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
+                        $debug = TRUE;
+                    }
+                    $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
     
                     $state = $t->get_mode();
                     $brightness = $t->get_brightness();
@@ -409,7 +419,12 @@ class kTwinkly extends eqLogic {
         $eqLogic = eqLogic::byId($_id);
         $ip = $eqLogic->getConfiguration('ipaddress');
         $mac = $eqLogic->getConfiguration('macaddress');
-        $t = new TwinklyString($ip, $mac, FALSE);
+        $debug = FALSE;
+        $additionalDebugLog = __DIR__ . '/../../../../log/kTwinkly_debug';
+        if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
+            $debug = TRUE;
+        }
+        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
         $playlist = $t->get_current_playlist();
         return $playlist;
     }
