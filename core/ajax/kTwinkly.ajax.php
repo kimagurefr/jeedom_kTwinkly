@@ -357,7 +357,9 @@ try {
 
         if (sizeof($movies) > 0) {
             $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+            $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
             if ($t->create_new_playlist($movies)) {
+                $eqLogic->setConfiguration('auth_token', $t->get_token());
                 ajax::success("La playlist de " . sizeof($movies) . " élements a été créée avec succès.");
                 return;
             }
@@ -373,7 +375,9 @@ try {
         $mac = $eqLogic->getConfiguration("macaddress");
 
         $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+        $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
         $t->delete_playlist();
+        $eqLogic->setConfiguration('auth_token', $t->get_token());
 
         ajax::success("La playlist a été effacée.");
     }
@@ -386,8 +390,10 @@ try {
         $mac = $eqLogic->getConfiguration("macaddress");
 
         $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+        $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
         $t->set_mode('off');
         $t->delete_movies();
+        $eqLogic->setConfiguration('auth_token', $t->get_token());
 
         ajax::success("Les animations en mémoire ont été supprimées.");
     }
@@ -462,8 +468,9 @@ try {
 	    $mqtt_user = $_POST["mqttUser"];
 
 	    $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+        $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
 	    //$t->set_mqtt_configuration($broker_ip, $broker_port, $client_id, $mqtt_user);
-
+        $eqLogic->setConfiguration('auth_token', $t->get_token());
 
 	    log::add('kTwinkly','debug',"(désactivé) Mise à jour MQTT $ip / $mac => $broker_ip:$broker_port");
 	    ajax::success();

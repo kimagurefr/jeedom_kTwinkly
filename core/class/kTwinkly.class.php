@@ -427,7 +427,9 @@ class kTwinkly extends eqLogic {
             $debug = TRUE;
         }
         $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+        $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
         $playlist = $t->get_current_playlist();
+        $eqLogic->setConfiguration('auth_token', $t->get_token());
         return $playlist;
     }
 

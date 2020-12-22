@@ -56,6 +56,7 @@ class kTwinklyCmd extends cmd {
 
         try {
             $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+            $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
 
             if ($action == "on") {
                 // Allumer la guirlande. On active le mode "movie".
@@ -80,6 +81,7 @@ class kTwinklyCmd extends cmd {
 
                 $newstate = $t->get_mode();
                 $newbrightness = $t->get_brightness();
+                $eqLogic->setConfiguration('auth_token', $t->get_token());
 
                 $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                 $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
@@ -94,6 +96,7 @@ class kTwinklyCmd extends cmd {
                 $t->set_mode("off");
                 $newstate = $t->get_mode();
                 $newbrightness = $t->get_brightness();
+                $eqLogic->setConfiguration('auth_token', $t->get_token());
 
                 $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                 $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
@@ -109,6 +112,7 @@ class kTwinklyCmd extends cmd {
     
                     $t->set_brightness($value);
                     $newbrightness = $t->get_brightness();
+                    $eqLogic->setConfiguration('auth_token', $t->get_token());
 
                     $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
                     if ($changed) {
@@ -166,6 +170,7 @@ class kTwinklyCmd extends cmd {
                             log::add('kTwinkly','error','Impossible d\'ouvrir le fichier zip de l\'animation');
                         }
                         $zip->close();
+                        $eqLogic->setConfiguration('auth_token', $t->get_token());
                     } else {
                         log::add('kTwinkly','error','Fichier introuvable : ' . $filepath);
                     }
@@ -176,6 +181,7 @@ class kTwinklyCmd extends cmd {
 
                 $newstate = $t->get_mode();
                 $newbrightness = $t->get_brightness();
+                $eqLogic->setConfiguration('auth_token', $t->get_token());
 
                 $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                 $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
@@ -188,6 +194,7 @@ class kTwinklyCmd extends cmd {
                     log::add('kTwinkly','debug',"Changement mode : playlist ip=$ip mac=$mac");
                     $t->set_mode("playlist");
                     $newstate = $t->get_mode();
+                    $eqLogic->setConfiguration('auth_token', $t->get_token());
                     if ($eqLogic->checkAndUpdateCmd('state', $newstate, false)) {
                         $eqLogic->refreshWidget();
                     }
