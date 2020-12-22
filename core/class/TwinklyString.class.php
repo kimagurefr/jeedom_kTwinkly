@@ -253,7 +253,6 @@ class TwinklyString {
     // Renvoie la version actuelle du firmware (méthode statique)
     public static function get_firmware_version($ip)
     {
-        $this->debug("TwinklyString::get_firmware_version($ip)");
         $endpoint = TwinklyString::get_endpoint($ip);
         $ch = curl_init($endpoint . "/fw/version");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
