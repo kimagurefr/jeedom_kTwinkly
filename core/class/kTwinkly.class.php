@@ -44,11 +44,13 @@ class kTwinkly extends eqLogic {
      */
     public static function cronDaily() {
         try {
-            if (date('i') == 0 && date('s') < 10) {
-                sleep(10);
+            if (intval(config::byKey('refreshFrequency','kTwinkly')) > 0) {
+                if (date('i') == 0 && date('s') < 10) {
+                    sleep(10);
+                }
+                $plugin = plugin::byId(__CLASS__);
+                $plugin->deamon_start(true);
             }
-            $plugin = plugin::byId(__CLASS__);
-            $plugin->deamon_start(true);
         } catch (\Exception $e) {
             log::add('kTwinkly','debug','error in cronDaily : ' . $e->getMessage());
         }
@@ -425,7 +427,9 @@ class kTwinkly extends eqLogic {
             $debug = TRUE;
         }
         $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+        $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
         $playlist = $t->get_current_playlist();
+        $eqLogic->setConfiguration('auth_token', $t->get_token());
         return $playlist;
     }
 

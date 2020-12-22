@@ -24,7 +24,7 @@ if (!isConnect('admin')) {
 <form class="form-horizontal">
     <fieldset>
         <div class="form-group">
-            <label class="col-lg-4 control-label">{{Fréquence de rafraichissement automatique (en secondes)}}</label>
+            <label class="col-lg-4 control-label">{{Fréquence de rafraichissement automatique (en secondes, 0 pour désactiver)}}</label>
             <div class="col-lg-4">
                 <input id="ktrefreshfreq" class="configKey form-control" data-l1key="refreshFrequency" placeholder="10"/>
             </div>

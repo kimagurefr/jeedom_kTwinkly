@@ -18,7 +18,7 @@ class TwinklyString {
         $this->endpoint = TwinklyString::get_endpoint($ip);
         $this->debug = $debug;
         $this->debuglog = $debuglog;
-        $this->debug("TwinklyString::new(mac=$mac ip=$ip)");
+        $this->debug("TwinklyString::new($mac, $ip)");
     }
 
     // Ecrit un message sur stdout et dans la log si le mode debug est actif
@@ -714,6 +714,26 @@ class TwinklyString {
             $this->debug('add_to_playlist : wrong parameter format', TRUE);
             throw new Exception("add_to_playlist error - wrong parameter format");
         }
+    }
+
+    public function set_token($jsontoken) {
+        if ($jsontoken !== NULL) {
+            $tokendata = json_decode($jsontoken, TRUE);
+            if (isset($tokendata['auth_token'][0])) {
+                if (intval($tokendata['expiry']) > 0) {
+                    $this->token = $tokendata;
+                    return TRUE;
+                }
+            }
+            throw new Exception('set_token error - invalid token json string');
+        } else {
+            return FALSE;
+        }
+    }
+
+
+    public function get_token() {
+        return json_encode($this->token);
     }
 }
 ?>
