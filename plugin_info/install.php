@@ -45,7 +45,6 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
         config::save('mitmPort','14233','kTwinkly');
     }
 
-    if (intval($refreshFrequency) > 0) {
         log::add('kTwinkly','debug','Update cron refreshstate');
         $cron = cron::byClassAndFunction('kTwinkly', 'refreshstate');
         if (!is_object($cron)) {
@@ -54,18 +53,17 @@ require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
         $cron->setClass('kTwinkly');
         $cron->setFunction('refreshstate');
         $cron->setDeamon(1);
-        $cron->setDeamonSleepTime(intval($refreshFrequency));
         $cron->setSchedule('* * * * *');
         $cron->setTimeout(1440);
-        $cron->setEnable(1);
+        if (intval($refreshFrequency) > 0) {
+            $cron->setDeamonSleepTime(intval($refreshFrequency));
+            $cron->setEnable(1);
+        } else {
+            $cron->setDeamonSleepTime(3600); 
+            $cron->setEnable(0); 
+        }
         $cron->save();
         kTwinkly::deamon_start();
-    } else {
-        log::add('kTwinkly','debug','Remove cron refreshstate');
-        $cron = cron::byClassAndFunction('kTwinkly', 'refreshstate');
-        if (is_object($cron)) {
-            $cron->remove();
-        }
     }
   }
 

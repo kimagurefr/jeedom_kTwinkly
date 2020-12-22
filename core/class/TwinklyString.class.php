@@ -90,16 +90,27 @@ class TwinklyString {
         if ($this->token !== NULL) {
             // Token exists
             $expiry = $this->token["expiry"];
-            if ((new DateTime())->getTimestamp() - $expiry > 60) {
+            if ($expiry - (new DateTime())->getTimestamp() > 60) {
                 // Token not expired
                 $result = $this->do_api_post('echo','{ "m":"" }', TRUE, FALSE);
-                if ($result["code"]=="1000") {
+                $ch = curl_init($this->endpoint . "/echo");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                $postdata = '{ "m":"" }';
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Length: ".strlen($postdata), "X-Auth-Token: " . $this->token["auth_token"]));
+                $data = curl_exec($ch);
+                curl_close($ch);
+                $result = json_decode($data, true) or NULL;
+                if(!is_null($result) && $result["code"]=="1000") {
                     // Token valid
+                    $this->debug("Reuse current token");
                     return TRUE;
                 }
             }
         }
         // Token missing, expired or invalid
+        $this->debug("Current auth token invalid or expired. Authentication required");
         $this->authenticate();
     }
 
@@ -253,7 +264,6 @@ class TwinklyString {
     // Renvoie la version actuelle du firmware (méthode statique)
     public static function get_firmware_version($ip)
     {
-        $this->debug("TwinklyString::get_firmware_version($ip)");
         $endpoint = TwinklyString::get_endpoint($ip);
         $ch = curl_init($endpoint . "/fw/version");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -714,26 +724,6 @@ class TwinklyString {
             $this->debug('add_to_playlist : wrong parameter format', TRUE);
             throw new Exception("add_to_playlist error - wrong parameter format");
         }
-    }
-
-    public function set_token($jsontoken) {
-        if ($jsontoken !== NULL) {
-            $tokendata = json_decode($jsontoken, TRUE);
-            if (isset($tokendata['auth_token'][0])) {
-                if (intval($tokendata['expiry']) > 0) {
-                    $this->token = $tokendata;
-                    return TRUE;
-                }
-            }
-            throw new Exception('set_token error - invalid token json string');
-        } else {
-            return FALSE;
-        }
-    }
-
-
-    public function get_token() {
-        return json_encode($this->token);
     }
 }
 ?>
