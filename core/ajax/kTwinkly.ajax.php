@@ -356,7 +356,7 @@ try {
         }
 
         if (sizeof($movies) > 0) {
-            $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+            $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
             $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
             if ($t->create_new_playlist($movies)) {
                 $eqLogic->setConfiguration('auth_token', $t->get_token());
@@ -374,7 +374,7 @@ try {
         $ip = $eqLogic->getConfiguration("ipaddress");
         $mac = $eqLogic->getConfiguration("macaddress");
 
-        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
         $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
         $t->delete_playlist();
         $eqLogic->setConfiguration('auth_token', $t->get_token());
@@ -389,7 +389,7 @@ try {
         $ip = $eqLogic->getConfiguration("ipaddress");
         $mac = $eqLogic->getConfiguration("macaddress");
 
-        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
         $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
         $t->set_mode('off');
         $t->delete_movies();
@@ -467,7 +467,7 @@ try {
 	    $client_id = $_POST["mqttClientId"];
 	    $mqtt_user = $_POST["mqttUser"];
 
-	    $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+	    $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
         $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
 	    //$t->set_mqtt_configuration($broker_ip, $broker_port, $client_id, $mqtt_user);
         $eqLogic->setConfiguration('auth_token', $t->get_token());

@@ -91,7 +91,7 @@ class kTwinkly extends eqLogic {
                 $debug = TRUE;
             }
             // Récupérations des informations sur l'équipement via l'API
-            $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+            $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
 
             $info = $t->get_details();
             $this->setConfiguration('productcode',$info["product_code"]);
@@ -288,7 +288,11 @@ class kTwinkly extends eqLogic {
 		    }
 		    $eqLogic->setConfiguration('ipaddress', $d["ip"]);
 		    $eqLogic->setConfiguration('macaddress', $d["mac"]);
-            $eqLogic->setConfiguration('autorefresh', 1);
+            if (intval(config::byKey('refreshFrequency','kTwinkly')) > 0) {
+                $eqLogic->setConfiguration('autorefresh', 1);
+            } else {
+                $eqLogic->setConfiguration('autorefresh', 0);
+            }
             $eqLogic->setConfiguration('productcode',$d["details"]["product_code"]);
             $eqLogic->setConfiguration('productname',get_product_info($d["details"]["product_code"])["commercial_name"]);
             $eqLogic->setConfiguration('productimage',get_product_info($d["details"]["product_code"])["pack_preview"]);
@@ -367,6 +371,8 @@ class kTwinkly extends eqLogic {
             self::$_eqLogics = self::byType('kTwinkly');
         }
 
+        $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
+
         foreach (self::$_eqLogics as &$eqLogic) {
             if ($_eqLogic_id != null && $_eqLogic_id != $eqLogic->getId()) {
                 continue;
@@ -379,7 +385,7 @@ class kTwinkly extends eqLogic {
             }
 
             // On vérifie si l'autorefresh est actif
-            if ($eqLogic->getConfiguration('autorefresh')==1) {
+            if (intval($refreshFrequency) > 0 && $eqLogic->getConfiguration('autorefresh')==1) {
                 try {
                     $changed = false;
     
@@ -391,7 +397,7 @@ class kTwinkly extends eqLogic {
                     if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
                         $debug = TRUE;
                     }
-                    $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+                    $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
     
                     $state = $t->get_mode();
                     $brightness = $t->get_brightness();
@@ -426,10 +432,8 @@ class kTwinkly extends eqLogic {
         if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
             $debug = TRUE;
         }
-        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
-        $t->set_token($eqLogic->getConfiguration('auth_token', NULL));
+        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
         $playlist = $t->get_current_playlist();
-        $eqLogic->setConfiguration('auth_token', $t->get_token());
         return $playlist;
     }
 

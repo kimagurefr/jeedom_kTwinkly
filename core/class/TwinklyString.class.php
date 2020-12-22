@@ -11,7 +11,7 @@ class TwinklyString {
     private $debug;
     private $debuglog;
 
-    function __construct($ip, $mac, $debug=FALSE, $debuglog="/tmp/kTwinkly.log")
+    function __construct($ip, $mac, $debug=FALSE, $debuglog="/tmp/kTwinkly.log", $cachepath="/tmp")
     {
         $this->ip = $ip;
         $this->mac = $mac;
@@ -19,6 +19,20 @@ class TwinklyString {
         $this->debug = $debug;
         $this->debuglog = $debuglog;
         $this->debug("TwinklyString::new($mac, $ip)");
+        $this->cache = $cachepath . '/twinkly_auth.txt';
+        $token_data = file_get_contents($this->cache);
+        if ($token_data !== FALSE) {
+            $this->debug('Reading auth data from ' . $this->cache . ' : ' . $token_data);
+            $json_data = json_decode($token_data, TRUE);
+            if ($json_data) {
+                $this->token = $json_data;
+            }
+        }
+    }
+
+    function __destruct()
+    {
+        file_put_contents($this->cache, json_encode($this->token));
     }
 
     // Ecrit un message sur stdout et dans la log si le mode debug est actif
@@ -87,20 +101,39 @@ class TwinklyString {
     // Vérifie la validite du token, ou appelle l'API d'authentification pour en générer un nouveau
     private function check_token_or_auth()
     {
+        $this->debug("## Check validity of token");
         if ($this->token !== NULL) {
+            $this->debug("  Token found. Check if it has expired.");
             // Token exists
             $expiry = $this->token["expiry"];
-            if ((new DateTime())->getTimestamp() - $expiry > 60) {
+            if ($expiry - (new DateTime())->getTimestamp() > 60) {
+                $this->debug("  Token is not expired. Check if it is still valid by calling the ECHO API");
                 // Token not expired
-                $result = $this->do_api_post('echo','{ "m":"" }', TRUE, FALSE);
-                if ($result["code"]=="1000") {
+                $postdata = '{ "m":"" }';
+                $ch = curl_init($this->endpoint . "/echo");
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Length: ".strlen($postdata), "X-Auth-Token: " . $this->token["auth_token"]));
+                $data = curl_exec($ch);
+                curl_close($ch);
+                $result = json_decode($data, true) or NULL;
+                if(!is_null($result) && $result["code"]=="1000") {
                     // Token valid
+                    $this->debug("  Token is still valid. No need to re-authenticate");
+                    $this->debug("  Returning to calling API");
                     return TRUE;
                 }
+            } else {
+                $this->debug("  Existing token has expired");
             }
+        } else {
+            $this->debug("  No existing token found");
         }
         // Token missing, expired or invalid
+        $this->debug("  Current auth token invalid or expired. Performing authentication.");
         $this->authenticate();
+        $this->debug("  End of authentiation - Returning to calling API");
     }
 
     // Envoie une méthode POST à l'API
@@ -307,7 +340,7 @@ class TwinklyString {
     {
         $this->debug("TwinklyString::set_brightness($value)");
         $current_mode = $this->get_mode();
-        if ($current_mode == "movie")
+        if ($current_mode == "movie" || $current_mode == "playlist")
         {
             $json = json_encode(array("type" => "A","value" => intval($value)));
             $result = $this->do_api_post("led/out/brightness", $json);
@@ -317,7 +350,7 @@ class TwinklyString {
             }
             return TRUE;
         } else {
-            $this->debug("brigthness can be set while in movie mode only");
+            $this->debug("brigthness can be set while in movie or playlist mode only");
             return FALSE;
         }
     }
@@ -713,26 +746,6 @@ class TwinklyString {
             $this->debug('add_to_playlist : wrong parameter format', TRUE);
             throw new Exception("add_to_playlist error - wrong parameter format");
         }
-    }
-
-    public function set_token($jsontoken) {
-        if ($jsontoken !== NULL) {
-            $tokendata = json_decode($jsontoken, TRUE);
-            if (isset($tokendata['auth_token'][0])) {
-                if (intval($tokendata['expiry']) > 0) {
-                    $this->token = $tokendata;
-                    return TRUE;
-                }
-            }
-            throw new Exception('set_token error - invalid token json string');
-        } else {
-            return FALSE;
-        }
-    }
-
-
-    public function get_token() {
-        return json_encode($this->token);
     }
 }
 ?>
