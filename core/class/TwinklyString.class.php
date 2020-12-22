@@ -18,7 +18,7 @@ class TwinklyString {
         $this->endpoint = TwinklyString::get_endpoint($ip);
         $this->debug = $debug;
         $this->debuglog = $debuglog;
-        $this->debug("TwinklyString::new(mac=$mac ip=$ip)");
+        $this->debug("TwinklyString::new($mac, $ip)");
     }
 
     // Ecrit un message sur stdout et dans la log si le mode debug est actif

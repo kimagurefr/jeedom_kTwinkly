@@ -6,6 +6,8 @@ if (!isConnect('admin')) {
 $plugin = plugin::byId('kTwinkly');
 sendVarToJS('eqType', $plugin->getId());
 $eqLogics = eqLogic::byType($plugin->getId());
+
+$refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
 ?>
 
 <div class="row row-overflow">
@@ -143,12 +145,18 @@ $eqLogics = eqLogic::byType($plugin->getId());
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="macaddress" placeholder="12:34:56:78:90"/>
 									</div>
 								</div>
+                                <?php 
+                                    if (intval($refreshFrequency) > 0) {
+                                ?>
 								<div class="form-group">
 									<label class="col-sm-3 control-label">{{Rafraichissement auto}}</label>
 									<div class="col-sm-3">
 										<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autorefresh"/>
 									</div>
 								</div>
+                                <?php
+                                    }
+                                ?>
 								<div class="form-group">
 									<label class="col-sm-3 control-label"></label>
 									<div class="col-sm-8">
