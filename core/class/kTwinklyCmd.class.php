@@ -55,7 +55,7 @@ class kTwinklyCmd extends cmd {
 
 
         try {
-            $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog);
+            $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
 
             if ($action == "on") {
                 // Allumer la guirlande. On active le mode "movie".
