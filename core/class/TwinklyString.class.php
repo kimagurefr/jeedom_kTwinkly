@@ -183,8 +183,9 @@ class TwinklyString {
         curl_close($ch);
 
         if (is_null($result)) {
-            $this->debug("Twinkly API error [POST : $method] data=" . print_r($data,TRUE), TRUE);
-            throw new Exception("Twinkly API error [POST : $method] data=" . print_r($data,TRUE));
+            $this->debug("Twinkly API error [POST : $method] data=$result", TRUE);
+            $this->debug("");
+            throw new Exception("Twinkly API error [POST : $method] data=$data");
         }
         return $result;
     }
@@ -212,8 +213,9 @@ class TwinklyString {
         if ($result) {
             return $result;
         } else {
-            $this->debug("Twinkly API error [GET : $method] data=" . print_r($data,TRUE), TRUE);
-            throw new Exception("Twinkly API error [GET : $method]");
+            $this->debug("Twinkly API error [GET : $method] data=$data", TRUE);
+            $this->debug("");
+            throw new Exception("Twinkly API error [GET : $method] data=$data");
         }
     }
 
@@ -238,8 +240,8 @@ class TwinklyString {
         if ($result) {
             return $result;
         } else {
-            $this->debug("Twinkly API error [DELETE : $method] data=" . print_r($data,TRUE), TRUE);
-            throw new Exception("Twinkly API error [DELETE : $method]");
+            $this->debug("Twinkly API error [DELETE : $method] data=$data", TRUE);
+            throw new Exception("Twinkly API error [DELETE : $method] data=$data");
         }
     }
 
@@ -337,8 +339,8 @@ class TwinklyString {
     {
         $this->debug('TwinklyString::get_mode');
         $result = $this->do_api_get("led/mode");
-        if ($result["code"] != "1000") {
-            $this->debug("get_mode error...");
+        if (is_null($result) || $result["code"] != "1000") {
+            $this->debug("  get_mode error : " . json_encode($result));
             throw new Exception("get_mode error [GET : led/mode] data=" . print_r($result,TRUE));
         }
         return $result["mode"];
@@ -351,8 +353,8 @@ class TwinklyString {
         $json = json_encode(array("mode" => $mode));
         $result = $this->do_api_post("led/mode", $json);
 
-        if ($result["code"] != "1000") {
-            $this->debug("set_mode error...");
+        if (is_null($result) || $result["code"] != "1000") {
+            $this->debug("  set_mode error : " . json_encode($result));
             throw new Exception("set_mode error [POST : led/mode] data=" . print_r($result,TRUE));
         }
         return TRUE;
