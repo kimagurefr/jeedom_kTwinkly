@@ -19,20 +19,28 @@ class TwinklyString {
         $this->debug = $debug;
         $this->debuglog = $debuglog;
         $this->debug("TwinklyString::new($mac, $ip)");
+
+        // Read token from cache
         $this->cache = $cachepath . '/twinkly_auth.txt';
         $token_data = file_get_contents($this->cache);
         if ($token_data !== FALSE) {
-            $this->debug('Reading auth data from ' . $this->cache . ' : ' . $token_data);
+            $this->debug('  Reading auth data from ' . $this->cache . ' : ' . $token_data);
             $json_data = json_decode($token_data, TRUE);
             if ($json_data) {
                 $this->token = $json_data;
             }
+        } else {
+            $this->debug('  No cached token found.');
         }
+        $this->debug('');
     }
 
     function __destruct()
     {
+        $this->debug("TwinklyString::destruct - Storing current auth token in cache (" . $this->cache . ")");
+        // Save current token to cache file
         file_put_contents($this->cache, json_encode($this->token));
+        $this->debug("");
     }
 
     // Ecrit un message sur stdout et dans la log si le mode debug est actif
@@ -101,13 +109,11 @@ class TwinklyString {
     // Vérifie la validite du token, ou appelle l'API d'authentification pour en générer un nouveau
     private function check_token_or_auth()
     {
-        $this->debug("## Check validity of token");
+        $this->debug("  # Check validity of token");
         if ($this->token !== NULL) {
-            $this->debug("  Token found. Check if it has expired.");
             // Token exists
             $expiry = $this->token["expiry"];
             if ($expiry - (new DateTime())->getTimestamp() > 60) {
-                $this->debug("  Token is not expired. Check if it is still valid by calling the ECHO API");
                 // Token not expired
                 $postdata = '{ "m":"" }';
                 $ch = curl_init($this->endpoint . "/echo");
@@ -120,20 +126,19 @@ class TwinklyString {
                 $result = json_decode($data, true) or NULL;
                 if(!is_null($result) && $result["code"]=="1000") {
                     // Token valid
-                    $this->debug("  Token is still valid. No need to re-authenticate");
-                    $this->debug("  Returning to calling API");
+                    $this->debug("    Token is still valid. No need to re-authenticate");
                     return TRUE;
                 }
             } else {
-                $this->debug("  Existing token has expired");
+                $this->debug("   Existing token has expired : authentication required");
             }
         } else {
-            $this->debug("  No existing token found");
+            $this->debug("    No existing token found : authentication required");
         }
         // Token missing, expired or invalid
-        $this->debug("  Current auth token invalid or expired. Performing authentication.");
+        $this->debug("    Performing new authentication");
         $this->authenticate();
-        $this->debug("  End of authentiation - Returning to calling API");
+        $this->debug("  # Authentication successful - returning to calling API");
     }
 
     // Envoie une méthode POST à l'API
@@ -175,8 +180,8 @@ class TwinklyString {
         }
         $data = curl_exec($ch);
         $result = json_decode($data, true) or NULL;
-        //$this->debug("API RESULT:\n" . $this->json_print($data) . "\n");
         $this->debug("API RESULT : $data");
+        $this->debug("");
         curl_close($ch);
 
         if (is_null($result)) {
@@ -202,8 +207,8 @@ class TwinklyString {
         }
         $data = curl_exec($ch);
         $result = json_decode($data, true) or NULL;
-        //$this->debug("API RESULT:\n" . $this->json_print($data) . "\n");
         $this->debug("API RESULT : $data");
+        $this->debug("");
         curl_close($ch);
 
         if ($result) {
@@ -228,8 +233,8 @@ class TwinklyString {
         }
         $data = curl_exec($ch);
         $result = json_decode($data, true) or NULL;
-        //$this->debug("API RESULT:\n" . $this->json_print($data) . "\n");
         $this->debug("API RESULT : $data");
+        $this->debug("");
         curl_close($ch);
 
         if ($result) {
@@ -245,35 +250,67 @@ class TwinklyString {
 	// et déconnectera donc les autres clients déjà connectés (notamment l'application mobile)
     private function authenticate()
     {
-        $this->debug('#### Get new Auth token');
+        $this->debug('  # Authentication (get new auth token)');
+
+        // Generate a random 32-byte challenge
         $challenge = random_bytes(32);
         $b64_challenge = base64_encode($challenge);
-
         $json = json_encode(array("challenge" => $b64_challenge));
-        $result = $this->do_api_post("login", $json, FALSE);
 
+        // Call /login API
+        $ch = curl_init($this->endpoint . "/login");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: " . $content_type, "Content-Length: ".strlen($json)));
+        $data = curl_exec($ch);
+        $result = json_decode($data, true) or NULL;
+        curl_close($ch);
+
+        if (is_null($result) || $result["code"] != "1000") {
+            $this->debug("  Call to /login failed : $data", TRUE);
+            throw new Exception("Twinkly authentication error [POST /login] : $data"); 
+        }
+
+        // Get auth token and requested challenge-reponse from the controller response
         $auth_token = $result["authentication_token"];
         $auth_expiry = $result["authentication_token_expires_in"];
         $challenge_response = $result["challenge-response"];
 
+        // Compute challenge response based on MAC address
         $dk = $this->derive_key($this::SHARED_KEY_CHALLENGE, $this->mac);
         $enc = $this->rc4($challenge, $dk);
         $rsp = sha1($enc);
-        $this->debug("Computed challenge response = " . $rsp);
+        $this->debug("    Requested challenge response : $challenge_response");
+        $this->debug("    Computed challenge response  : $rsp");
 
+        // Authentication should normally fail when challenge-response does not match the computed value
+        // As we are talking directly with the controller locally, this may be safely ignored
         if ($rsp != $challenge_response) {
-            $this->debug("Authentication WARNING : incorrect challenge-response!!!");
+            $this->debug("    !! Authentication WARNING : incorrect challenge-response - IGNORING");
             //throw new Exception("Twinkly Authentication error. Incorrect challenge-response. [POST : login]");
+        } else {
+            $this->debug("    Challenge response matches expected value");
         }
-
         $json = json_encode(array("challenge-response" => $challenge_response));
-        $result = $this->do_api_post("verify", $json, TRUE, FALSE, $auth_token);
 
-        if ($result["code"] != "1000") {
-            $this->debug("Authentication error...");
-            throw new Exception("Twinkly Authentication error. [POST : verify]");
+        // Call /verify API to activate the auth token
+        $ch = curl_init($this->endpoint . "/verify");
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: " . $content_type, "Content-Length: ".strlen($json), "X-Auth-Token: " . $auth_token));
+        $data = curl_exec($ch);
+        $result = json_decode($data, true) or NULL;
+        curl_close($ch);
+
+        if (is_null($result) || $result["code"] != "1000") {
+            $this->debug("  Call to /verify failed : $data", TRUE);
+            throw new Exception("Twinkly authentication error [POST /verify] : $data");
         }
+
         $expiry_timestamp = (new DateTime())->getTimestamp() + $auth_expiry;
+        $this->debug("  # Authentication successful - Storing new access token");
         $this->token = array("auth_token" => $auth_token, "expiry" => $expiry_timestamp);
     }
 
@@ -329,7 +366,7 @@ class TwinklyString {
         $this->debug("TwinklyString::get_brightness");
         $result = $this->do_api_get("led/out/brightness");
         if ($result["code"] != "1000") {
-            $this->debug("get_brightness error...");
+            $this->debug("  get_brightness error : " . json_encode($result), TRUE);
             throw new Exception("get_brightness error [GET : led/out/brightness] data=" . print_r($result,TRUE));
         }
         return $result["value"];
@@ -339,18 +376,19 @@ class TwinklyString {
 	public function set_brightness($value)
     {
         $this->debug("TwinklyString::set_brightness($value)");
+        $this->debug("  get current mode");
         $current_mode = $this->get_mode();
         if ($current_mode == "movie" || $current_mode == "playlist")
         {
             $json = json_encode(array("type" => "A","value" => intval($value)));
             $result = $this->do_api_post("led/out/brightness", $json);
             if ($result["code"] != "1000") {
-                $this->debug("set_brightness error...");
+                $this->debug("  set_brightness error : " . json_encode($result), TRUE);
                 throw new Exception("set_brightness error [POST : led/out/brightness] data=" . print_r($result,TRUE));
             }
             return TRUE;
         } else {
-            $this->debug("brigthness can be set while in movie or playlist mode only");
+            $this->debug("  brigthness can be set while in movie or playlist mode only", TRUE);
             return FALSE;
         }
     }
@@ -369,7 +407,7 @@ class TwinklyString {
             $this->debug("TwinklyString::upload_movie($movie, $leds_number, $frames_number, $frame_delay)");
             $movie_data = file_get_contents($movie);
             if ($movie_data === false) {
-                $this->debug("upload_movie : file not found", TRUE);
+                $this->debug("  upload_movie : file not found", TRUE);
                 throw new Exception("upload_movie error : file not found");
             }
         } else {
@@ -377,33 +415,34 @@ class TwinklyString {
             $movie_data = $movie;
         }
 
+        $this->debug("  switch device off");
         $this->set_mode("off");
 
-        $this->debug("upload stage 1 (reset)");
+        $this->debug("  upload stage 1 (reset)");
 
         $json = json_encode(array());
         $result = $this->do_api_post("led/reset", $json);
         if ($result["code"] != "1000") {
-            $this->debug("upload_movie step 1 error...", TRUE);
+            $this->debug("  upload_movie step 1 error...", TRUE);
             throw new Exception("upload_movie step 1 error [POST : led/reset] data=" . print_r($result,TRUE));
         }
 
-        $this->debug("upload stage 2 (upload data)");
+        $this->debug("  upload stage 2 (upload movie data)");
         $result = $this->do_api_post("led/movie/full", $movie_data, TRUE, FALSE, NULL, "application/octet-stream");
         if ($result["code"] != "1000" || $result["frames_number"] != $frames_number) {
-            $this->debug("upload_movie step 2 error...", TRUE);
+            $this->debug("  upload_movie step 2 error...", TRUE);
             throw new Exception("upload_movie step 2 error [POST : led/movie/full] data=" . print_r($result,TRUE));
         }
 
-        $this->debug("upload stage 3 (config)");
+        $this->debug("  upload stage 3 (upload movie configuration)");
         $json = json_encode(array("frame_delay" => $frame_delay, "leds_number" => $leds_number, "frames_number" => $frames_number));
         $result = $this->do_api_post("led/movie/config", $json, TRUE, FALSE);
         if ($result["code"] != "1000") {
-            $this->debug("upload_movie step 3 error...", TRUE);
+            $this->debug("  upload_movie step 3 error...", TRUE);
             throw new Exception("upload_movie step 3 error [POST : led/movie/config] data=" . print_r($result,TRUE));
         }
 
-        $this->debug("upload stage 4 (reset)");
+        $this->debug("  upload stage 4 (reset)");
         $json = json_encode(array());
         $result = $this->do_api_post("led/reset", $json, TRUE, FALSE);
         if ($result["code"] != "1000") {
@@ -411,7 +450,7 @@ class TwinklyString {
             throw new Exception("upload_movie step 4 error [POST : led/reset] data=" . print_r($result,TRUE));
         }
 
-        $this->debug("upload stage 5 (set movie mode)");
+        $this->debug("  change current mode to 'movie'");
         $this->set_mode("movie");
 
         return TRUE;
@@ -424,7 +463,7 @@ class TwinklyString {
             $this->debug("TwinklyString::upload_movie2($movie_data, $jsonstrparameters)");
             $movie_data = file_get_contents($movie_data);
             if ($movie_data === false) {
-                $this->debug("movie file not found");
+                $this->debug("  movie file not found", TRUE);
                 throw new Exception("upload_movie error : file not found");
             }
         } else {
@@ -433,11 +472,14 @@ class TwinklyString {
 
         $jsonparameters = json_decode($jsonstrparameters, TRUE);
         if ($jsonparameters === false) {
-            $this->debug('upload_movie2 : invalid movie parameters', TRUE);
+            $this->debug('  upload_movie2 : invalid movie parameters', TRUE);
             throw new Exception("upload_movie2 error : invalid movie parameters");
         }
 
+        $this->debug("  Switch device off");
         $this->set_mode('off');
+
+        $this->debug("  Get existing movies list from controller");
         $all_movies = $this->get_movies();
         $unique_id = $jsonparameters["unique_id"];
 
@@ -449,20 +491,22 @@ class TwinklyString {
         }
 
         if ($found == FALSE) {
-            $this->debug("upload : add movie to device");
+            $this->debug("  Requested movie does not existing on controller : uploading movie to device");
             if($this->add_movie($movie_data, $jsonstrparameters) !== TRUE) {
                 $this->debug("upload_movie2 add movie  error...", TRUE);
                 throw new Exception("upload_movie2 add movie error [POST : movies/new] data=" . print_r($result,TRUE));
             }
-        }    
+        } else {
+            $this->debug('  Movie already exists on controller. Upload not required');
+        }
 
-        $this->debug("upload : set current movie");
+        $this->debug("  set current movie to uid = " . $jsonparameters["unique_id"]);
         $result = $this->set_current_movie($jsonparameters["unique_id"]);
         if ($result["code"] != "1000") {
             $this->debug("upload_movie2 set movie error...", TRUE);
             throw new Exception("upload_movie2 set movie error [POST : movies/current] data=" . print_r($result,TRUE));
         }
-
+        $this->debug("  change current mode to 'movie'");
         $this->set_mode("movie");
     
         return TRUE;
