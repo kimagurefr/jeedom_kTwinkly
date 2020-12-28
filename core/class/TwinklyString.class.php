@@ -151,14 +151,12 @@ class TwinklyString {
     private function do_api_post($method, $postdata, $authenticated=TRUE, $verify_auth=TRUE, $special_token=NULL, $content_type="application/json")
     {
         $this->debug("## CALL TWINKLY API [POST : $method] - auth=$authenticated verifyauth=$verify_auth");
-        /*
+
         if ($content_type == "application/json") {
-            $this->debug('POST data :\n' . $this->json_print($postdata));
+            $this->debug("POST data : $postdata");
         } else {
-            $this->debug('POST data : ' . $postdata);
+            $this->debug('POST data : (binary data)');
         }
-        */
-        $this->debug('POST data : ' . $postdata);
 
         $ch = curl_init($this->endpoint . "/" . $method);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -656,9 +654,10 @@ class TwinklyString {
         $jsonparameters = json_decode($jsondata, TRUE);
 
         // Vérifie la place disponible
+        $this->debug("  Call /movies to get list of movies in controller and check available memory");
         $result = $this->do_api_get("movies");
         if ($result["code"] != "1000") {
-            $this->debug("TwinklyString::add_movie check available memory error...", TRUE);
+            $this->debug("  add_movie check available memory error...", TRUE);
             throw new Exception("add_movie check available memory error [GET : movies] data=" . print_r($result,TRUE));
         }
 
@@ -666,19 +665,21 @@ class TwinklyString {
         $size = intval($jsonparameters["frames_number"]);
 
         if($size > $capacity) {
-            $this->debug("TwinklyString::add_movie : not enough memory left on controler (size = " . $size . " / remaining = " . $capacity . ")", TRUE);
+            $this->debug("  add_movie : not enough memory left on controler (size = " . $size . " / remaining = " . $capacity . ")", TRUE);
             throw new Exception("add_movie : not enough memory left on controler (size = " . $size . " / remaining = " . $capacity . ")");
         }
 
+        $this->debug("  Send new movie metadata to controller");
         $result = $this->do_api_post("movies/new", $jsondata);
         if ($result["code"] != "1000") {
-            $this->debug("add_movie step 1 error...", TRUE);
+            $this->debug("  add_movie step 1 (movies/new) error : " . json_encode($result), TRUE);
             throw new Exception("add_movie step 1 error [POST : movies/new] data=" . print_r($result,TRUE));
         }
 
+        $this->debug("  Send binary data to controller");
         $result = $this->do_api_post("movies/full", $movie_data, TRUE, FALSE, NULL, "application/octet-stream");
         if ($result["code"] != "1000" || $result["frames_number"] != $jsonparameters["frames_number"]) {
-            $this->debug("add_movie step 2 error..." . print_r($result, TRUE), TRUE);
+            $this->debug("add_movie step 2 (movies/full) error : " . json_encode($result), TRUE);
             throw new Exception("add_movie step 2 error [POST : movies/full] data=" . print_r($result,TRUE));
         }
 
@@ -755,7 +756,7 @@ class TwinklyString {
                     $duration = intval($movie["duration"]);
                 }
 
-                $this->debug("Ajout playlist : uid=$unique_id - duration=$duration - json=$jsonstr");
+                $this->debug("  Add to playlist : uid=$unique_id - duration=$duration - json=$jsonstr");
 
                 $found = FALSE;
                 foreach ($all_movies["movies"] as $m) {
@@ -764,10 +765,10 @@ class TwinklyString {
                     }
                 }
                 if ($found == FALSE) {
-                    $this->debug('Loading movie ' . $json["name"] . ' to the controller');
+                    $this->debug('  Loading movie ' . $json["name"] . ' to the controller');
                     $this->add_movie($bindata, $jsonstr);
                 } else {
-                    $this->debug('Movie ' . $json["name"] . ' already loaded on controller');
+                    $this->debug('  Movie ' . $json["name"] . ' already loaded on controller');
                 }
 
                 $pldata["entries"][] = [
@@ -787,7 +788,7 @@ class TwinklyString {
 
             return TRUE;
         } else {
-            $this->debug('add_to_playlist : wrong parameter format', TRUE);
+            $this->debug('  add_to_playlist : wrong parameter format', TRUE);
             throw new Exception("add_to_playlist error - wrong parameter format");
         }
     }
