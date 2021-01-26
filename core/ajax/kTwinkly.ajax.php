@@ -345,6 +345,7 @@ try {
 
         $ip = $eqLogic->getConfiguration("ipaddress");
         $mac = $eqLogic->getConfiguration("macaddress");
+        $clearmemory = $eqLogic->getConfiguration("clearmemory");
 
         $playlist = init(playlist);
 
@@ -357,6 +358,12 @@ try {
 
         if (sizeof($movies) > 0) {
             $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
+
+            if ($clearmemory == 1) {
+                log::add('kTwinkly','debug','Clearing current playlist before uploading the new one');
+                $t->set_mode('off');
+                $t->delete_movies();
+            }
             if ($t->create_new_playlist($movies)) {
                 $eqLogic->setConfiguration('auth_token', $t->get_token());
                 ajax::success("La playlist de " . sizeof($movies) . " élements a été créée avec succès.");

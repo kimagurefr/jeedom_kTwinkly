@@ -144,8 +144,10 @@ function printEqLogic(_eqLogic) {
     $('#img_device').attr("src", $('.eqLogicDisplayCard[data-eqLogic_id=' + _eqLogic.id + '] img').attr('src'));
     if (_eqLogic.configuration['hwgen'] !== "1") { 
         $('#bt_playlists').css('visibility', 'visible');
+        $('#cb_clearmemory').css('visibility', 'visible');
     } else {
         $('#bt_playlists').css('visibility', 'hidden');
+        $('#cb_clearmemory').css('visibility', 'hidden');
     }
   } 
 }

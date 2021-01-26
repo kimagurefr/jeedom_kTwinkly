@@ -67,6 +67,7 @@ class kTwinkly extends eqLogic {
 
 	    $ip = $this->getConfiguration('ipaddress');
 	    $mac = $this->getConfiguration('macaddress');
+        $clearMemory = $this->getConfiguration('clearmemory');
 
 	    if ($ip == ''){
 		   throw new Exception(__('L\'adresse IP ne peut être vide', __FILE__)); 
@@ -249,7 +250,6 @@ class kTwinkly extends eqLogic {
         	$refreshCmd->setOrder(6);
         	$refreshCmd->save();
         }
-
         if ($this->getChanged()){
             self::deamon_start();
         }
@@ -349,6 +349,7 @@ class kTwinkly extends eqLogic {
             throw new Exception(__('Veuillez vérifier la configuration', __FILE__));
         }
         $cron = cron::byClassAndFunction('kTwinkly','refreshstate');
+
         if (!is_object($cron)) {
             throw new Exception(__('Tache cron introuvable', __FILE__));
         }

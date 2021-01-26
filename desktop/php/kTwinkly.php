@@ -145,6 +145,12 @@ $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="macaddress" placeholder="12:34:56:78:90"/>
 									</div>
 								</div>
+                                <div class="form-group" id="cb_clearmemory">
+                                    <label class="col-sm-3 control-label">{{Toujours vider la mémoire lors du chargement de la playlist}}</label>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="clearmemory"/>
+                                    </div>
+                                </div>
                                 <?php 
                                     if (intval($refreshFrequency) > 0) {
                                 ?>
