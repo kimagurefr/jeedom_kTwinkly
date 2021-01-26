@@ -61,18 +61,18 @@ class kTwinklyCmd extends cmd {
                 // Allumer la guirlande. On active le mode "movie".
 
                 if ($hwgen == "1") {
-                    log::add('kTwinkly','debug',"Appel commande movie ip=$ip mac=$mac");
+                    log::add('kTwinkly','debug',"Commande 'on' GEN1 -> appel commande movie ip=$ip mac=$mac");
                     $t->set_mode("movie");
                 } else {
                     try {
-                        log::add('kTwinkly','debug',"Changement mode : playlist ip=$ip mac=$mac");
+                        log::add('kTwinkly','debug',"Commande 'on' GEN2 -> changement mode : playlist ip=$ip mac=$mac");
                         $t->set_mode("playlist");
                     } catch (Exception $e1) {
                         try {
-                            log::add('kTwinkly','debug',"Changement mode : movie ip=$ip mac=$mac");
+                            log::add('kTwinkly','debug',"Commande 'on' GEN2 -> Aucune playlist. Changement mode : movie ip=$ip mac=$mac");
                             $t->set_mode("movie");
                         } catch (Exception $e2) {
-                            log::add('kTwinkly','debug',"Changement mode : effect ip=$ip mac=$mac");
+                            log::add('kTwinkly','debug',"Commande 'on' GEN2 -> Echec mode movie. Changement mode : effect ip=$ip mac=$mac");
                             $t->set_mode("effect");
                         }
                     }
@@ -89,7 +89,7 @@ class kTwinklyCmd extends cmd {
             } else if ($action == "off") {
                 // Extinction de la guirlande
 
-                log::add('kTwinkly','debug',"Appel commande off ip=$ip mac=$mac");
+                log::add('kTwinkly','debug',"Commande 'off' ip=$ip mac=$mac");
 
                 $t->set_mode("off");
                 $newstate = $t->get_mode();
@@ -105,7 +105,7 @@ class kTwinklyCmd extends cmd {
 
                 if ($eqLogic->getConfiguration("hwgen") != "0") {
                     $value = intval($_options["slider"]);
-                    log::add('kTwinkly','debug',"Appel commande set_brightness slider=$value ip=$ip mac=$mac");
+                    log::add('kTwinkly','debug',"Commande 'brightness' slider=$value ip=$ip mac=$mac");
     
                     $t->set_brightness($value);
                     $newbrightness = $t->get_brightness();
@@ -115,17 +115,16 @@ class kTwinklyCmd extends cmd {
                         $eqLogic->refreshWidget();
                     }
                 } else {
-                    log::add('kTwinkly','debug',"Commande set_brightness ignorée parce que l'équipement ".$eqLogic->getId()." ne la supporte pas.");
+                    log::add('kTwinkly','debug',"Commande 'brightness' ignorée parce que l'équipement ".$eqLogic->getId()." ne la supporte pas.");
                 }
             } else if ($action == "movie") {
                 // Chargement d'une animation sur la guirlande
 
                 $value = $_options["select"];
                 if ($value != "") {
-                    // On récupère le flux binaire et les informations JSON depuis le zip
+                    log::add('kTwinkly','debug',"Commande 'movie' avec value=$value ip=$ip mac=$mac");
 
-                    log::add('kTwinkly','debug',"Appel commande movie avec $value");
-
+                    // On récupère le flux binaire et les informations JSON de l'animation choisie depuis le zip
                     $filepath = __DIR__ . '/../../data/' . $value;
                     if (file_exists($filepath)) {
                         $zip = new ZipArchive();
@@ -148,7 +147,7 @@ class kTwinklyCmd extends cmd {
                                 $frames = intval($json["frames_number"]);
                                 $delay = intval($json["frame_delay"]);
 
-                                log::add('kTwinkly','debug',"Envoi du fichier $tempfile (leds=$leds frames=$frames delay=$delay)");
+                                log::add('kTwinkly','debug',"Envoi de l'animation GEN1 fichier=$tempfile (leds=$leds frames=$frames delay=$delay)");
                                 $t->upload_movie($tempfile, $leds, $frames, $delay);
 
                                 unlink($tempfile);
@@ -157,22 +156,22 @@ class kTwinklyCmd extends cmd {
                                 $tempfile = $tempdir . '/' . $value . '.bin';
                                 file_put_contents($tempfile, $bin_data);
 
-                                log::add('kTwinkly','debug',"Envoi du fichier $tempfile (GEN2)");
+                                log::add('kTwinkly','debug',"Envoi de l'animation GEN2 fichier=$tempfile");
                                 $t->upload_movie2($tempfile, $jsonstring);
 
                                 unlink($tempfile);
                             }
                         } else {
-                            log::add('kTwinkly','error','Impossible d\'ouvrir le fichier zip de l\'animation');
+                            log::add('kTwinkly','error',"Commande 'movie' : impossible d'ouvrir le fichier zip de l'animation");
                         }
                         $zip->close();
                     } else {
-                        log::add('kTwinkly','error','Fichier introuvable : ' . $filepath);
+                        log::add('kTwinkly','error',"Commande 'movie' : fichier introuvable : $filepath");
                     }
                 }
             } else if ($action == "refresh") {
                 // Rafraichissement manuel des valeurs
-                log::add('kTwinkly','debug',"Appel commande refresh");
+                log::add('kTwinkly','debug',"Commande 'refresh'");
 
                 $newstate = $t->get_mode();
                 $newbrightness = $t->get_brightness();
@@ -183,19 +182,19 @@ class kTwinklyCmd extends cmd {
                     $eqLogic->refreshWidget();
                 }
             } else if ($action == "playlist") {
-                log::add('kTwinkly','debug','Appel commande playlist');
                 try {
-                    log::add('kTwinkly','debug',"Changement mode : playlist ip=$ip mac=$mac");
+                    log::add('kTwinkly','debug',"Commande 'playlist' : changement mode : playlist ip=$ip mac=$mac");
                     $t->set_mode("playlist");
                     $newstate = $t->get_mode();
                     if ($eqLogic->checkAndUpdateCmd('state', $newstate, false)) {
                         $eqLogic->refreshWidget();
                     }
-                } catch (Exception $e1) {}
+                } catch (Exception $e1) {
+                    log::add('kTwinkly','error',__("Commande 'playlist' : impossible d'activer le mode playlist : ", __FILE__) . $e1->getMessage());
+                }
             }
         } catch (Exception $e) {
-            //log::add('kTwinkly','error', __('Impossible d\'exécuter la commande sur le contrôleur Twinkly : ' . $e->getMessage(), __FILE__));
-            throw new Exception(__('Impossible d\'exécuter la commande sur le contrôleur Twinkly : ' . $e->getMessage(), __FILE__));
+            throw new Exception(__('Impossible d\'exécuter la commande sur le contrôleur Twinkly : ', __FILE__) . $e->getMessage());
         } finally {
             $eqLogic->setConfiguration('autorefresh', $autorefresh);
         }

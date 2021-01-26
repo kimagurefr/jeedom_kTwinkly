@@ -24,13 +24,19 @@ echo "*"
 echo "* Looking for Python 3.7"
 if [ $(python3.7 --version 2>&1 | grep -c 'Python 3.7.') == "1" ]; then
     echo "** Python 3.7 is already installed"
+    echo "** Installing python3-setuptools"
+    if [ "$(type python3.7 | grep -c "/usr/bin/python3.7")" == "1" ]; then
+        sudo apt-get install -y python3-setuptools python3-dev python3-wheel
+    else
+        python3.7 -m pip install setuptools
+    fi
 else
     echo "** Python 3.7 not installed"
     echo "* Looking for Python 3.7 package in Debian repositories"
     sudo apt-cache show python3.7
     if [ $? -eq 0 ] ; then
         echo "** Python 3.7 found. Installing with apt-get"
-        sudo apt-get install -y python3.7
+        sudo apt-get install -y python3.7 python3-setuptools
     else
         echo "** Python3.7 not found in debian repos."
         echo "* Installation Python 3.7 from sources"
