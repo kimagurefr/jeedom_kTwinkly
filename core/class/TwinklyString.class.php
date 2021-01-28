@@ -38,14 +38,12 @@ class TwinklyString {
 
     function __destruct()
     {
-        $this->debug("TwinklyString::destruct - Storing current auth token in cache (" . $this->cache . ")");
-        // Save current token to cache file
-        $this->save_token();
         $this->debug("");
     }
 
     private function save_token()
     {
+        $this->debug("TwinklyString::save_token - Storing current auth token in cache (" . $this->cache . ")");
         file_put_contents($this->cache, json_encode($this->token));
     }
 
@@ -115,9 +113,9 @@ class TwinklyString {
     // Vérifie la validite du token, ou appelle l'API d'authentification pour en générer un nouveau
     private function check_token_or_auth()
     {
-        $this->debug("  # Check validity of token");
         if ($this->token !== NULL) {
             // Token exists
+            $this->debug("  # Check validity of current token");
             $expiry = $this->token["expiry"];
             if ($expiry - (new DateTime())->getTimestamp() > 60) {
                 // Token not expired
@@ -139,7 +137,7 @@ class TwinklyString {
                 $this->debug("   Existing token has expired : authentication required");
             }
         } else {
-            $this->debug("    No existing token found : authentication required");
+            $this->debug("  # No existing token found : authentication required");
         }
         // Token missing, expired or invalid
         $this->debug("    Performing new authentication");
