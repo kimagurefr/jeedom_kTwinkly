@@ -342,7 +342,7 @@ class kTwinkly extends eqLogic {
 
     // Démarrage du cron
     public static function deamon_start() {
-        log::add('kTwinkly','debug','kTwinkly methode deamon_start');
+        log::add('kTwinkly','debug','kTwinkly deamon_start');
         self::deamon_stop();
         $deamon_info = self::deamon_info();
         if ($deamon_info['launchable'] != 'ok') {

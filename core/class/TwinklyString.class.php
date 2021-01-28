@@ -21,7 +21,8 @@ class TwinklyString {
         $this->debug("TwinklyString::new($mac, $ip)");
 
         // Read token from cache
-        $this->cache = $cachepath . '/twinkly_auth.txt';
+        $stringid = str_replace(":", "", $mac);
+        $this->cache = $cachepath . '/twinkly_' . $stringid . '_auth.txt';
         $token_data = file_get_contents($this->cache);
         if ($token_data !== FALSE) {
             $this->debug('  Reading auth data from ' . $this->cache . ' : ' . $token_data);
@@ -39,8 +40,13 @@ class TwinklyString {
     {
         $this->debug("TwinklyString::destruct - Storing current auth token in cache (" . $this->cache . ")");
         // Save current token to cache file
-        file_put_contents($this->cache, json_encode($this->token));
+        $this->save_token();
         $this->debug("");
+    }
+
+    private function save_token()
+    {
+        file_put_contents($this->cache, json_encode($this->token));
     }
 
     // Ecrit un message sur stdout et dans la log si le mode debug est actif
@@ -312,6 +318,8 @@ class TwinklyString {
         $expiry_timestamp = (new DateTime())->getTimestamp() + $auth_expiry;
         $this->debug("  # Authentication successful - Storing new access token");
         $this->token = array("auth_token" => $auth_token, "expiry" => $expiry_timestamp);
+
+        $this->save_token();
     }
 
     // Renvoie la version actuelle du firmware
