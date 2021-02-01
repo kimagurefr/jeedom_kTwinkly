@@ -122,6 +122,7 @@ class TwinklyString {
                 $postdata = '{ "m":"" }';
                 $ch = curl_init($this->endpoint . "/echo");
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Length: ".strlen($postdata), "X-Auth-Token: " . $this->token["auth_token"]));
@@ -164,6 +165,7 @@ class TwinklyString {
 
         $ch = curl_init($this->endpoint . "/" . $method);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         if ($authenticated === TRUE) {
@@ -202,6 +204,7 @@ class TwinklyString {
         $this->debug("## CALL TWINKLY API [GET : $method] - auth=$authenticated");
         $ch = curl_init($this->endpoint . "/" . $method);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         if ($authenticated === TRUE) {
             $this->check_token_or_auth();
@@ -229,6 +232,7 @@ class TwinklyString {
         $this->debug("## CALL TWINKLY API [DELETE : $method] - auth=$authenticated");
         $ch = curl_init($this->endpoint . "/" . $method);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         if ($authenticated === TRUE) {
             $this->check_token_or_auth();
@@ -264,6 +268,7 @@ class TwinklyString {
         // Call /login API
         $ch = curl_init($this->endpoint . "/login");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: " . $content_type, "Content-Length: ".strlen($json)));
@@ -301,6 +306,7 @@ class TwinklyString {
         // Call /verify API to activate the auth token
         $ch = curl_init($this->endpoint . "/verify");
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: " . $content_type, "Content-Length: ".strlen($json), "X-Auth-Token: " . $auth_token));
@@ -332,6 +338,7 @@ class TwinklyString {
         $endpoint = TwinklyString::get_endpoint($ip);
         $ch = curl_init($endpoint . "/fw/version");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         $result = json_decode(curl_exec($ch), true) or NULL;
         if ($result !== NULL) {
             return $result["version"];
@@ -549,6 +556,7 @@ class TwinklyString {
 
             $ch = curl_init("http://" . $decodedip . "/xled/v1/gestalt");
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $details = json_decode(curl_exec($ch),true) or NULL;
             curl_close($ch);

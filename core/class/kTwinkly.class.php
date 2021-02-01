@@ -60,7 +60,6 @@ class kTwinkly extends eqLogic {
     /* ---------------------------------------------------------------------------- */
     /* Methodes d'instance */
 
-
     // Fonction exécutée automatiquement avant la mise à jour de l'équipement 
     public function preUpdate() {
         // Vérification des paramètres de l'équipement
@@ -85,39 +84,42 @@ class kTwinkly extends eqLogic {
 		   throw new Exception(__('Le format de l\'adresse MAC est incorrect', __FILE__)); 
 	    }
 
-	    try {
-            $debug = FALSE;
-            $additionalDebugLog = __DIR__ . '/../../../../log/kTwinkly_debug';
-            if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
-                $debug = TRUE;
-            }
-            // Récupérations des informations sur l'équipement via l'API
-            $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
-
-            $info = $t->get_details();
-            $this->setConfiguration('productcode',$info["product_code"]);
-            $this->setConfiguration('productname',get_product_info($info["product_code"])["commercial_name"]);
-            $this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
-            $this->setConfiguration('product',$info["product_name"]);
-            $this->setConfiguration('devicename',$info["device_name"]);
-            $this->setConfiguration('numberleds',$info["number_of_led"]);
-            $this->setConfiguration('ledtype',$info["led_profile"]);
-            $this->setConfiguration('hardwareid',$info["hw_id"]);
-
-            $fwversion = $t->firmware_version();
-            $this->setConfiguration('firmware',$fwversion);
-            if (versionToInt($fwversion) >= versionToInt("2.5.5")) {
-                $this->setConfiguration('hwgen', '2');
-            } else {
-                if (versionToInt($fwversion) >= versiontoInt("2.3.0")) {
-                    $this->setConfiguration('hwgen', '1');
-                } else {
-                    $this->setConfiguration('hwgen', '0');
+        if ($this->getIsEnable() == 1) {
+            try {
+                $debug = FALSE;
+                $additionalDebugLog = __DIR__ . '/../../../../log/kTwinkly_debug';
+                if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
+                    $debug = TRUE;
                 }
+                // Récupérations des informations sur l'équipement via l'API
+                $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
+    
+                $info = $t->get_details();
+                $this->setConfiguration('productcode',$info["product_code"]);
+                $this->setConfiguration('productname',get_product_info($info["product_code"])["commercial_name"]);
+                $this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
+                $this->setConfiguration('product',$info["product_name"]);
+                $this->setConfiguration('devicename',$info["device_name"]);
+                $this->setConfiguration('numberleds',$info["number_of_led"]);
+                $this->setConfiguration('ledtype',$info["led_profile"]);
+                $this->setConfiguration('hardwareid',$info["hw_id"]);
+    
+                $fwversion = $t->firmware_version();
+                $this->setConfiguration('firmware',$fwversion);
+                if (versionToInt($fwversion) >= versionToInt("2.5.5")) {
+                    $this->setConfiguration('hwgen', '2');
+                } else {
+                    if (versionToInt($fwversion) >= versiontoInt("2.3.0")) {
+                        $this->setConfiguration('hwgen', '1');
+                    } else {
+                        $this->setConfiguration('hwgen', '0');
+                    }
+                }
+            } catch (Exception $e) {
+                throw new Exception(__('Impossible de contacter le contrôleur Twinkly. Vérifiez les paramètres.', __FILE__));
             }
-        } catch (Exception $e) {
-		    throw new Exception(__('Impossible de contacter le contrôleur Twinkly. Vérifiez les paramètres : ' . $e->getMessage(), __FILE__));
-	    }
+        }
+
 	    $this->setLogicalId("Twinkly-" . $ip);
     }
 
