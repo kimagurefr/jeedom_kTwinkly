@@ -76,6 +76,7 @@ echo "*"
 echo 80 > ${PROGRESS_FILE}
 
 echo "* Install mitmproxy module and dependencies on Python 3.7"
+sudo apt-get install -y libffi-dev
 python3.7 -m pip install tornado mitmproxy 
 echo 90 > ${PROGRESS_FILE}
 
