@@ -21,17 +21,20 @@ echo "* Remove apt package for mitmproxy"
 sudo apt-get remove -y mitmproxy
 echo 10 > ${PROGRESS_FILE}
 echo "*"
-echo "* Looking for Python 3.7"
-if [ $(python3.7 --version 2>&1 | grep -c 'Python 3.7.') == "1" ]; then
-    echo "** Python 3.7 is already installed"
+echo "* Looking for Python 3.7+"
+if [ "$(hash python3 2>&1)" == "" ] && [ "$(python3 -c 'import sys; print("%i" % (sys.hexversion>=0x03070000))')" == "1" ]; then
+    PYTHON3_VER="$(python3 --version)"
+    echo "** Found ${PYTHON3_VER}"
     echo "** Installing python3-setuptools"
-    if [ "$(type python3.7 | grep -c "/usr/bin/python3.7")" == "1" ]; then
+    if [ "$(which python3 | grep -c "/usr/bin/python")" == "1" ]; then
+        # Use system-provided python3 packages
         sudo apt-get install -y python3-setuptools python3-dev python3-wheel
     else
-        python3.7 -m pip install setuptools
+        # Use PIP to install packages
+        python3 -m pip install setuptools
     fi
 else
-    echo "** Python 3.7 not installed"
+    echo "** Python 3.7+ not installed"
     echo "* Looking for Python 3.7 package in Debian repositories"
     sudo apt-cache show python3.7
     if [ $? -eq 0 ] ; then
@@ -77,12 +80,13 @@ else
     fi
 fi
 
-python3.7 --version
+python3 --version
 echo "*"
 echo 80 > ${PROGRESS_FILE}
 
-echo "* Install mitmproxy module and dependencies on Python 3.7"
-python3.7 -m pip install tornado mitmproxy 
+echo "* Install mitmproxy module and dependencies on Python 3"
+sudo apt-get install -y libffi-dev
+python3 -m pip install tornado mitmproxy 
 echo 90 > ${PROGRESS_FILE}
 
 if [ "$PIPCONF_UPDATED" == "1" ]; then

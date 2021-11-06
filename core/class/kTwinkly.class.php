@@ -583,7 +583,7 @@ class kTwinkly extends eqLogic {
         if ($deviceImage && file_exists(__DIR__ . '/../config/images/'.$deviceImage)) {
             return 'plugins/kTwinkly/core/config/images/'.$deviceImage;
         } else {
-            return 'plugins/kTwinkly/core/config/images/default.jpg';
+            return 'plugins/kTwinkly/core/config/images/default.png';
         }
     }
 

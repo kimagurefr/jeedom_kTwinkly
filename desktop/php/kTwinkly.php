@@ -232,7 +232,11 @@ $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
                                     <div class="col-sm-3">
                                         <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="hwgen" id="hwgenfield"></span>
                                     </div>
-                                </div>
+                                    <label class="col-sm-3 control-label">{{Code Produit}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productcode" id="productcodefield"></span>
+                                    </div>
+                                </div>								
 <?php } ?>
 							</fieldset>
 						</form>
