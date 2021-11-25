@@ -200,21 +200,11 @@ $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">{{Produit}}</label>
                                     <div class="col-sm-3">
-                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productname" id="productfield"></span>
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productname" id="productfield"></span> / <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productcode" id="productcodefield"></span>
                                     </div>
                                     <label class="col-sm-3 control-label">{{Nom}}</label>
                                     <div class="col-sm-3">
                                         <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="devicename" id="devicenamefield"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">{{Nombre de leds}}</label>
-                                    <div class="col-sm-3">
-                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="numberleds" id="numberledsfield"></span>
-                                    </div>
-                                    <label class="col-sm-3 control-label">{{Type de leds}}</label>
-                                    <div class="col-sm-3">
-                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="ledtype" id="ledtypefield"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -227,14 +217,20 @@ $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
                                         <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="hardwareid" id="hardwareidfield"></span>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="info_leds_1">
+                                    <label class="col-sm-3 control-label">{{Nombre de leds}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="numberleds" id="numberledsfield"></span>
+                                    </div>
+                                    <label class="col-sm-3 control-label">{{Type de leds}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="ledtype" id="ledtypefield"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="info_leds_2">
                                     <label class="col-sm-3 control-label">{{Gen}}</label>
                                     <div class="col-sm-3">
                                         <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="hwgen" id="hwgenfield"></span>
-                                    </div>
-                                    <label class="col-sm-3 control-label">{{Code Produit}}</label>
-                                    <div class="col-sm-3">
-                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productcode" id="productcodefield"></span>
                                     </div>
                                 </div>								
 <?php } ?>

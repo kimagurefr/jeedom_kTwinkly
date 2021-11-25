@@ -115,4 +115,9 @@ function create_playlist_item($zipfile, $duration=30) {
     }
 }
 
+function generate_device_id($mac) 
+{
+    return "Twinkly-" . str_replace(":","",$mac);
+}
+
 ?>
