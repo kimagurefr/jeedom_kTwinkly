@@ -142,12 +142,23 @@ function addCmdToTable(_cmd) {
 function printEqLogic(_eqLogic) {
   if (_eqLogic.id != '') {
     $('#img_device').attr("src", $('.eqLogicDisplayCard[data-eqLogic_id=' + _eqLogic.id + '] img').attr('src'));
-    if (_eqLogic.configuration['hwgen'] !== "1") { 
-        $('#bt_playlists').css('visibility', 'visible');
-        $('#cb_clearmemory').css('visibility', 'visible');
+    if (_eqLogic.configuration['devicetype'] == "leds") { 
+      $('#bt_movies').css('visibility', 'visible');
+      $('#info_leds_1').css('visibility', 'visible');
+      $('#info_leds_2').css('visibility', 'visible');
+      if (_eqLogic.configuration['hwgen'] !== "1") { 
+          $('#bt_playlists').css('visibility', 'visible');
+          $('#cb_clearmemory').css('visibility', 'visible');
+      } else {        
+          $('#bt_playlists').css('visibility', 'hidden');
+          $('#cb_clearmemory').css('visibility', 'hidden');
+      }
     } else {
-        $('#bt_playlists').css('visibility', 'hidden');
-        $('#cb_clearmemory').css('visibility', 'hidden');
+      $('#bt_movies').css('visibility', 'hidden');
+      $('#info_leds_1').css('visibility', 'hidden');
+      $('#info_leds_2').css('visibility', 'hidden');
+      $('#bt_playlists').css('visibility', 'hidden');
+      $('#cb_clearmemory').css('visibility', 'hidden');
     }
   } 
 }
