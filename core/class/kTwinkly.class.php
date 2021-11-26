@@ -106,6 +106,33 @@ class kTwinkly extends eqLogic {
                 if (config::byKey('additionalDebugLogs','kTwinkly') == "1")
                 {
                     $debug = TRUE;
+                }                                
+
+                if($this->getConfiguration('devicetype') == "" || $this->getConfiguration('devicetype') == $null)
+                {
+                    // Find device type
+                    log::add('kTwinkly','debug','kTwinkly::preUpdate - identification du type de matériel');
+                    try {
+                        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
+                        $info = $t->get_details();   
+                        $this->setConfiguration('devicetype','leds');
+                    }
+                    catch (Exception $dum)
+                    {
+                    }
+
+                    if($info == $null)
+                    {
+                        try {
+                            $t = new TwinklyMusic($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
+                            $info = $t->get_details();
+                            $this->setConfiguration('devicetype','music');
+                        }
+                        catch (Exception $dum)
+                        {
+                            throw new Exception(__('Le type de périphérique est inconnu', __FILE__));
+                        }
+                    }                    
                 }
 
                 if($this->getConfiguration('devicetype') == "leds")
