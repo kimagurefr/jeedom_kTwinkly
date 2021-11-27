@@ -343,6 +343,31 @@ class TwinklyMusic {
         return $result;
     }
 
+    public function get_mode()
+    {
+        $this->debug('TwinklyMusic::get_mode');
+        $result = $this->do_api_get("music/mode");
+        if (is_null($result) || $result["code"] != "1000") {
+            $this->debug("  get_mode : " . json_encode($result));
+            throw new Exception("get_network_status error [GET : network/status] data=" . print_r($result,TRUE));
+        }
+        $result = array("mode" => $result["mode"], "mood_index" => $result["config"]["mood_index"]);
+        return $result;
+    }
+
+    public function set_mode($mode)
+    {
+        $this->debug("TwinklyMusic::set_mode($enabled)");
+        $json = json_encode(array("mode" => $mode));
+        $result = $this->do_api_post("music/mode", $json);
+
+        if (is_null($result) || $result["code"] != "1000") {
+            $this->debug("  set_mode error : " . json_encode($result));
+            throw new Exception("set_mode error [POST : music/mode] data=" . print_r($result,TRUE));
+        }
+        return TRUE;
+    }
+
     public function get_mic_enabled()
     {
         $this->debug('TwinklyMusic::get_mic_enabled');

@@ -348,7 +348,7 @@ class kTwinkly extends eqLogic {
                 $refreshCmd->save();
             }
         }
-        else
+        elseif($this->getConfiguration("devicetype") == "music")
         {
             // Twinkly Music
             $onCmd = $this->getCmd(null, "on");
@@ -363,7 +363,7 @@ class kTwinkly extends eqLogic {
                 $onCmd->setGeneric_type('LIGHT_ON');
                 $onCmd->setIsVisible(1);
                 $onCmd->setValue('on');
-                $onCmd->setDisplay('icon','<i class="icon jeedom-lumiere-on"></i>');
+                $onCmd->setDisplay('icon','<i class="icon jeedom-on"></i>');
                 $onCmd->setOrder(0);
                 $onCmd->save();
             }
@@ -380,7 +380,7 @@ class kTwinkly extends eqLogic {
                 $offCmd->setGeneric_type('LIGHT_OFF');
                 $offCmd->setIsVisible(1);
                 $offCmd->setValue('off');
-                $offCmd->setDisplay('icon','<i class="icon jeedom-lumiere-off"></i>');
+                $offCmd->setDisplay('icon','<i class="icon jeedom-off"></i>');
                 $offCmd->setOrder(1);
                 $offCmd->save();
             }
@@ -397,7 +397,56 @@ class kTwinkly extends eqLogic {
                 $stateCmd->setIsVisible(1);
                 $stateCmd->setOrder(2);
                 $stateCmd->save();
-            }            
+            }           
+            /*
+            $micOnCmd = $this->getCmd(null, "micon");
+            if (!is_object($micOnCmd))
+            {
+                $micOnCmd = new kTwinklyCmd();
+                $micOnCmd->setName(__('Microphone On', __FILE__));
+                $micOnCmd->setEqLogic_id($this->getId());
+                $micOnCmd->setLogicalId('micon');
+                $micOnCmd->setType('action');
+                $micOnCmd->setSubType('other');
+                $micOnCmd->setGeneric_type('LIGHT_ON');
+                $micOnCmd->setIsVisible(1);
+                $micOnCmd->setValue('on');
+                //$micOnCmd->setDisplay('icon','<i class="icon jeedom-lumiere-on"></i>');
+                $micOnCmd->setOrder(3);
+                $micOnCmd->save();
+            }
+
+            $micOffCmd = $this->getCmd(null, "micoff");
+            if (!is_object($micOffCmd))
+            {
+                $micOffCmd = new kTwinklyCmd();
+                $micOffCmd->setName(__('Microphone Off', __FILE__));
+                $micOffCmd->setEqLogic_id($this->getId());
+                $micOffCmd->setLogicalId('micoff');
+                $micOffCmd->setType('action');
+                $micOffCmd->setSubType('other');
+                $micOffCmd->setGeneric_type('LIGHT_OFF');
+                $micOffCmd->setIsVisible(1);
+                $micOffCmd->setValue('off');
+                //$micOffCmd->setDisplay('icon','<i class="icon jeedom-lumiere-off"></i>');
+                $micOffCmd->setOrder(4);
+                $micOffCmd->save();
+            }
+
+            $micStateCmd = $this->getCmd(null, "micstate");
+            if (!is_object($micStateCmd))
+            {
+                $micStateCmd = new kTwinklyCmd();
+                $micStateCmd->setName(__('Etat Microphone', __FILE__));
+                $micStateCmd->setEqLogic_id($this->getId());
+                $micStateCmd->setLogicalId('micstate');
+                $micStateCmd->setType('info');
+                $micStateCmd->setSubType('string');
+                $micStateCmd->setIsVisible(1);
+                $micStateCmd->setOrder(5);
+                $micStateCmd->save();
+            }   
+            */
             $refreshCmd = $this->getCmd(null, "refresh");
             if (!is_object($refreshCmd))
             {
@@ -409,7 +458,7 @@ class kTwinkly extends eqLogic {
                 $refreshCmd->setSubType('other');
                 $refreshCmd->setIsVisible(0);
                 $refreshCmd->setValue('refresh');
-                $refreshCmd->setOrder(3);
+                $refreshCmd->setOrder(6);
                 $refreshCmd->save();
             }            
         }
@@ -653,8 +702,12 @@ class kTwinkly extends eqLogic {
                     {
                         $t = new TwinklyMusic($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
     
-                        $state = ($t->get_mic_enabled()?"on":"off");
+                        $current_mode = $t->get_mode();
+                        $state = ($current_mode["mode"] != "off"?"on":"off");                       
                         $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
+                        
+                        //$microphone_state = ($t->get_mic_enabled()?"on":"off");
+                        //$changed = $eqLogic->checkAndUpdateCmd('micstate', $microphone_state, false) || $changed;
                     }
     
                     if ($changed)

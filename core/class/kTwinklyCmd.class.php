@@ -259,8 +259,9 @@ class kTwinklyCmd extends cmd {
                     // Activation du Twinkly Music
                     log::add('kTwinkly','debug',"TwinklyMusic Commande 'on' ip=$ip mac=$mac");
 
-                    $t->set_mic_enabled(true);
-                    $newstate = ($t->get_mic_enabled()?"on":"off");
+                    $t->set_mode("v2");
+                    $current_mode = $t->get_mode();
+                    $newstate = ($current_mode["mode"] !== "off"?"on":"off");
 
                     $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                     if ($changed)
@@ -273,8 +274,9 @@ class kTwinklyCmd extends cmd {
                     // Désactivation du Twinkly Music
                     log::add('kTwinkly','debug',"TwinklyMusic Commande 'off' ip=$ip mac=$mac");
 
-                    $t->set_mic_enabled(false);
-                    $newstate = ($t->get_mic_enabled()?"on":"off");
+                    $t->set_mode("off");
+                    $current_mode = $t->get_mode();
+                    $newstate = ($current_mode["mode"] !== "off"?"on":"off");
 
                     $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                     if ($changed)
@@ -282,14 +284,48 @@ class kTwinklyCmd extends cmd {
                         $eqLogic->refreshWidget();
                     }
                 }
+/*                
+                else if ($action == "micon")
+                {
+                    // Activation du Microphone Twinkly Music
+                    log::add('kTwinkly','debug',"TwinklyMusic Commande 'mic' ip=$ip mac=$mac");
+                    
+                    $t->set_mic_enabled(true);
+                    $newstate = ($t->get_mic_enabled()?"on":"off");
+
+                    $changed = $eqLogic->checkAndUpdateCmd('micstate', $newstate, false) || $changed;
+                    if ($changed)
+                    {
+                        $eqLogic->refreshWidget();
+                    }                    
+
+                }
+                else if ($action == "micoff")
+                {
+                    // Désactivation du Twinkly Music
+                    log::add('kTwinkly','debug',"TwinklyMusic Commande 'micoff' ip=$ip mac=$mac");
+
+                    $t->set_mic_enabled(false);
+                    $newstate = ($t->get_mic_enabled()?"on":"off");
+
+                    $changed = $eqLogic->checkAndUpdateCmd('micstate', $newstate, false) || $changed;
+                    if ($changed)
+                    {
+                        $eqLogic->refreshWidget();
+                    }
+                }
+*/                
                 else if ($action == "refresh")
                 {
                     // Rafraichissement manuel des valeurs
                     log::add('kTwinkly','debug',"TwinklyMusic Commande 'refresh'");
 
-                    $newstate = ($t->get_mic_enabled()?"on":"off");
-
+                    $current_mode = $t->get_mode();
+                    $newstate = ($current_mode["mode"] !== "off"?"on":"off");                    
                     $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
+
+                    //$microphone_state = ($t->get_mic_enabled()?"on":"off");
+                    //$changed = $eqLogic->checkAndUpdateCmd('micstate', $microphone_state, false) || $changed;
                     if ($changed)
                     {
                         $eqLogic->refreshWidget();
