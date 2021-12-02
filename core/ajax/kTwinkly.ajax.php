@@ -170,8 +170,14 @@ try {
         En V3 : indiquer l'argument 'true' pour contrôler le token d'accès Jeedom
         En V4 : autoriser l'exécution d'une méthode 'action' en GET en indiquant le(s) nom(s) de(s) action(s) dans un tableau en argument
     */  
-    ajax::init(array('uploadMovie','saveMovie','deleteMovie','discoverDevices','updateMqtt'));
+    ajax::init(array('uploadMovie','saveMovie','deleteMovie','createPlaylist','deletePlaylist','clearMemory','changeproxystate','stopProxy','discoverDevices','updateMqtt','copiecaptures','getDetailedPlaylist'));
 
+    $debug = FALSE;
+    $additionalDebugLog = __DIR__ . '/../../../../log/kTwinkly_debug';
+    if (config::byKey('additionalDebugLogs','kTwinkly') == "1") {
+        $debug = TRUE;
+    }
+    
     if (init('action') == 'uploadMovie') {
         $id = init(id);
         $eqLogic = eqLogic::byId($id);
@@ -339,49 +345,29 @@ try {
 
         $ip = $eqLogic->getConfiguration("ipaddress");
         $mac = $eqLogic->getConfiguration("macaddress");
+        $clearmemory = $eqLogic->getConfiguration("clearmemory");
 
-        $filenames = $_POST["files"];
-        $labels = $_POST["labels"];
-        $selectedfilenames = $_POST["selectedFilenames"];
+        $playlist = init(playlist);
 
-        $playlist = "";
         $movies = [];
-        foreach ($selectedfilenames as $f) {
-            $playlist_item = create_playlist_item(__DIR__ . '/../../data/' . $f);
+        foreach ($playlist as $item) {
+            log::add('kTwinkly','debug','adding playlist item with file ' . __DIR__ . '/../../data/' . $item["filename"] . ' and duration = ' . $item["duration"]);
+            $playlist_item = create_playlist_item(__DIR__ . '/../../data/' . $item["filename"], $item["duration"]);
             $movies[] = $playlist_item;
         }
 
         if (sizeof($movies) > 0) {
-            $t = new TwinklyString($ip, $mac, FALSE);
-            if ($t->create_new_playlist($movies)) {
-                ajax::success(sizeof($movies) . " élements ont été ajoutés à la playlist.");
+            $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
+
+            if ($clearmemory == 1) {
+                log::add('kTwinkly','debug','Clearing current playlist before uploading the new one');
+                $t->set_mode('off');
+                $t->delete_movies();
             }
-        }
-        ajax::error("Aucun élément n'a été ajouté à la playlist");
-    }
-
-    if (init('action') == 'addToPlaylist') {
-	    $id = init(id);
-	    $eqLogic = eqLogic::byId($id);
-
-        $ip = $eqLogic->getConfiguration("ipaddress");
-        $mac = $eqLogic->getConfiguration("macaddress");
-
-        $filenames = $_POST["files"];
-        $labels = $_POST["labels"];
-        $selectedfilenames = $_POST["selectedFilenames"];
-
-        $playlist = "";
-        $movies = [];
-        foreach ($selectedfilenames as $f) {
-            $playlist_item = create_playlist_item(__DIR__ . '/../../data/' . $f);
-            $movies[] = $playlist_item;
-        }
-
-        if (sizeof($movies) > 0) {
-            $t = new TwinklyString($ip, $mac, FALSE);
-            if ($t->add_to_playlist($movies)) {
-                ajax::success(sizeof($movies) . " élements ont été ajoutés à la playlist.");
+            if ($t->create_new_playlist($movies)) {
+                $eqLogic->setConfiguration('auth_token', $t->get_token());
+                ajax::success("La playlist de " . sizeof($movies) . " élements a été créée avec succès.");
+                return;
             }
         }
         ajax::error("Aucun élément n'a été ajouté à la playlist");
@@ -394,8 +380,9 @@ try {
         $ip = $eqLogic->getConfiguration("ipaddress");
         $mac = $eqLogic->getConfiguration("macaddress");
 
-        $t = new TwinklyString($ip, $mac, FALSE);
+        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
         $t->delete_playlist();
+        $eqLogic->setConfiguration('auth_token', $t->get_token());
 
         ajax::success("La playlist a été effacée.");
     }
@@ -407,9 +394,10 @@ try {
         $ip = $eqLogic->getConfiguration("ipaddress");
         $mac = $eqLogic->getConfiguration("macaddress");
 
-        $t = new TwinklyString($ip, $mac, FALSE);
+        $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
         $t->set_mode('off');
         $t->delete_movies();
+        $eqLogic->setConfiguration('auth_token', $t->get_token());
 
         ajax::success("Les animations en mémoire ont été supprimées.");
     }
@@ -483,9 +471,9 @@ try {
 	    $client_id = $_POST["mqttClientId"];
 	    $mqtt_user = $_POST["mqttUser"];
 
-	    $t = new TwinklyString($ip, $mac, FALSE);
+	    $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
 	    //$t->set_mqtt_configuration($broker_ip, $broker_port, $client_id, $mqtt_user);
-
+        $eqLogic->setConfiguration('auth_token', $t->get_token());
 
 	    log::add('kTwinkly','debug',"(désactivé) Mise à jour MQTT $ip / $mac => $broker_ip:$broker_port");
 	    ajax::success();
@@ -495,6 +483,42 @@ try {
         $id = init('id');
         recupere_movies($id);
         ajax::success();
+    }
+
+    if (init('action') == 'getDetailedPlaylist') {
+        $id = init('id');
+        $eqLogic = eqLogic::byId($id);
+
+        $movieCmd = $eqLogic->getCmd(null, 'movie');
+        $lv = $movieCmd->getConfiguration('listValue');
+
+        $moviesList = array();
+
+        if ($lv != "") {
+            $lvs = explode(';',$lv);
+            foreach ($lvs as $lvi) {
+                $item = explode('|',$lvi);
+                $mli = array('filename' => $item[0], 'title' => $item[1]);
+                $zipfile = __DIR__ . '/../../data/' . $mli['filename'];
+                $zip = new ZipArchive();
+                if ($zip->open($zipfile)) {
+                    for ($i=0; $i<$zip->numFiles; $i++) {
+                        $zfilename = $zip->statIndex($i)["name"];
+                        if (preg_match('/json$/',strtolower($zfilename))) {
+                            $json = json_decode($zip->getFromIndex($i), TRUE);
+                            $unique_id = $json['unique_id'];
+                            break;
+                        }
+                    }
+                }
+                $moviesList[] = array('unique_id' => $unique_id, 'filename' => $item[0], 'title' => $item[1]);
+            }
+        }
+
+        $playlist = kTwinkly::get_playlist($id);
+        $result = array('movies' => $moviesList, 'playlist' => $playlist);
+
+        ajax::success($result);
     }
 
     throw new Exception(__('Aucune méthode correspondant à : ', __FILE__) . init('action'));

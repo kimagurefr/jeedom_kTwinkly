@@ -22,13 +22,47 @@
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
 $("#bt_movies").off('click').on('click', function() {
-	$('#md_modal').dialog({title: "{{Gestion des fichiers d'animations}}", dialogClass: "twinklyMovies"});
-	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+	$('#md_modal').dialog({
+        title: "{{Gestion des animations}}",
+        beforeClose: function() {
+            if (moviesNotSaved == 1) {
+                bootbox.confirm('{{Etes-vous sûr de vouloir quitter sans sauvegarder les modifications}} ?', function (result) {
+                    if(result) {
+                        $('#md_modal').dialog('option', 'beforeClose', function() {})
+                        $('#md_modal').dialog("close");
+                    }
+                });
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }).load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+});
+
+$("#bt_playlists").off('click').on('click', function() {
+	$('#md_modal').dialog({
+        title: "{{Gestion de la playlist}}",
+        beforeClose: function() {
+            if (playlistNotSaved == 1) {
+                bootbox.confirm('{{Etes-vous sûr de vouloir quitter sans sauvegarder les modifications}} ?', function (result) {
+                    if(result) {
+                        $('#md_modal').dialog('option', 'beforeClose', function() {})
+                        $('#md_modal').dialog("close");
+                    }
+                });
+                return false;
+            } else {
+                return true;
+            }
+        } 
+    }).load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
 });
 
 $("#bt_mqtt").off('click').on('click', function() {
-	$('#md_modal').dialog({ title: "{{Configuration MQTT}}" });
-	$('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=mqtt&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+	$('#md_modal')
+        .dialog({ title: "{{Configuration MQTT}}" })
+	    .load('index.php?v=d&plugin=kTwinkly&modal=mqtt&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
 });
 
 $('#bt_discover').off('click').on('click',function(){
@@ -108,5 +142,23 @@ function addCmdToTable(_cmd) {
 function printEqLogic(_eqLogic) {
   if (_eqLogic.id != '') {
     $('#img_device').attr("src", $('.eqLogicDisplayCard[data-eqLogic_id=' + _eqLogic.id + '] img').attr('src'));
+    if (_eqLogic.configuration['devicetype'] == "leds") { 
+      $('#bt_movies').css('visibility', 'visible');
+      $('#info_leds_1').css('visibility', 'visible');
+      $('#info_leds_2').css('visibility', 'visible');
+      if (_eqLogic.configuration['hwgen'] !== "1") { 
+          $('#bt_playlists').css('visibility', 'visible');
+          $('#cb_clearmemory').css('visibility', 'visible');
+      } else {        
+          $('#bt_playlists').css('visibility', 'hidden');
+          $('#cb_clearmemory').css('visibility', 'hidden');
+      }
+    } else {
+      $('#bt_movies').css('visibility', 'hidden');
+      $('#info_leds_1').css('visibility', 'hidden');
+      $('#info_leds_2').css('visibility', 'hidden');
+      $('#bt_playlists').css('visibility', 'hidden');
+      $('#cb_clearmemory').css('visibility', 'hidden');
+    }
   } 
 }

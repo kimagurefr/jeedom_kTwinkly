@@ -6,6 +6,8 @@ if (!isConnect('admin')) {
 $plugin = plugin::byId('kTwinkly');
 sendVarToJS('eqType', $plugin->getId());
 $eqLogics = eqLogic::byType($plugin->getId());
+
+$refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
 ?>
 
 <div class="row row-overflow">
@@ -143,21 +145,36 @@ $eqLogics = eqLogic::byType($plugin->getId());
 										<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="macaddress" placeholder="12:34:56:78:90"/>
 									</div>
 								</div>
+                                <div class="form-group" id="cb_clearmemory">
+                                    <label class="col-sm-3 control-label">{{Toujours vider la mémoire lors du chargement de la playlist}}</label>
+                                    <div class="col-sm-3">
+                                        <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="clearmemory"/>
+                                    </div>
+                                </div>
+                                <?php 
+                                    if (intval($refreshFrequency) > 0) {
+                                ?>
 								<div class="form-group">
 									<label class="col-sm-3 control-label">{{Rafraichissement auto}}</label>
 									<div class="col-sm-3">
 										<input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="autorefresh"/>
 									</div>
 								</div>
+                                <?php
+                                    }
+                                ?>
 								<div class="form-group">
 									<label class="col-sm-3 control-label"></label>
 									<div class="col-sm-8">
 										<span class="btn btn-default" id="bt_movies">
-											Gérer les animations...
+											{{Gérer les animations}}...
+										</span>
+										<span class="btn btn-default" style="visibility: hidden" id="bt_playlists" data-l1key="gen2button">
+											{{Gérer la playlist}}...
 										</span>
                                         <!--
 										<span class="btn btn-default" id="bt_mqtt">
-											Configurer MQTT...
+											{{Configurer MQTT}}...
 										</span>
                                         -->
 									</div>
@@ -183,21 +200,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">{{Produit}}</label>
                                     <div class="col-sm-3">
-                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productname" id="productfield"></span>
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productname" id="productfield"></span> / <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="productcode" id="productcodefield"></span>
                                     </div>
                                     <label class="col-sm-3 control-label">{{Nom}}</label>
                                     <div class="col-sm-3">
                                         <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="devicename" id="devicenamefield"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">{{Nombre de leds}}</label>
-                                    <div class="col-sm-3">
-                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="numberleds" id="numberledsfield"></span>
-                                    </div>
-                                    <label class="col-sm-3 control-label">{{Type de leds}}</label>
-                                    <div class="col-sm-3">
-                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="ledtype" id="ledtypefield"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -210,12 +217,22 @@ $eqLogics = eqLogic::byType($plugin->getId());
                                         <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="hardwareid" id="hardwareidfield"></span>
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="info_leds_1">
+                                    <label class="col-sm-3 control-label">{{Nombre de leds}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="numberleds" id="numberledsfield"></span>
+                                    </div>
+                                    <label class="col-sm-3 control-label">{{Type de leds}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="ledtype" id="ledtypefield"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="info_leds_2">
                                     <label class="col-sm-3 control-label">{{Gen}}</label>
                                     <div class="col-sm-3">
                                         <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="hwgen" id="hwgenfield"></span>
                                     </div>
-                                </div>
+                                </div>								
 <?php } ?>
 							</fieldset>
 						</form>
@@ -232,9 +249,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
 							<tr>
 								<th>{{Id}}</th>
 								<th>{{Nom}}</th>
-								<!-- <th>{{Type}}</th> -->
 								<th>{{Options}}</th>
-								<th>{{Paramètres}}</th>
 								<th>{{Action}}</th>
 							</tr>
 						</thead>
