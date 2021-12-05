@@ -94,7 +94,7 @@ echo 80 > ${PROGRESS_FILE}
 
 echo "* Install mitmproxy module and dependencies on Python 3"
 sudo apt-get install -y libffi-dev
-${PYTHON3}-m pip install tornado mitmproxy 
+${PYTHON3} -m pip install tornado mitmproxy 
 echo 90 > ${PROGRESS_FILE}
 
 if [ "$PIPCONF_UPDATED" == "1" ]; then
