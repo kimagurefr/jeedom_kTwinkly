@@ -23,7 +23,7 @@ class TwinklyMusic {
         // Read token from cache
         $stringid = str_replace(":", "", $mac);
         $this->cache = $cachepath . '/twinklymusic_' . $stringid . '_auth.txt';
-        $token_data = file_get_contents($this->cache);
+        $token_data = @file_get_contents($this->cache);
         if ($token_data !== FALSE) {
             $this->debug('  Reading auth data from ' . $this->cache . ' : ' . $token_data);
             $json_data = json_decode($token_data, TRUE);

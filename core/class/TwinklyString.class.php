@@ -23,7 +23,7 @@ class TwinklyString {
         // Read token from cache
         $stringid = str_replace(":", "", $mac);
         $this->cache = $cachepath . '/twinkly_' . $stringid . '_auth.txt';
-        $token_data = file_get_contents($this->cache);
+        $token_data = @file_get_contents($this->cache);
         if ($token_data !== FALSE) {
             $this->debug('  Reading auth data from ' . $this->cache . ' : ' . $token_data);
             $json_data = json_decode($token_data, TRUE);
@@ -271,7 +271,7 @@ class TwinklyString {
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: " . $content_type, "Content-Length: ".strlen($json)));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Length: ".strlen($json)));
         $data = curl_exec($ch);
         $result = json_decode($data, true) or NULL;
         curl_close($ch);
@@ -309,7 +309,7 @@ class TwinklyString {
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: " . $content_type, "Content-Length: ".strlen($json), "X-Auth-Token: " . $auth_token));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Content-Length: ".strlen($json), "X-Auth-Token: " . $auth_token));
         $data = curl_exec($ch);
         $result = json_decode($data, true) or NULL;
         curl_close($ch);
@@ -504,7 +504,7 @@ class TwinklyString {
         }
 
         if ($found == FALSE) {
-            $this->debug("  Requested movie does not existing on controller : uploading movie to device");
+            $this->debug("  Requested movie does not exist on controller : uploading movie to device");
             if($this->add_movie($movie_data, $jsonstrparameters) !== TRUE) {
                 $this->debug("upload_movie2 add movie  error...", TRUE);
                 throw new Exception("upload_movie2 add movie error [POST : movies/new] data=" . print_r($result,TRUE));
