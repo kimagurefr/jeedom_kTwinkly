@@ -3,6 +3,7 @@ class TwinklyString {
     const SHARED_KEY_CHALLENGE = "evenmoresecret!!";
     const DISCOVER_MESSAGE = "\x01discover";
     const DISCOVER_PORT = 5555;
+    const XLED_MODES = array('off','movie','playlist','effect','color','demo');
 
     private $ip;
     private $mac;
@@ -347,7 +348,7 @@ class TwinklyString {
         }
     }
 
-    // Renvoie le mode actif : off, movie, playlist
+    // Renvoie le mode actif : off, movie, playlist, color, demo, effect, rt
     public function get_mode()
     {
         $this->debug('TwinklyString::get_mode');
@@ -359,16 +360,60 @@ class TwinklyString {
         return $result["mode"];
     }
 
-    // Active le mode indiqué : off, movie, playlist
+    // Renvoie le mode (version detaillee, comprenant l'animation dans la playlist pour les GEN2)
+    public function get_mode_full()
+    {
+        $this->debug('TwinklyString::get_mode_full');
+        $result = $this->do_api_get("led/mode");
+        if (is_null($result) || $result["code"] != "1000") {
+            $this->debug("  get_mode_full error : " . json_encode($result));
+            throw new Exception("get_mode_full error [GET : led/mode] data=" . print_r($result,TRUE));
+        }
+        return $result;
+    }    
+
+    // Active le mode indiqué : off, movie, playlist, effect, color, demo
     public function set_mode($mode)
     {
         $this->debug("TwinklyString::set_mode($mode)");
-        $json = json_encode(array("mode" => $mode));
-        $result = $this->do_api_post("led/mode", $json);
+        if(in_array($mode, TwinklyString::XLED_MODES)) {
+            $json = json_encode(array("mode" => $mode));
+            $result = $this->do_api_post("led/mode", $json);
+    
+            if (is_null($result) || $result["code"] != "1000") {
+                $this->debug("  set_mode error : " . json_encode($result));
+                throw new Exception("set_mode error [POST : led/mode] data=" . print_r($result,TRUE));
+            }
+        } else {
+            $this->debug("  set_mode error : invalid mode specified");
+            throw new Exception("set_mode error : invalid mode specified");
+        }
+
+        return TRUE;
+    }
+
+    // Retourne l'effet en cours (unique_id/effect_id)
+    public function get_effect()
+    {
+        $this->debug('TwinklyString::get_effect');
+        $result = $this->do_api_get("led/effects/current");
+        if (is_null($result) || $result["code"] != "1000") {
+            $this->debug("  get_effect error : " . json_encode($result));
+            throw new Exception("get_effect error [GET : led/effects/current] data=" . print_r($result,TRUE));
+        }
+        return $result;
+    }
+
+    // Choisit l'effet en cours
+    public function set_effect($effect_id)
+    {
+        $this->debug("TwinklyString::set_effect($effect_id)");
+        $json = json_encode(array("effect_id" => $effect_id));
+        $result = $this->do_api_post("led/effects/current", $json);
 
         if (is_null($result) || $result["code"] != "1000") {
-            $this->debug("  set_mode error : " . json_encode($result));
-            throw new Exception("set_mode error [POST : led/mode] data=" . print_r($result,TRUE));
+            $this->debug("  set_effect error : " . json_encode($result));
+            throw new Exception("set_effect error [POST : led/effects/current] data=" . print_r($result,TRUE));
         }
         return TRUE;
     }
@@ -406,11 +451,101 @@ class TwinklyString {
         }
     }
 
+    // Renvoie la couleur courante en mode color
+    public function get_color()
+    {
+        $this->debug('TwinklyString::get_color');
+        return $result = $this->do_api_get("led/color");
+    }
+
+    // Choisit la couleur a utiliser pour le mode color (hue/saturation/value)
+    public function set_color_hsv($hue, $saturation, $value) 
+    {
+        $this->debug("TwinklyString::set_color_hsv($hue, $saturation, $value)");
+        if($hue>=0 && $hue<=359 && $saturation>=0 && $saturation<=255 && $value>=0 && $value<=255) {
+            $json = json_encode(array("hue" => $hue, "saturation" => $saturation, "value" => $value));
+            $result = $this->do_api_post("led/color", $json);
+
+            if (is_null($result) || $result["code"] != "1000") {
+                $this->debug("  set_color_hsv error : " . json_encode($result));
+                throw new Exception("set_color_hsv error [POST : led/color] data=" . print_r($result,TRUE));
+            }
+        } else {
+            $this->debug("  set_color_hsv error : invalid arguments - hue must be in the 0..359 range and saturation/value must be in the 0..255 range");
+            throw new Exception("set_color_hsv error : invalid arguments - hue must be in the 0..359 range and saturation/value must be in the 0..255 range");
+        }
+        return TRUE;
+    }
+
+    // Choisit la couleur a utiliser pour le mode color (red/green/blue)
+    public function set_color_rgb($red, $green, $blue) 
+    {
+        $this->debug("TwinklyString::set_color_rgb($red, $green, $blue)");
+        if($red>=0 && $red<=255 && $green>=0 && $green<=255 && $blue>=0 && $blue<=255) {
+            $json = json_encode(array("red" => $red, "green" => $green, "blue" => $blue));
+            $result = $this->do_api_post("led/color", $json);
+    
+            if (is_null($result) || $result["code"] != "1000") {
+                $this->debug("  set_color_rgb error : " . json_encode($result));
+                throw new Exception("set_color_rgb error [POST : led/color] data=" . print_r($result,TRUE));
+            }
+        } else {
+            $this->debug("  set_color_rgb error : invalid arguments - colors must be in the 0..255 range");
+            throw new Exception("set_color_rgb error : invalid arguments - colors must be in the 0..255 range");
+        }
+        return TRUE;
+    }
+
+    // Renvoie le niveau de saturation (0..100)
+    public function get_saturation()
+    {
+        $this->debug("TwinklyString::get_saturation");
+        $result = $this->do_api_get("led/out/saturation");
+        if ($result["code"] != "1000") {
+            $this->debug("  get_saturation error : " . json_encode($result), TRUE);
+            throw new Exception("get_saturation error [GET : led/out/saturation] data=" . print_r($result,TRUE));
+        }
+        return $result["value"];
+    }
+
+    // Definit le niveau de saturation
+    public function set_saturation()
+    {
+        $this->debug("TwinklyString::set_saturation($enabled, $type, $value)");
+        if(($type==="A" && $value>=0 && $value<=100) || ($type==="R" && $value>=-100 && $value<=100)) {
+            $json = json_encode(array("mode" => ($enabled===$true?"enabled":"disabled"), "type" => $type, "value" => $value));
+            $result = $this->do_api_post("led/out/saturation", $json);
+    
+            if (is_null($result) || $result["code"] != "1000") {
+                $this->debug("  set_saturation error : " . json_encode($result));
+                throw new Exception("set_saturation error [POST : led/out/saturation] data=" . print_r($result,TRUE));
+            }
+        } else {
+            $this->debug("  set_saturation error : invalid arguments - for type R, value must be in the -100..100 range. For type A, value must be in the 0..100 range.");
+            throw new Exception("set_saturation error : invalid arguments - for type R, value must be in the -100..100 range. For type A, value must be in the 0..100 range");
+        }
+        return TRUE;
+    }    
+    
     // Renvoie les informations sur la guirlande
     public function get_details()
     {
         $this->debug('TwinklyString::get_details');
         return $result = $this->do_api_get("gestalt", FALSE);
+    }
+
+    // Renvoie les informations sur la guirlande (infos detaillees)
+    public function get_details_full()
+    {
+        $this->debug('TwinklyString::get_details_full');
+        return $result = $this->do_api_get("gestalt?filter=prod_info&filter2=group", FALSE);
+    }
+
+    // Renvoie le statut courant de la guirlande (uniquement un code retour 1000 si ok)
+    public function get_status()
+    {
+        $this->debug('TwinklyString::get_status');
+        return $result = $this->do_api_get("status");
     }
 
     // Charge une animation dans le contrôleur (mode GEN1)
