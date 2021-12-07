@@ -70,22 +70,29 @@ class kTwinklyCmd extends cmd {
                     // Allumer la guirlande. On active le mode "movie".
                     if ($hwgen == "1")
                     {
-                        log::add('kTwinkly','debug',"Commande 'on' GEN1 -> appel commande movie ip=$ip mac=$mac");
-                        $t->set_mode("movie");
+                        try {
+                            log::add('kTwinkly','debug',"Commande 'on' GEN1 -> appel commande movie ip=$ip mac=$mac");
+                            $t->set_mode("movie");    
+                        }
+                        catch (Exception $e1)
+                        {
+                            log::add('kTwinkly','debug',"Commande 'on' GEN1 -> Echec mode movie. appel commande effect ip=$ip mac=$mac");
+                            $t->set_mode("effect");
+                        }
                     } else {
                         try
                         {
                             log::add('kTwinkly','debug',"Commande 'on' GEN2 -> changement mode : playlist ip=$ip mac=$mac");
                             $t->set_mode("playlist");
                         }
-                        catch (Exception $e1)
+                        catch (Exception $e2)
                         {
                             try
                             {
                                 log::add('kTwinkly','debug',"Commande 'on' GEN2 -> Aucune playlist. Changement mode : movie ip=$ip mac=$mac");
                                 $t->set_mode("movie");
                             }
-                            catch (Exception $e2)
+                            catch (Exception $e3)
                             {
                                 log::add('kTwinkly','debug',"Commande 'on' GEN2 -> Echec mode movie. Changement mode : effect ip=$ip mac=$mac");
                                 $t->set_mode("effect");
