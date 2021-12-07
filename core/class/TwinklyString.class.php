@@ -1,9 +1,9 @@
 <?php
 class TwinklyString {
-    private const SHARED_KEY_CHALLENGE = "evenmoresecret!!";
-    private const DISCOVER_MESSAGE = "\x01discover";
-    private const DISCOVER_PORT = 5555;
-    private const XLED_MODES = array('off','movie','playlist','effect','color','demo');
+    const SHARED_KEY_CHALLENGE = "evenmoresecret!!";
+    const DISCOVER_MESSAGE = "\x01discover";
+    const DISCOVER_PORT = 5555;
+    const XLED_MODES = array('off','movie','playlist','effect','color','demo');
 
     private $ip;
     private $mac;
