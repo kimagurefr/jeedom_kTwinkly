@@ -52,7 +52,7 @@ function versionToInt($_str) {
 }
 
 // Indique si la version de firmware supporte la fonctionnalité de réglage de la luminosité
-function version_supports_brigthness($_fw_version) {
+function version_supports_brightness($_fw_family, $_fw_version) {
     if (versionToInt($_fw_version) >= versionToInt("2.3.0")) {
         return TRUE;
     } else {
@@ -60,12 +60,46 @@ function version_supports_brigthness($_fw_version) {
     }
 }
 
+// Indique si la version de firmware supporte la fonctionnalité couleur
+function version_supports_color($_fw_family, $_fw_version) {
+    if (versionToInt($_fw_version) >= versionToInt("2.7.1")) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+// Indique si la version de firmware supporte la liste des animations
+function version_supports_getmovies($_fw_family, $_fw_version) {
+    if (versionToInt($_fw_version) >= versionToInt("2.5.6")) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
 // Indique le mode de chargement des animations en fonction de la version du firmware
-function version_upload_type($_fw_version) {
+function version_upload_type($_fw_family, $_fw_version) {
     if (versionToInt($_fw_version) >= versionToInt("2.5.5")) {
         return "v1";
     } else {
         return "v2";
+    }
+}
+
+function convert_rgb_to_string_json($_json_color) {
+    if(is_array($_json_color)) {        
+        return "#" . sprintf('%02X', $_json_color["red"]) . sprintf('%02X', $_json_color["green"]) . sprintf('%02X', $_json_color["blue"]);
+    } else {
+        return "#000000";
+    }
+}
+
+function convert_rgb_to_string($red, $green, $blue) {
+    if(is_array($_json_color)) {        
+        return "#" . sprintf('%02X', $red) . sprintf('%02X', $green) . sprintf('%02X', $blue);
+    } else {
+        return "#000000";
     }
 }
 
