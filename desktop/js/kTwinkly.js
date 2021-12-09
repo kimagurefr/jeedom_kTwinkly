@@ -87,6 +87,7 @@ $('#bt_discover').off('click').on('click',function(){
   });
 })
 
+
 /*
 * Fonction permettant l'affichage des commandes dans l'équipement
 */

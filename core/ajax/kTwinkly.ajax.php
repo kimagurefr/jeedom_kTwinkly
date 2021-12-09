@@ -319,17 +319,40 @@ try {
 	    $filenames = $_POST["files"];
 	    $labels = $_POST["labels"];
 
-	    $newList = "";
-	    for ($i=0; $i < sizeof($filenames); $i++) {
-		$newList .= ';' . $filenames[$i] . '|' . $labels[$i];
-	    }
-	    $newList = substr($newList, 1);
-
-	    $id = init(id);
+        $id = init(id);
 	    $eqLogic = eqLogic::byId($id);
 	    $movieCmd = $eqLogic->getCmd(null, 'movie');
 
+        $oldlist = $movieCmd->getConfiguration('listValue');
+        if($oldlist != NULL && $oldlist !== "") {
+            $oldlistTable = array();
+            foreach(explode(';',$oldlist) as $i) {
+                $tmp = explode('|',$i);
+                $item = array();
+                array_push($oldlistTable, array("name" => $tmp[1], "zip" => $tmp[0]));
+            }
+        }
+	    
+	    $newList = "";
+        $changed = array();
+
+	    for ($i=0; $i < sizeof($filenames); $i++) {
+            $oldid = array_search($filenames[$i], array_column($oldlistTable, 'zip'));
+            $oldname = $oldlistTable[$oldid]["name"]; // Trouve l'ancien nom correspondant au zip
+
+            if($oldname !== $labels[$i]) {
+                // Le nom a été changé, il faut mettre à jour l'info dans le json
+                array_push($changed, array("zip" => $filenames[$i], "old" => $oldname, "new" => $labels[$i]));
+            }
+		    $newList .= ';' . $filenames[$i] . '|' . $labels[$i];
+	    }
+	    $newList = substr($newList, 1);
+
 	    log::add('kTwinkly','debug','savemovie eq=' . $id . ' / cmd=' . $movieCmd->getId() . ' => new listvalue ' . $newList);
+
+        if(count($changed) > 0) {
+            kTwinkly::update_titles($id, $changed);
+        }
 
 	    $movieCmd->setConfiguration('listValue', $newList);
 	    $movieCmd->save();
@@ -518,6 +541,13 @@ try {
         $playlist = kTwinkly::get_playlist($id);
         $result = array('movies' => $moviesList, 'playlist' => $playlist);
 
+        ajax::success($result);
+    }
+
+    if(init('action') == 'test_load_movies') {
+        $id = init('id');
+        $eqLogic = eqLogic::byId($id);
+        $eqLogic->populate_movies_list($id);
         ajax::success($result);
     }
 

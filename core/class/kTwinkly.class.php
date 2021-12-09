@@ -397,6 +397,7 @@ class kTwinkly extends eqLogic {
                     $memoryFreeCmd->setLogicalId('memoryfree');
                     $memoryFreeCmd->setType('info');
                     $memoryFreeCmd->setSubType('numeric');
+                    $memoryFreeCmd->setUnite("%");
                     $memoryFreeCmd->setIsVisible(0);
                     $memoryFreeCmd->setOrder($cmdIndex);
                     $memoryFreeCmd->save();
@@ -550,6 +551,11 @@ class kTwinkly extends eqLogic {
                 $refreshCmd->save();
             }            
         }
+
+        log::add('kTwinkly','debug','kTwinkly::postUpdate');
+        
+        self::populate_movies_list($this->getID());
+
         if ($this->getChanged())
         {
             self::deamon_start();
@@ -560,7 +566,7 @@ class kTwinkly extends eqLogic {
     public function preRemove()
     {
 	    // Suppression des animations liées à cet équipement
-        $animpath = __DIR__ . '/../../data/twinkly_' . $this->getId() . '_*';
+        $animpath = __DIR__ . '/../../data/movie_' . $this->getId() . '_*.zip';
         log::add('kTwinkly','debug','Suppression des animations liées à l\'équipement : ' . $animpath);
         array_map( "unlink", glob( $animpath ) );
     }
@@ -1070,5 +1076,74 @@ class kTwinkly extends eqLogic {
             }
         }
         return $return;
+    }
+
+    // Charge la liste des animations dans la liste déroulante à partir des fichiers sur le disque
+    public static function populate_movies_list($_id)
+    {
+        log::add('kTwinkly','debug','populate_movies_list - id=' . $_id);
+        $eqLogic = eqLogic::byId($_id);
+        $movieCmd = $eqLogic->getCmd(null, "movie");
+
+        $dataDir = __DIR__ . '/../../data/';
+        $movieMask = $dataDir . 'movie_' . $_id . '_*.zip';
+        $allMovies = glob($movieMask);
+        $movieList = "";
+
+        if (count($allMovies) != 0) {
+            log::add('kTwinkly','debug','populate_movies_list - found ' . count($allMovies) . ' movies');
+            foreach($allMovies as $filePath) {
+                $filename = substr($filePath, strlen($dataDir));
+                $zip = new ZipArchive();
+                if ($zip->open($filePath) === TRUE)
+                {
+                    for ($i=0; $i<$zip->numFiles; $i++)
+                    {
+                        $zfilename = $zip->statIndex($i)["name"];
+                        if (preg_match('/json$/',strtolower($zfilename)))
+                        {
+                            $jsonstring = $zip->getFromIndex($i);
+                            $json = json_decode($jsonstring, TRUE);
+                            $movieName = $json["name"] ?? substr($filename, 0, -4);
+
+                            $movieList .= ';' . $filename . '|' . $movieName;
+                        }
+                    }
+                }
+            }
+            $movieList = substr($movieList, 1); // Supprime le ";" initial
+        }
+        $movieCmd->setConfiguration('listValue', $movieList);
+        $movieCmd->save();
+        $eqLogic->refreshWidget();
+    }
+
+    // Met à jour le titre des animations dans le JSON inclus dans le zip
+    public static function update_titles($_id, $changed) 
+    {
+        $eqLogic = eqLogic::byId($_id);
+        $dataDir = __DIR__ . '/../../data/';
+        
+        foreach($changed as $c)
+        {
+            $filePath = $dataDir . $c["zip"];
+            $zip = new ZipArchive();
+            if ($zip->open($filePath) === TRUE)
+            {
+                for ($i=0; $i<$zip->numFiles; $i++)
+                {
+                    $zfilename = $zip->statIndex($i)["name"];
+                    if (preg_match('/json$/',strtolower($zfilename)))
+                    {
+                        $jsonstring = $zip->getFromIndex($i);
+                        $json = json_decode($jsonstring, TRUE);
+                        $json["name"] = $c["new"]; // On change le nom (ou on l'ajoute la premiere fois pour les GEN1)
+                        $zip->deleteIndex($i); // On supprime l'ancien fichier JSON
+                        $zip->addFromString($zfilename, json_encode($json)); // On ajoute le JSON modifié
+                        $zip->close();
+                    }
+                }                
+            }
+        }
     }
 }
