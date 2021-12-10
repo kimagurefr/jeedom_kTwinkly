@@ -389,9 +389,11 @@ try {
             }
             if ($t->create_new_playlist($movies)) {
                 //$eqLogic->setConfiguration('auth_token', $t->get_token());
+                $eqLogic->refreshstate($id, TRUE);
                 ajax::success("La playlist de " . sizeof($movies) . " élements a été créée avec succès.");
                 return;
             }
+            $eqLogic->refreshstate($id, TRUE);
         }
         ajax::error("Aucun élément n'a été ajouté à la playlist");
     }

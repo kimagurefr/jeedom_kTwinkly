@@ -586,8 +586,15 @@ class kTwinkly extends eqLogic {
     {
 	    // Suppression des animations liées à cet équipement
         $animpath = __DIR__ . '/../../data/movie_' . $this->getId() . '_*.zip';
+
+        // Suppression du cache des animations pour cet équipement
+        $cachepath = __DIR__ . '/../../data/moviecache_' . $this->getId() . '.json';
+
         log::add('kTwinkly','debug','Suppression des animations liées à l\'équipement : ' . $animpath);
         array_map( "unlink", glob( $animpath ) );
+
+        log::add('kTwinkly','debug','Suppression du cache des animations de l\'équipement : ' . $cachepath);
+        unlink($cachepath);
     }
 
     // Découverte automatique des équipements sur le réseau
@@ -762,6 +769,8 @@ class kTwinkly extends eqLogic {
     // Rafraîchissement des valeurs par appel à l'API
     public static function refreshstate($_eqLogic_id = null, $manual=FALSE)
     {
+        log::add('kTwinkly','debug','kTwinkly refreshsate id=' . $_eqLogic_id . ' manual=' . $manual);
+
         if (self::$_eqLogics == null)
         {
             self::$_eqLogics = self::byType('kTwinkly');
@@ -808,8 +817,8 @@ class kTwinkly extends eqLogic {
                         $currentMode = $t->get_mode();
                         $brightness = $t->get_brightness();
                         $state = ($currentMode=="off"?"off":"on");
-        
-                        $changed = $eqLogic->checkAndUpdateCmd('currentmode', $currentmMode, false) || $changed;
+                        log::add('kTwinkly','debug','kTwinkly refreshstate - current state = ' . $state . ' / ' . $currentMode);
+                        $changed = $eqLogic->checkAndUpdateCmd('currentmode', $currentMode, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $brightness, false) || $changed;
                     }
