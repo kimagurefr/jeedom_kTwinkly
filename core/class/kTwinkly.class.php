@@ -784,7 +784,7 @@ class kTwinkly extends eqLogic {
                         $brightness = $t->get_brightness();
                         $state = ($currentMode=="off"?"off":"on");
         
-                        $changed = $eqLogic->checkAndUpdateCmd('currentmode', $currentmMode, false) || $changed;
+                        $changed = $eqLogic->checkAndUpdateCmd('currentmode', $currentMode, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $brightness, false) || $changed;
                     }
