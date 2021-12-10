@@ -301,6 +301,24 @@ class kTwinkly extends eqLogic {
             }
 
             $cmdIndex++;
+            $currentMovieCmd = $this->getCmd(null, "currentmovie");
+            if (!is_object($currentMovieCmd))
+            {
+                $currentMovieCmd = new kTwinklyCmd();
+                $currentMovieCmd->setName(__('Animation Courante', __FILE__));
+                $currentMovieCmd->setEqLogic_id($this->getId());
+                $currentMovieCmd->setLogicalId('currentmovie');
+                $currentMovieCmd->setType('info');
+                $currentMovieCmd->setSubType('string');
+                $currentMovieCmd->setIsVisible(0);
+                $currentMovieCmd->setOrder($cmdIndex);
+                $currentMovieCmd->save();
+            }
+
+            $movieCmd->setValue($currentMovieCmd->getId());
+            $movieCmd->save();
+
+            $cmdIndex++;
             $stateCmd = $this->getCmd(null, "state");
             if (!is_object($stateCmd))
             {
@@ -399,6 +417,7 @@ class kTwinkly extends eqLogic {
                     $memoryFreeCmd->setSubType('numeric');
                     $memoryFreeCmd->setUnite("%");
                     $memoryFreeCmd->setIsVisible(0);
+                    $memoryFreeCmd->setIsHistorized(0);
                     $memoryFreeCmd->setOrder($cmdIndex);
                     $memoryFreeCmd->save();
                 } 
@@ -678,7 +697,7 @@ class kTwinkly extends eqLogic {
 
             $fwversion = $d["details"]["firmware_version"];
             $eqLogic->setConfiguration('firmware',$fwversion);
- 
+
 		    $eqLogic->save();
 	    }
     }
@@ -741,7 +760,7 @@ class kTwinkly extends eqLogic {
     }
 
     // Rafraîchissement des valeurs par appel à l'API
-    public static function refreshstate($_eqLogic_id = null)
+    public static function refreshstate($_eqLogic_id = null, $manual=FALSE)
     {
         if (self::$_eqLogics == null)
         {
@@ -766,7 +785,7 @@ class kTwinkly extends eqLogic {
             }
 
             // On vérifie si l'autorefresh est actif
-            if (intval($refreshFrequency) > 0 && $eqLogic->getConfiguration('autorefresh')==1)
+            if ((intval($refreshFrequency) > 0 && $eqLogic->getConfiguration('autorefresh')==1) || ($manual == TRUE))
             {
                 try
                 {
@@ -1089,6 +1108,7 @@ class kTwinkly extends eqLogic {
         $movieMask = $dataDir . 'movie_' . $_id . '_*.zip';
         $allMovies = glob($movieMask);
         $movieList = "";
+        $movieTable = array();
 
         if (count($allMovies) != 0) {
             log::add('kTwinkly','debug','populate_movies_list - found ' . count($allMovies) . ' movies');
@@ -1105,8 +1125,10 @@ class kTwinkly extends eqLogic {
                             $jsonstring = $zip->getFromIndex($i);
                             $json = json_decode($jsonstring, TRUE);
                             $movieName = $json["name"] ?? substr($filename, 0, -4);
+                            $uuid = $json["unique_id"] ?? $filename;
 
                             $movieList .= ';' . $filename . '|' . $movieName;
+                            array_push($movieTable, array("id" => $uuid, "name" => $movieName, "zip" => $filename));
                         }
                     }
                 }
@@ -1115,6 +1137,10 @@ class kTwinkly extends eqLogic {
         }
         $movieCmd->setConfiguration('listValue', $movieList);
         $movieCmd->save();
+
+        $movieCache = $dataDir . 'moviecache_' . $_id . '.json';
+        file_put_contents($movieCache, json_encode($movieTable));
+        
         $eqLogic->refreshWidget();
     }
 

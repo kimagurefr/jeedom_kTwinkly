@@ -544,13 +544,6 @@ try {
         ajax::success($result);
     }
 
-    if(init('action') == 'test_load_movies') {
-        $id = init('id');
-        $eqLogic = eqLogic::byId($id);
-        $eqLogic->populate_movies_list($id);
-        ajax::success($result);
-    }
-
     throw new Exception(__('Aucune méthode correspondant à : ', __FILE__) . init('action'));
 } catch (Exception $e) {
     ajax::error(displayException($e), $e->getCode());
