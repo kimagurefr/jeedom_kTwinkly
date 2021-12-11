@@ -149,6 +149,7 @@ class kTwinkly extends eqLogic {
                     $this->setConfiguration('numberleds',$info["number_of_led"]);
                     $this->setConfiguration('ledtype',$info["led_profile"]);
                     $this->setConfiguration('hardwareid',$info["hw_id"]);
+                    $this->setConfiguration('firmwarefamily',get_product_info($info["product_code"])["firmware_family"]);
         
                     $fwversion = $t->firmware_version();
                     $this->setConfiguration('firmware',$fwversion);
@@ -179,6 +180,7 @@ class kTwinkly extends eqLogic {
                     $this->setConfiguration('product',$info["product_name"]);
                     $this->setConfiguration('devicename',$info["device_name"]);
                     $this->setConfiguration('hardwareid',$info["hw_id"]);
+                    $this->setConfiguration('firmwarefamily',get_product_info($info["product_code"])["firmware_family"]);
 
                     $fwversion = $t->firmware_version();
                     $this->setConfiguration('firmware',$fwversion);
@@ -197,8 +199,11 @@ class kTwinkly extends eqLogic {
     {
         // Création des commandes
         log::add('kTwinkly','debug','kTwinkly::postSave');
+
+        $cmdIndex = -1;
         if($this->getConfiguration("devicetype") == "leds")
         {
+            $cmdIndex++;
             $onCmd = $this->getCmd(null, "on");
             if (!is_object($onCmd))
             {
@@ -212,10 +217,11 @@ class kTwinkly extends eqLogic {
                 $onCmd->setIsVisible(1);
                 $onCmd->setValue('on');
                 $onCmd->setDisplay('icon','<i class="icon jeedom-lumiere-on"></i>');
-                $onCmd->setOrder(0);
+                $onCmd->setOrder($cmdIndex);
                 $onCmd->save();
             }
 
+            $cmdIndex++;
             $offCmd = $this->getCmd(null, "off");
             if (!is_object($offCmd))
             {
@@ -229,51 +235,57 @@ class kTwinkly extends eqLogic {
                 $offCmd->setIsVisible(1);
                 $offCmd->setValue('off');
                 $offCmd->setDisplay('icon','<i class="icon jeedom-lumiere-off"></i>');
-                $offCmd->setOrder(1);
+                $offCmd->setOrder($cmdIndex);
                 $offCmd->save();
             }
 
-            $brightnessCmd = $this->getCmd(null, "brightness");
-            if (!is_object($brightnessCmd))
+            if(version_supports_brightness($this->getConfiguration("firmwarefamily"),$this->getConfiguration("firmware")))
             {
-                $brightnessCmd = new kTwinklyCmd();
-                $brightnessCmd->setName(__('Luminosité', __FILE__));
-                $brightnessCmd->setEqLogic_id($this->getId());
-                $brightnessCmd->setLogicalId('brightness');
-                $brightnessCmd->setType('action');
-                $brightnessCmd->setSubType('slider');
-                $brightnessCmd->setGeneric_type('LIGHT_SLIDER');
-                $brightnessCmd->setConfiguration('minValue','0');
-                $brightnessCmd->setConfiguration('maxValue','100');
-                $brightnessCmd->setConfiguration('lastCmdValue','100');
-                $brightnessCmd->setIsVisible(1);
-                $brightnessCmd->setOrder(2);
+                $cmdIndex++;
+                $brightnessCmd = $this->getCmd(null, "brightness");
+                if (!is_object($brightnessCmd))
+                {
+                    $brightnessCmd = new kTwinklyCmd();
+                    $brightnessCmd->setName(__('Luminosité', __FILE__));
+                    $brightnessCmd->setEqLogic_id($this->getId());
+                    $brightnessCmd->setLogicalId('brightness');
+                    $brightnessCmd->setType('action');
+                    $brightnessCmd->setSubType('slider');
+                    $brightnessCmd->setGeneric_type('LIGHT_SLIDER');
+                    $brightnessCmd->setConfiguration('minValue','0');
+                    $brightnessCmd->setConfiguration('maxValue','100');
+                    $brightnessCmd->setConfiguration('lastCmdValue','100');
+                    $brightnessCmd->setIsVisible(1);
+                    $brightnessCmd->setOrder($cmdIndex);
+                    $brightnessCmd->save();
+                }
+                
+                $cmdIndex++;
+                $brightnessStateCmd = $this->getCmd(null, "brightness_state");
+                if (!is_object($brightnessStateCmd))
+                {
+                    $brightnessStateCmd = new kTwinklyCmd();
+                    $brightnessStateCmd->setName(__('Etat Luminosité', __FILE__));
+                    $brightnessStateCmd->setEqLogic_id($this->getId());
+                    $brightnessStateCmd->setLogicalId('brightness_state');
+                    $brightnessStateCmd->setType('info');
+                    $brightnessStateCmd->setSubType('numeric');
+                    $brightnessStateCmd->setGeneric_type('LIGHT_STATE');
+                    $brightnessStateCmd->setIsVisible(1);
+                    $brightnessStateCmd->setOrder($cmdIndex);
+                    $brightnessStateCmd->save();
+                } 
+    
+                // Liens entre les commandes
+                $onCmd->setValue($brightnessStateCmd->getId());
+                $onCmd->save();
+                $offCmd->setValue($brightnessStateCmd->getId());
+                $offCmd->save();
+                $brightnessCmd->setValue($brightnessStateCmd->getId());
                 $brightnessCmd->save();
             }
-            
-            $brightnessStateCmd = $this->getCmd(null, "brightness_state");
-            if (!is_object($brightnessStateCmd))
-            {
-                $brightnessStateCmd = new kTwinklyCmd();
-                $brightnessStateCmd->setName(__('Etat Luminosité', __FILE__));
-                $brightnessStateCmd->setEqLogic_id($this->getId());
-                $brightnessStateCmd->setLogicalId('brightness_state');
-                $brightnessStateCmd->setType('info');
-                $brightnessStateCmd->setSubType('numeric');
-                $brightnessStateCmd->setGeneric_type('LIGHT_STATE');
-                $brightnessStateCmd->setIsVisible(1);
-                $brightnessStateCmd->setOrder(3);
-                $brightnessStateCmd->save();
-            } 
 
-            // Liens entre les commandes
-            $onCmd->setValue($brightnessStateCmd->getId());
-            $onCmd->save();
-            $offCmd->setValue($brightnessStateCmd->getId());
-            $offCmd->save();
-            $brightnessCmd->setValue($brightnessStateCmd->getId());
-            $brightnessCmd->save();
-
+            $cmdIndex++;
             $movieCmd = $this->getCmd(null, "movie");
             if (!is_object($movieCmd))
             {
@@ -284,10 +296,11 @@ class kTwinkly extends eqLogic {
                 $movieCmd->setType('action');
                 $movieCmd->setSubType('select');
                 $movieCmd->setIsVisible(1);
-                $movieCmd->setOrder(4);
+                $movieCmd->setOrder($cmdIndex);
                 $movieCmd->save();
             }
 
+            $cmdIndex++;
             $stateCmd = $this->getCmd(null, "state");
             if (!is_object($stateCmd))
             {
@@ -298,10 +311,11 @@ class kTwinkly extends eqLogic {
                 $stateCmd->setType('info');
                 $stateCmd->setSubType('string');
                 $stateCmd->setIsVisible(1);
-                $stateCmd->setOrder(5);
+                $stateCmd->setOrder($cmdIndex);
                 $stateCmd->save();
             }
 
+            $cmdIndex++;
             $currentModeCmd = $this->getCmd(null, "currentmode");
             if (!is_object($currentModeCmd))
             {
@@ -312,12 +326,13 @@ class kTwinkly extends eqLogic {
                 $currentModeCmd->setType('info');
                 $currentModeCmd->setSubType('string');
                 $currentModeCmd->setIsVisible(1);
-                $currentModeCmd->setOrder(6);
+                $currentModeCmd->setOrder($cmdIndex);
                 $currentModeCmd->save();
             }            
 
             if ($this->getConfiguration("hwgen") == "2")
             {
+                $cmdIndex++;
                 $playlistCmd = $this->getCmd(null, "playlist");
                 if (!is_object($playlistCmd))
                 {
@@ -328,11 +343,83 @@ class kTwinkly extends eqLogic {
                     $playlistCmd->setType('action');
                     $playlistCmd->setSubType('other');
                     $playlistCmd->setIsvisible(1);
-                    $playlistCmd->setOrder(7);
+                    $playlistCmd->setOrder($cmdIndex);
                     $playlistCmd->save();
                 }
             }
 
+            if(version_supports_color($this->getConfiguration("firmwarefamily"), $this->getConfiguration("firmware")))
+            {
+                $cmdIndex++;
+                $currentColorCmd = $this->getCmd(null, "color_state");
+                if (!is_object($currentColorCmd))
+                {
+                    $currentColorCmd = new kTwinklyCmd();
+                    $currentColorCmd->setName(__('Couleur courante', __FILE__));
+                    $currentColorCmd->setEqLogic_id($this->getId());
+                    $currentColorCmd->setLogicalId('color_state');
+                    $currentColorCmd->setType('info');
+                    $currentColorCmd->setSubType('string');
+                    $currentColorCmd->setGeneric_type('LIGHT_COLOR');
+                    $currentColorCmd->setIsVisible(0);
+                    $currentColorCmd->setOrder($cmdIndex);
+                    $currentColorCmd->save();
+                } 
+
+                $cmdIndex++;
+                $colorCmd = $this->getCmd(null, "color");
+                if (!is_object($colorCmd))
+                {
+                    $colorCmd = new kTwinklyCmd();
+                    $colorCmd->setName(__('Couleur', __FILE__));
+                    $colorCmd->setEqLogic_id($this->getId());
+                    $colorCmd->setLogicalId('color');
+                    $colorCmd->setType('action');
+                    $colorCmd->setSubType('color');
+                    $colorCmd->setIsVisible(1);
+                    $colorCmd->setOrder($cmdIndex);
+                    $colorCmd->save();
+                }
+
+                $colorCmd->setValue($currentColorCmd->getId());
+                $colorCmd->save();
+            }
+
+            if(version_supports_getmovies($this->getConfiguration("firmwarefamily"), $this->getConfiguration("firmware")))
+            {
+                $cmdIndex++;
+                $memoryFreeCmd = $this->getCmd(null, "memoryfree");
+                if (!is_object($memoryFreeCmd))
+                {
+                    $memoryFreeCmd = new kTwinklyCmd();
+                    $memoryFreeCmd->setName(__('Mémoire libre', __FILE__));
+                    $memoryFreeCmd->setEqLogic_id($this->getId());
+                    $memoryFreeCmd->setLogicalId('memoryfree');
+                    $memoryFreeCmd->setType('info');
+                    $memoryFreeCmd->setSubType('numeric');
+                    $memoryFreeCmd->setIsVisible(0);
+                    $memoryFreeCmd->setOrder($cmdIndex);
+                    $memoryFreeCmd->save();
+                } 
+            }
+
+            $cmdIndex++;
+            $clearMemCmd = $this->getCmd(null, "clearmem");
+            if (!is_object($clearMemCmd))
+            {
+                $clearMemCmd = new kTwinklyCmd();
+                $clearMemCmd->setName(__('Efface mémoire', __FILE__));
+                $clearMemCmd->setEqLogic_id($this->getId());
+                $clearMemCmd->setLogicalId('clearmem');
+                $clearMemCmd->setType('action');
+                $clearMemCmd->setSubType('other');
+                $clearMemCmd->setIsVisible(0);
+                $clearMemCmd->setValue('clearmem');
+                $clearMemCmd->setOrder($cmdIndex);
+                $clearMemCmd->save();
+            }
+
+            $cmdIndex++;
             $refreshCmd = $this->getCmd(null, "refresh");
             if (!is_object($refreshCmd))
             {
@@ -344,9 +431,10 @@ class kTwinkly extends eqLogic {
                 $refreshCmd->setSubType('other');
                 $refreshCmd->setIsVisible(0);
                 $refreshCmd->setValue('refresh');
-                $refreshCmd->setOrder(8);
+                $refreshCmd->setOrder($cmdIndex);
                 $refreshCmd->save();
             }
+
         }
         elseif($this->getConfiguration("devicetype") == "music")
         {
@@ -364,7 +452,7 @@ class kTwinkly extends eqLogic {
                 $onCmd->setIsVisible(1);
                 $onCmd->setValue('on');
                 $onCmd->setDisplay('icon','<i class="icon jeedom-on"></i>');
-                $onCmd->setOrder(0);
+                //$onCmd->setOrder(0);
                 $onCmd->save();
             }
 
@@ -381,7 +469,7 @@ class kTwinkly extends eqLogic {
                 $offCmd->setIsVisible(1);
                 $offCmd->setValue('off');
                 $offCmd->setDisplay('icon','<i class="icon jeedom-off"></i>');
-                $offCmd->setOrder(1);
+                //$offCmd->setOrder(1);
                 $offCmd->save();
             }
 
@@ -395,7 +483,7 @@ class kTwinkly extends eqLogic {
                 $stateCmd->setType('info');
                 $stateCmd->setSubType('string');
                 $stateCmd->setIsVisible(1);
-                $stateCmd->setOrder(2);
+                //$stateCmd->setOrder(2);
                 $stateCmd->save();
             }           
             /*
@@ -412,7 +500,7 @@ class kTwinkly extends eqLogic {
                 $micOnCmd->setIsVisible(1);
                 $micOnCmd->setValue('on');
                 //$micOnCmd->setDisplay('icon','<i class="icon jeedom-lumiere-on"></i>');
-                $micOnCmd->setOrder(3);
+                //$micOnCmd->setOrder(3);
                 $micOnCmd->save();
             }
 
@@ -429,7 +517,7 @@ class kTwinkly extends eqLogic {
                 $micOffCmd->setIsVisible(1);
                 $micOffCmd->setValue('off');
                 //$micOffCmd->setDisplay('icon','<i class="icon jeedom-lumiere-off"></i>');
-                $micOffCmd->setOrder(4);
+                //$micOffCmd->setOrder(4);
                 $micOffCmd->save();
             }
 
@@ -443,7 +531,7 @@ class kTwinkly extends eqLogic {
                 $micStateCmd->setType('info');
                 $micStateCmd->setSubType('string');
                 $micStateCmd->setIsVisible(1);
-                $micStateCmd->setOrder(5);
+                //$micStateCmd->setOrder(5);
                 $micStateCmd->save();
             }   
             */
@@ -458,7 +546,7 @@ class kTwinkly extends eqLogic {
                 $refreshCmd->setSubType('other');
                 $refreshCmd->setIsVisible(0);
                 $refreshCmd->setValue('refresh');
-                $refreshCmd->setOrder(6);
+                //$refreshCmd->setOrder(6);
                 $refreshCmd->save();
             }            
         }
@@ -524,6 +612,7 @@ class kTwinkly extends eqLogic {
             $eqLogic->setConfiguration('numberleds',$d["details"]["number_of_led"]);
             $eqLogic->setConfiguration('ledtype',$d["details"]["led_profile"]);
             $eqLogic->setConfiguration('hardwareid',$d["details"]["hw_id"]);
+            $eqLogic->setConfiguration('firmwarefamily',get_product_info($d["details"]["product_code"])["firmware_family"]);
 
             $fwversion = $d["details"]["firmware_version"];
             $eqLogic->setConfiguration('firmware',$fwversion);
@@ -579,6 +668,7 @@ class kTwinkly extends eqLogic {
             $eqLogic->setConfiguration('product',$d["details"]["product_name"]);
             $eqLogic->setConfiguration('devicename',$d["details"]["device_name"]);
             $eqLogic->setConfiguration('hardwareid',$d["details"]["hw_id"]);
+            $eqLogic->setConfiguration('firmwarefamily',get_product_info($d["details"]["product_code"])["firmware_family"]);
 
             $fwversion = $d["details"]["firmware_version"];
             $eqLogic->setConfiguration('firmware',$fwversion);
@@ -694,7 +784,7 @@ class kTwinkly extends eqLogic {
                         $brightness = $t->get_brightness();
                         $state = ($currentMode=="off"?"off":"on");
         
-                        $changed = $eqLogic->checkAndUpdateCmd('currentmode', $currentmMode, false) || $changed;
+                        $changed = $eqLogic->checkAndUpdateCmd('currentmode', $currentMode, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $brightness, false) || $changed;
                     }

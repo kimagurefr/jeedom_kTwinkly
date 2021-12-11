@@ -47,6 +47,8 @@ class kTwinklyCmd extends cmd {
         $autorefresh = $eqLogic->getConfiguration('autorefresh');
         $eqLogic->setConfiguration('autorefresh', 0);
 
+        $clearMemory = $eqLogic->getConfiguration('clearmemory');
+
         $action = $this->getLogicalId();
 
         $tempdir = jeedom::getTmpFolder('kTwinkly');
@@ -200,8 +202,8 @@ class kTwinklyCmd extends cmd {
                                     $tempfile = $tempdir . '/' . $value . '.bin';
                                     file_put_contents($tempfile, $bin_data);
 
-                                    log::add('kTwinkly','debug',"Envoi de l'animation GEN2 fichier=$tempfile");
-                                    $t->upload_movie2($tempfile, $jsonstring);
+                                    log::add('kTwinkly','debug',"Envoi de l'animation GEN2 fichier=$tempfile (effacement mémoire : $clearMemory)");                                    
+                                    $t->upload_movie2($tempfile, $jsonstring, $clearMemory=="1");
 
                                     unlink($tempfile);
                                 }
@@ -237,11 +239,29 @@ class kTwinklyCmd extends cmd {
 
                     $newmode = $t->get_mode();
                     $newstate = ($newmode=="off"?"off":"on");
-                    $newbrightness = $t->get_brightness();
 
                     $changed = $eqLogic->checkAndUpdateCmd('currentmode', $newmode, false) || $changed;
-                    $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
-                    $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
+                    $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;                    
+                    
+                    if(version_supports_brightness($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware")))
+                    {
+                        $newbrightness = $t->get_brightness();
+                        $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
+                    }
+
+                    if(version_supports_color($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware")))
+                    {
+                        $newcolor = convert_rgb_to_string_json($t->get_color());                        
+                        log::add('kTwinkly','debug',"New color = $newcolor");
+                        $changed = $eqLogic->checkAndUpdateCmd('color_state', $newcolor, false) || $changed;
+                    }
+
+                    if(version_supports_getmovies($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware"))) {
+                        $movies = $t->get_movies();
+                        $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
+                        $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;
+                    }
+
                     if ($changed)
                     {
                         $eqLogic->refreshWidget();
@@ -267,6 +287,45 @@ class kTwinklyCmd extends cmd {
                     {
                         log::add('kTwinkly','error',__("Commande 'playlist' : impossible d'activer le mode playlist : ", __FILE__) . $e1->getMessage());
                     }                
+                }
+                else if ($action == "color")
+                {
+                    try {
+                        list($red, $green, $blue) = str_split(str_replace('#', '', $_options['color']), 2);
+                        log::add('kTwinkly','debug',"Commande 'color' : changement mode : color ip=$ip mac=$mac red=$red green=$green blue=$blue");
+
+                        $t->set_color_rgb(hexdec($red), hexdec($green), hexdec($blue));
+                        $t->set_mode("color");
+
+                        $newmode = $t->get_mode();
+                        $newstate = ($newmode=="off"?"off":"on");
+
+                        $changed = $eqLogic->checkAndUpdateCmd('currentmode', $newmode, false) || $changed;
+                        $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
+                        $changed = $eqLogic->checkAndUpdateCmd('color_state', $_options['color'], false) || $changed;
+                        if ($changed)
+                        {
+                            $eqLogic->refreshWidget();
+                        }
+                    }
+                    catch (Exception $e1)
+                    {
+                        log::add('kTwinkly','error',__("Commande 'color' : impossible d'activer le mode color : ", __FILE__) . $e1->getMessage());
+                    }                         
+                }
+                else if ($action == "clearmem") {
+                    log::add('kTwinkly','debug',"Commande 'clearm' : effacement de la mémoire du controleur : ip=$ip mac=$mac");
+                    $t->set_mode('off');
+                    $t->delete_movies();                    
+                    $newmode = $t->get_mode();
+                    $newstate = ($newmode=="off"?"off":"on");
+
+                    $changed = $eqLogic->checkAndUpdateCmd('currentmode', $newmode, false) || $changed;
+                    $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
+                    if ($changed)
+                    {
+                        $eqLogic->refreshWidget();
+                    }                    
                 }
             }
             else if($devicetype == "music")

@@ -146,7 +146,7 @@ $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
 									</div>
 								</div>
                                 <div class="form-group" id="cb_clearmemory">
-                                    <label class="col-sm-3 control-label">{{Toujours vider la mémoire lors du chargement de la playlist}}</label>
+                                    <label class="col-sm-3 control-label">{{Toujours supprimer les animations en mémoire lors du chargement de la playlist}}</label>
                                     <div class="col-sm-3">
                                         <input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="clearmemory"/>
                                     </div>
@@ -231,6 +231,10 @@ $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
                                     <label class="col-sm-3 control-label">{{Gen}}</label>
                                     <div class="col-sm-3">
                                         <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="hwgen" id="hwgenfield"></span>
+                                    </div>
+                                    <label class="col-sm-3 control-label">{{FW Family}}</label>
+                                    <div class="col-sm-3">
+                                        <span class="eqLogicAttr label label-default" data-l1key="configuration" data-l2key="firmwarefamily" id="firmwarefamily"></span>
                                     </div>
                                 </div>								
 <?php } ?>

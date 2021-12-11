@@ -360,12 +360,12 @@ try {
             $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
 
             if ($clearmemory == 1) {
-                log::add('kTwinkly','debug','Clearing current playlist before uploading the new one');
+                log::add('kTwinkly','debug','Clearing current movies in memory before creating the playlist');
                 $t->set_mode('off');
                 $t->delete_movies();
             }
             if ($t->create_new_playlist($movies)) {
-                $eqLogic->setConfiguration('auth_token', $t->get_token());
+                //$eqLogic->setConfiguration('auth_token', $t->get_token());
                 ajax::success("La playlist de " . sizeof($movies) . " élements a été créée avec succès.");
                 return;
             }
@@ -382,7 +382,7 @@ try {
 
         $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
         $t->delete_playlist();
-        $eqLogic->setConfiguration('auth_token', $t->get_token());
+        //$eqLogic->setConfiguration('auth_token', $t->get_token());
 
         ajax::success("La playlist a été effacée.");
     }
@@ -397,7 +397,7 @@ try {
         $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
         $t->set_mode('off');
         $t->delete_movies();
-        $eqLogic->setConfiguration('auth_token', $t->get_token());
+        //$eqLogic->setConfiguration('auth_token', $t->get_token());
 
         ajax::success("Les animations en mémoire ont été supprimées.");
     }
@@ -473,7 +473,7 @@ try {
 
 	    $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
 	    //$t->set_mqtt_configuration($broker_ip, $broker_port, $client_id, $mqtt_user);
-        $eqLogic->setConfiguration('auth_token', $t->get_token());
+        //$eqLogic->setConfiguration('auth_token', $t->get_token());
 
 	    log::add('kTwinkly','debug',"(désactivé) Mise à jour MQTT $ip / $mac => $broker_ip:$broker_port");
 	    ajax::success();

@@ -149,7 +149,7 @@ $.ajax({
                     //val: e.unique_id,
                     val: e.filename,
                     text : e.title,
-                    "data-movieid" : e.unique_id
+                    "data-movieid" : e.unique_id.toLowerCase()
                 }));
             });
             var allmoviesfound = 1;
@@ -160,7 +160,7 @@ $.ajax({
                 tr += '      <select class="form-control playlistAttr playlistMovie" name="plItems[]">';
                 $('#availableMoviesList option').each(function() {
                     tr += '<option value="' + $(this).val() + '"';
-                    if ($(this).attr('data-movieid') === e.unique_id) {
+                    if ($(this).attr('data-movieid') === e.unique_id.toLowerCase()) {
                         tr += " selected";
                         moviefound = 1;
                     }
