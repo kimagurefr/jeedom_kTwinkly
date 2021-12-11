@@ -584,17 +584,23 @@ class kTwinkly extends eqLogic {
     // Fonction exécutée automatiquement avant la suppression de l'équipement 
     public function preRemove()
     {
-	    // Suppression des animations liées à cet équipement
+        log::add('kTwinkly','debug','Suppression des fichiers liées à l\'équipement');
+
+        // Suppression des animations liées à cet équipement
         $animpath = __DIR__ . '/../../data/movie_' . $this->getId() . '_*.zip';
+        array_map( "unlink", glob( $animpath ) );
 
         // Suppression du cache des animations pour cet équipement
         $cachepath = __DIR__ . '/../../data/moviecache_' . $this->getId() . '.json';
-
-        log::add('kTwinkly','debug','Suppression des animations liées à l\'équipement : ' . $animpath);
-        array_map( "unlink", glob( $animpath ) );
-
-        log::add('kTwinkly','debug','Suppression du cache des animations de l\'équipement : ' . $cachepath);
         unlink($cachepath);
+
+        // Suppression des playlists
+        $playlistpath = __DIR__ . '/../../data/playlist_' . $this->getId() . '_*.json';
+        array_map( "unlink", glob( $playlistpath ) );
+        
+        // Suppression des exports de cet équipement
+        $exportpath = __DIR__ . '/../../data/kTwinkly_export_' . $id . '_*.zip';
+        array_map( "unlink", glob( $exportpath ) );
     }
 
     // Découverte automatique des équipements sur le réseau
@@ -1137,7 +1143,7 @@ class kTwinkly extends eqLogic {
                             $uuid = $json["unique_id"] ?? $filename;
 
                             $movieList .= ';' . $filename . '|' . $movieName;
-                            array_push($movieTable, array("id" => $uuid, "name" => $movieName, "zip" => $filename));
+                            array_push($movieTable, array("unique_id" => $uuid, "name" => $movieName, "file" => $filename));
                         }
                     }
                 }

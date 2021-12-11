@@ -16,76 +16,6 @@
  */
 
 
-/*
-* Permet la réorganisation des commandes dans l'équipement
-*/
-$("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
-
-$("#bt_movies").off('click').on('click', function() {
-	$('#md_modal').dialog({
-        title: "{{Gestion des animations}}",
-        beforeClose: function() {
-            if (moviesNotSaved == 1) {
-                bootbox.confirm('{{Etes-vous sûr de vouloir quitter sans sauvegarder les modifications}} ?', function (result) {
-                    if(result) {
-                        $('#md_modal').dialog('option', 'beforeClose', function() {})
-                        $('#md_modal').dialog("close");
-                    }
-                });
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }).load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
-});
-
-$("#bt_playlists").off('click').on('click', function() {
-	$('#md_modal').dialog({
-        title: "{{Gestion de la playlist}}",
-        beforeClose: function() {
-            if (playlistNotSaved == 1) {
-                bootbox.confirm('{{Etes-vous sûr de vouloir quitter sans sauvegarder les modifications}} ?', function (result) {
-                    if(result) {
-                        $('#md_modal').dialog('option', 'beforeClose', function() {})
-                        $('#md_modal').dialog("close");
-                    }
-                });
-                return false;
-            } else {
-                return true;
-            }
-        } 
-    }).load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
-});
-
-$("#bt_mqtt").off('click').on('click', function() {
-	$('#md_modal')
-        .dialog({ title: "{{Configuration MQTT}}" })
-	    .load('index.php?v=d&plugin=kTwinkly&modal=mqtt&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
-});
-
-$('#bt_discover').off('click').on('click',function(){
-  $.ajax({
-    type: "POST",
-    url: "plugins/kTwinkly/core/ajax/kTwinkly.ajax.php",
-    data: {
-      action: "discoverDevices",
-    },
-    dataType: 'json',
-    error: function (request, status, error) {
-      handleAjaxError(request, status, error);
-    },
-    success: function (data) {
-      if (data.state != 'ok') {
-        $('#div_alert').showAlert({message: data.result, level: 'danger'});
-        return;
-      }
-      $('#div_alert').showAlert({message: '{{Synchronisation réussie}}', level: 'success'});
-      setTimeout(window.location.reload(), 5000);
-    }
-  });
-})
 
 
 /*
@@ -98,7 +28,7 @@ function addCmdToTable(_cmd) {
    if (!isset(_cmd.configuration)) {
      _cmd.configuration = {};
    }
-	console.log(_cmd);
+	//console.log(_cmd);
    var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
    tr += '<td style="min-width:50px;width:70px;">';
    tr += '<span class="cmdAttr" data-l1key="id"></span>';
@@ -161,5 +91,112 @@ function printEqLogic(_eqLogic) {
       $('#bt_playlists').css('visibility', 'hidden');
       $('#cb_clearmemory').css('visibility', 'hidden');
     }
+
+    /*
+    * Permet la réorganisation des commandes dans l'équipement
+    */
+    $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+
+    $("#bt_movies").off('click').on('click', function() {
+      $('#md_modal').dialog({
+            title: "{{Gestion des animations}}",
+            beforeClose: function() {
+                if (moviesNotSaved == 1) {
+                    bootbox.confirm('{{Etes-vous sûr de vouloir quitter sans sauvegarder les modifications}} ?', function (result) {
+                        if(result) {
+                            $('#md_modal').dialog('option', 'beforeClose', function() {})
+                            $('#md_modal').dialog("close");
+                        }
+                    });
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }).load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+    });
+
+    $("#bt_playlists").off('click').on('click', function() {
+      $('#md_modal').dialog({
+            title: "{{Gestion de la playlist}}",
+            beforeClose: function() {
+                if (playlistNotSaved == 1) {
+                    bootbox.confirm('{{Etes-vous sûr de vouloir quitter sans sauvegarder les modifications}} ?', function (result) {
+                        if(result) {
+                            $('#md_modal').dialog('option', 'beforeClose', function() {})
+                            $('#md_modal').dialog("close");
+                        }
+                    });
+                    return false;
+                } else {
+                    return true;
+                }
+            } 
+        }).load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+    });
+
+    $("#bt_mqtt").off('click').on('click', function() {
+      $('#md_modal')
+            .dialog({ title: "{{Configuration MQTT}}" })
+          .load('index.php?v=d&plugin=kTwinkly&modal=mqtt&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
+    });
+
+    $("#bt_import").fileupload({
+      replaceFileInput: false,
+      url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php?action=importAll&id=' + _eqLogic.id,
+      dataType: 'json',
+      done: function (e, data) {
+        if (data.result.state != 'ok') {
+          $('#div_alert').showAlert({message: data.result.result, level: 'danger'});
+          return;
+        }else{
+          $('#div_alert').showAlert({message: '{{Fichier envoyé avec succès}}', level: 'success'});
+        }
+      }
+    });
+
+    $("#bt_export").off('click').on('click', function() {
+      $.ajax({
+        type: "POST",
+        url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
+        data: {
+            'action': 'exportAll',
+            'id': $('.eqLogicAttr[data-l1key=id]').value()
+              },
+        datatype: 'json',
+        error: function(request, status, error) { },
+        success: function (data) {
+            if (data.state != 'ok') {
+                $('#div_alert').showAlert({message: data.result.result, level: 'danger'});
+                return;
+            } else {
+              $('#div_alert').showAlert({message: '{{Export réussi}}', level: 'success'});
+              window.open('core/php/downloadFile.php?pathfile='+data.result.exportFile, "_blank", null)
+            }
+        }
+      });
+    });
+
+    $('#bt_discover').off('click').on('click',function(){
+      $.ajax({
+        type: "POST",
+        url: "plugins/kTwinkly/core/ajax/kTwinkly.ajax.php",
+        data: {
+          action: "discoverDevices",
+        },
+        dataType: 'json',
+        error: function (request, status, error) {
+          handleAjaxError(request, status, error);
+        },
+        success: function (data) {
+          if (data.state != 'ok') {
+            $('#div_alert').showAlert({message: data.result, level: 'danger'});
+            return;
+          }
+          $('#div_alert').showAlert({message: '{{Synchronisation réussie}}', level: 'success'});
+          setTimeout(window.location.reload(), 5000);
+        }
+      });
+    })
   } 
 }

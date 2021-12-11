@@ -27,11 +27,14 @@ $eqLogic = eqLogic::byId($eqId);
 <div style="display: none;width : 100%" id="div_alert_playlists"></div>
 
 <div class="input-group pull-right" style="display:inline-flex;">
-    <a class="btn btn-sm btn-default addToPlaylist" style="margin-top:5px"><i class="fas fa-plus-circle"></i> {{Ajouter un élément}}
-    </a> <a class="btn btn-sm btn-danger deletePlaylist" style="margin-top:5px"><i class="fas fa-trash"></i> {{Effacer la playlist}}
-    </a> <a class="btn btn-sm btn-danger clearMemory" style="margin-top:5px"><i class="fas fa-trash"></i> {{Effacer la mémoire}}
-    </a> <a class="btn btn-sm btn-success savePlaylist" style="margin-top:5px"><i class="fas fa-check-circle"></i> Sauvegarder
-    </a>
+    <a class="btn btn-sm btn-default addToPlaylist" style="margin-top:5px"><i class="fas fa-plus-circle"></i> {{Ajouter un élément}}</a>
+    <a class="btn btn-sm sendPlaylist" style="margin-top:5px"><i class="fas fa-file-import"></i> {{Activer}}</a>
+    <a class="btn btn-sm btn-danger deletePlaylist" style="margin-top:5px"><i class="fas fa-trash"></i> {{Effacer la playlist}}</a>
+    <a class="btn btn-sm btn-danger clearMemory" style="margin-top:5px"><i class="fas fa-trash"></i> {{Effacer la mémoire}}</a>
+    <span class="btn btn-sm btn-file" title="Uploader un fichier" style="margin: 5px 0px 0px" ><i class="fas fa-file-upload"></i> {{Charger}}<input id="bt_uploadPlaylist" type="file" name="file"></span>
+    <!--<a href="core/php/downloadFile.php?pathfile=<?=urlencode("/var/www/html/plugins/kTwinkly/data/playlist_$eqId_01.json")?>" class="btn btn-sm downloadPlaylist" style="margin-top:5px"><i class="fas fa-file-download"></i> {{Télécharger}}</a>    -->
+    <a class="btn btn-sm downloadPlaylist" style="margin-top:5px"><i class="fas fa-file-download"></i> {{Télécharger}}</a> 
+    <a class="btn btn-sm btn-success savePlaylist" style="margin-top:5px"><i class="fas fa-save"></i> {{Sauvegarder}}</a>    
 </div>
 
 <select id="availableMoviesList" style="visibility: hidden"></select>

@@ -77,12 +77,17 @@ $('.clearMemory').off('click').on('click', function() {
     });
 });
 
-$('.savePlaylist').off('click').on('click', function() {
+$('.downloadPlaylist').off('click').on('click', function() {
+    window.open('core/php/downloadFile.php?pathfile=/var/www/html/plugins/kTwinkly/data/playlist_' + $('.eqLogicAttr[data-l1key=id]').value() + '_01.json', "_blank", null)
+});
+
+$('.sendPlaylist').off('click').on('click', function() {
     var newPlaylist = [];
     $('#playlist tr.plitem').each(function(i,v) {
         var duration = $(v).find('input.playlistDuration').val();
         var movie = $(v).find('select.playlistMovie option:selected').val();
-        newPlaylist.push({"index":i, "filename": movie, "duration": duration});
+        var uniqueId = $(v).find('select.playlistMovie option:selected').attr("data-movieid");
+        newPlaylist.push({"index":i, "filename": movie, "duration": duration, "unique_id": uniqueId});
     });
 
     $.ajax({
@@ -107,12 +112,43 @@ $('.savePlaylist').off('click').on('click', function() {
     });
 });
 
+$('.savePlaylist').off('click').on('click', function() {
+    var newPlaylist = [];
+    $('#playlist tr.plitem').each(function(i,v) {
+        var duration = $(v).find('input.playlistDuration').val();
+        var movie = $(v).find('select.playlistMovie option:selected').val();
+        var uniqueId = $(v).find('select.playlistMovie option:selected').attr("data-movieid");
+        newPlaylist.push({"index":i, "file": movie, "duration": duration, "unique_id": uniqueId});
+    });
+
+    $.ajax({
+        type: "POST",
+        url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
+        data: {
+            'action': 'savePlaylist',
+            'id': $('.eqLogicAttr[data-l1key=id]').value(),
+            'playlist': newPlaylist
+        },
+        datatype: 'json',
+        error: function(request, status, error) { },
+        success: function (data) {
+            if (data.state != 'ok') {
+                $('#div_alert_playlists').showAlert({message: data.result, level: 'danger'});
+                return;
+            } else {
+                $('#div_alert_playlists').showAlert({message: data.result, level: 'info'});
+                playlistNotSaved=0;
+            }
+        }
+    });   
+});
+
 $('.addToPlaylist').off('click').on('click', function() {
     var tr = '<tr class="plitem">';
     tr += '  <td>';
     tr += '      <select class="form-control playlistAttr playlistMovie" name="plItems[]">';
     $('#availableMoviesList option').each(function() {
-        tr += '<option value="' + $(this).val() + '">' + $(this).text() + '</option>';
+        tr += '<option value="' + $(this).val() + '" data-movieid="' + $(this).attr("data-movieid").toLowerCase() + '">' + $(this).text() + '</option>';
     });
     tr += '      </select>';
     tr += '  </td>';
@@ -128,6 +164,37 @@ $('.addToPlaylist').off('click').on('click', function() {
     playlistNotSaved=1;
 });
 
+$("#playlist").on("click", ".removeFromPlaylist", function(){
+    $(this).closest('tr').remove();
+    playlistNotSaved = 1;
+});
+
+$("#playlist").on("change", ".playlistAttr", function() {
+    playlistNotSaved = 1;
+});
+
+$("#playlist").on("keyup",".playlistDuration", function(event) {
+    if (event.which !== 8 && event.which !== 0 && event.which < 48 || event.which > 57) {
+        $(this).val(function (index, value) {
+            return value.replace(/[^0-9]/g, "");
+        });
+    }
+});
+
+$('#bt_uploadPlaylist').fileupload({
+    replaceFileInput: false,
+    dataType: 'json',
+    done: function (e, data) {
+      if (data.result.state != 'ok') {
+        $('#div_alert_movies').showAlert({message: data.result.result, level: 'danger'});
+        return;
+      }else{
+        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
+      }
+    }
+});
+
+
 $.ajax({
     type: "POST",
     url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
@@ -142,13 +209,15 @@ $.ajax({
             $('#div_alert_playlists').showAlert({message: data.result, level: 'danger'});
             return;
         } else {
+            console.log(data.result.movies);
+            console.log(data.result.playlist);
             var allmovies = data.result.movies;
             var playlist = data.result.playlist;
             allmovies.forEach(function(e) {
                 $('#availableMoviesList').append($('<option>', { 
                     //val: e.unique_id,
-                    val: e.filename,
-                    text : e.title,
+                    val: e.file,
+                    text : e.name,
                     "data-movieid" : e.unique_id.toLowerCase()
                 }));
             });
@@ -164,7 +233,7 @@ $.ajax({
                         tr += " selected";
                         moviefound = 1;
                     }
-                    tr += '>' + $(this).text() + '</option>';
+                    tr += ' data-movieid="' + e.unique_id.toLowerCase() + '">' + $(this).text() + '</option>';
                 });
                 tr += '      </select>';
                 tr += '  </td>';
@@ -187,22 +256,5 @@ $.ajax({
                 $('#div_alert_playlists').showAlert({message: "{{Les fichiers pour certaines animations de la playlist actuelle ont été supprimés}}", level: 'warn'});
             }
         }
-    }
-});
-
-$("#playlist").on("click", ".removeFromPlaylist", function(){
-    $(this).closest('tr').remove();
-    playlistNotSaved = 1;
-});
-
-$("#playlist").on("change", ".playlistAttr", function() {
-    playlistNotSaved = 1;
-});
-
-$("#playlist").on("keyup",".playlistDuration", function(event) {
-    if (event.which !== 8 && event.which !== 0 && event.which < 48 || event.which > 57) {
-        $(this).val(function (index, value) {
-            return value.replace(/[^0-9]/g, "");
-        });
     }
 });

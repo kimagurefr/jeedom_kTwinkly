@@ -170,7 +170,7 @@ try {
         En V3 : indiquer l'argument 'true' pour contrôler le token d'accès Jeedom
         En V4 : autoriser l'exécution d'une méthode 'action' en GET en indiquant le(s) nom(s) de(s) action(s) dans un tableau en argument
     */  
-    ajax::init(array('uploadMovie','saveMovie','deleteMovie','createPlaylist','deletePlaylist','clearMemory','changeproxystate','stopProxy','discoverDevices','updateMqtt','copiecaptures','getDetailedPlaylist'));
+    ajax::init(array('uploadMovie','saveMovie','deleteMovie','createPlaylist','deletePlaylist','savePlaylist','loadPlaylist','downloadPlaylist','uploadPlaylist','clearMemory','changeproxystate','stopProxy','discoverDevices','updateMqtt','copiecaptures','getDetailedPlaylist','exportAll','importAll'));
 
     $debug = FALSE;
     $additionalDebugLog = __DIR__ . '/../../../../log/kTwinkly_debug';
@@ -183,7 +183,7 @@ try {
         $eqLogic = eqLogic::byId($id);
 
         if (!is_object($eqLogic)) {
-            throw new Exception(__('EqLogic inconnu verifié l\'id', __FILE__));
+            throw new Exception(__('EqLogic inconnu verifiez l\'id', __FILE__));
         }
 
         if (!isset($_FILES['file'])) {
@@ -362,6 +362,7 @@ try {
 	    ajax::success();
     }
 
+    // Envoie la playlist à la guirlande
     if (init('action') == 'createPlaylist') {
         $id = init(id);
         $eqLogic = eqLogic::byId($id);
@@ -374,7 +375,7 @@ try {
 
         $movies = [];
         foreach ($playlist as $item) {
-            log::add('kTwinkly','debug','adding playlist item with file ' . __DIR__ . '/../../data/' . $item["filename"] . ' and duration = ' . $item["duration"]);
+            log::add('kTwinkly','debug','adding playlist item with file ' . __DIR__ . '/../../data/' . $item["filename"] . ' unique_id = ' . $item["unique_id"] . ' and duration = ' . $item["duration"]);
             $playlist_item = create_playlist_item(__DIR__ . '/../../data/' . $item["filename"], $item["duration"]);
             $movies[] = $playlist_item;
         }
@@ -390,7 +391,7 @@ try {
             if ($t->create_new_playlist($movies)) {
                 //$eqLogic->setConfiguration('auth_token', $t->get_token());
                 $eqLogic->refreshstate($id, TRUE);
-                ajax::success("La playlist de " . sizeof($movies) . " élements a été créée avec succès.");
+                ajax::success("La playlist de " . sizeof($movies) . " élements a été envoyée avec succès.");
                 return;
             }
             $eqLogic->refreshstate($id, TRUE);
@@ -407,9 +408,33 @@ try {
 
         $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
         $t->delete_playlist();
-        //$eqLogic->setConfiguration('auth_token', $t->get_token());
-
+        $eqLogic->refreshstate($id, TRUE);
+        $playlistFile = __DIR__ . '/../../data/playlist_' . $id . '_01.json';
+        if(file_exists($playlistFile)) {
+            unlink($playlistFile);
+        }
         ajax::success("La playlist a été effacée.");
+    }
+
+    if (init('action') == 'savePlaylist') {
+        $id = init(id);
+        $movies = init(playlist);
+
+        $movieCacheFile = __DIR__ . '/../../data/moviecache_' . $id . '.json';
+        $movieCache = json_decode(file_get_contents($movieCacheFile), TRUE);
+
+        $playlist = array();
+        foreach ($movies as $item) {
+            //$movieIndex = array_search($item["file"], array_column($movieCache, 'file'));
+            //array_push($playlist, array("unique_id" => $movieCache[$movieIndex]["unique_id"], "file" => $item["file"], "name" => $movieCache[$movieIndex]["name"], "duration" => $item["duration"]));
+            $movieIndex = array_search($item["unique_id"], array_column($movieCache, 'unique_id'));
+            array_push($playlist, array("unique_id" => $item["unique_id"], "file" => $item["file"], "name" => $movieCache[$movieIndex]["name"], "duration" => $item["duration"]));
+        }
+
+        $json = json_encode($playlist);
+        $playlistFile = __DIR__ . '/../../data/playlist_' . $id . '_01.json';
+        file_put_contents($playlistFile, $json);
+        ajax::success("La playlist a été enregistrée.");
     }
 
     if (init('action') == 'clearMemory') {
@@ -514,6 +539,7 @@ try {
         $id = init('id');
         $eqLogic = eqLogic::byId($id);
 
+        /* // ANCIENNE VERSION - A SUPPRIMER LOSQUE LA NOUVELLE SERA COMPLETEMENT FINALISEE
         $movieCmd = $eqLogic->getCmd(null, 'movie');
         $lv = $movieCmd->getConfiguration('listValue');
 
@@ -542,8 +568,248 @@ try {
 
         $playlist = kTwinkly::get_playlist($id);
         $result = array('movies' => $moviesList, 'playlist' => $playlist);
+        */
+        $movieCacheFile = __DIR__ . '/../../data/moviecache_' . $id . '.json';
+        if(file_exists($movieCacheFile)) {
+            $json = file_get_contents($movieCacheFile);
+            $movieList = json_decode($json, TRUE);
+        }
+        
+        $playlistData = array();
+        $playlistFile = __DIR__ . '/../../data/playlist_' . $id . '_01.json';
+        if(file_exists($playlistFile)) {
+            $json = file_get_contents($playlistFile);
+            $playlist = json_decode($json, TRUE);
+            foreach($playlist as $m) {
+                $playlistData[] = array('unique_id' => $m["unique_id"], 'file' => $m["file"], 'name' => $m["name"], 'duration' => $m["duration"]);
+            }
+        }            
 
-        ajax::success($result);
+        $result = array('movies' => $movieList, 'playlist' => $playlistData);
+        ajax::success($result);        
+    }
+
+    if (init('action') == 'uploadPlaylist') {
+        $id = init(id);
+        $eqLogic = eqLogic::byId($id);
+        if (!is_object($eqLogic)) {
+            throw new Exception(__('EqLogic inconnu verifiez l\'id', __FILE__));
+        }
+
+        $uploaddir = __DIR__ . '/../../data';
+        if (!isset($_FILES['file'])) {
+            throw new Exception(__('Aucun fichier trouvé. Vérifiez le paramètre PHP (post size limit)', __FILE__));
+        }  
+        $extension = strtolower(strrchr($_FILES['file']['name'], '.'));
+        if (!in_array($extension, array('.json'))) {
+                throw new Exception('Extension du fichier non valide (autorisé .json) : ' . $extension);
+        }
+        if (filesize($_FILES['file']['tmp_name']) > 5000) {
+                throw new Exception(__('Le fichier est trop gros (maximum 5ko)', __FILE__));
+        }        
+        if (!move_uploaded_file($_FILES['file']['tmp_name'], $uploaddir . '/playlist_' . $id . '_01.json')) {
+            throw new Exception(__('Impossible de déplacer le fichier temporaire', __FILE__));
+        }
+        if (!file_exists($uploaddir . '/playlist_' . $id . '_01.json')) {
+            throw new Exception(__('Impossible de charger le fichier (limite du serveur web ?)', __FILE__));
+        }
+        ajax::success();
+    }
+
+    if (init('action') == 'exportAll') {
+        $id = init(id);
+        $eqLogic = eqLogic::byId($id);
+        if (!is_object($eqLogic)) {
+            throw new Exception(__('EqLogic inconnu verifier l\'id', __FILE__));
+        }
+        log::add('kTwinkly','debug','Export animations et playlist pour équipement id='.$id);
+
+        $allFiles = array();
+
+        // On supprime les anciens exports pour cet équipement
+        $exportpath = __DIR__ . '/../../data/kTwinkly_export_' . $id . '_*.zip';
+        array_map( "unlink", glob( $exportpath ) );
+        
+        // On récupère les infos de la guirlande
+        $infos = array(
+            "productcode" => $eqLogic->getConfiguration('productcode'),
+            "productname" => $eqLogic->getConfiguration('productname'),
+            "product" => $eqLogic->getConfiguration('product'),
+            "devicename" => $eqLogic->getConfiguration('device_name'),
+            "hardwareid" => $eqLogic->getConfiguration('hardwareid'),
+            "firmwarefamily" => $eqLogic->getConfiguration('firmwarefamily'),
+            "firmware" => $eqLogic->getConfiguration('firmware')
+        );
+
+        $newCache = array();
+        $newPlaylist = array();
+
+        $movieCacheFile = realpath(__DIR__ . '/../../data/moviecache_' . $id . '.json');        
+        if(file_exists($movieCacheFile)) {
+            $movieCache = json_decode(file_get_contents($movieCacheFile), TRUE);
+
+            foreach($movieCache as $m) {
+                $movieFile = realpath(__DIR__ . '/../../data/' . $m["file"]);
+                $movieDest = 'movie_' . sanitize_filename($m["name"]) . '.zip';
+                $m["file"] = $movieDest;
+                $newCache[] = $m;
+                $allFiles[] = array('sourcefile' => $movieFile, 'destfile' => $movieDest);
+            }
+
+            $playlistFile = realpath(__DIR__ . '/../../data/playlist_' . $id . '_01.json');
+            if(file_exists($playlistFile)) {
+                $playlist = json_decode(file_get_contents($playlistFile), TRUE);
+                foreach($playlist as $p) {
+                    $movieItem = array_search($p["unique_id"], array_column($newCache, 'unique_id'));
+                    $p["file"] = $newCache[$movieItem]["file"];
+                    $newPlaylist[] = $p;
+                }
+            }
+        }
+
+        if(count($allFiles) > 0) {
+            log::add('kTwinkly','debug','Export exported zip=' . $exportFile);
+            $exportFile = __DIR__ . '/../../data/kTwinkly_export_' . $id . '_' . sanitize_filename($eqLogic->getName()) . '_' . $eqLogic->getConfiguration("productcode") . '_' . date('YmdHis') . '.zip';
+
+            $zip = new ZipArchive();
+            if ($zip->open($exportFile, ZipArchive::CREATE)) {
+                // Ajout infos
+                $zip->addFromString("infos.json", json_encode($infos));
+                // Ajout Index
+                log::add('kTwinkly','debug','Export adding index =' . json_encode($newCache));
+                $zip->addFromString("index.json", json_encode($newCache));
+                // Ajout playlist (si disponible)
+                if(count($newPlaylist) > 0) {
+                    log::add('kTwinkly','debug','Export adding playlist =' . json_encode($newPlaylist));
+                    $zip->addFromString("playlist_01.json", json_encode($newPlaylist));
+                }
+                // Ajout animations
+                foreach($allFiles as $f) {
+                    log::add('kTwinkly','debug','Export adding file =' . $f["sourcefile"] . ' => ' . $f["destfile"]);
+                    $zip->addFile($f["sourcefile"], $f["destfile"]);
+                }
+                $zip->close();
+            }
+        }
+        ajax::success(array('count' => count($allFiles), 'exportFile' => $exportFile));
+    }
+
+    if (init('action') == 'importAll') {
+        $id = init(id);
+        $eqLogic = eqLogic::byId($id);
+
+        if (!is_object($eqLogic)) {
+            throw new Exception(__('EqLogic inconnu verifiez l\'id', __FILE__));
+        }
+        log::add('kTwinkly','debug','Import animations et playlist pour équipement id='.$id);        
+        if (!isset($_FILES['file'])) {
+            throw new Exception(__('Aucun fichier trouvé. Vérifiez le paramètre PHP (post size limit)', __FILE__));
+        }  
+        $extension = strtolower(strrchr($_FILES['file']['name'], '.'));
+        if (!in_array($extension, array('.zip'))) {
+                throw new Exception('Extension du fichier non valide (autorisé .zip) : ' . $extension);
+        }
+        if (filesize($_FILES['file']['tmp_name']) > 10000000) {
+                throw new Exception(__('Le fichier est trop gros (maximum 10Mo)', __FILE__));
+        }        
+
+        $datetag = date('YmdHis');
+        $tempFile = jeedom::getTmpFolder('kTwinkly') . '/kTwinkly_import_' . $id . '_' . $datetag . '.zip';
+        if (!move_uploaded_file($_FILES['file']['tmp_name'], $tempFile)) {
+            throw new Exception(__('Impossible de déplacer le fichier temporaire', __FILE__));
+        }
+        if (!file_exists($tempFile)) {
+            throw new Exception(__('Impossible de charger le fichier (limite du serveur web ?)', __FILE__));
+        }        
+
+        $currentIndexFile = __DIR__ . '/../../data/moviecache_' . $id . '.json';
+        $currentIndex = array();
+        if(file_exists($currentIndex)) {
+            $currentIndex = json_decode(file_get_contents($currentIndexFile), TRUE);
+        }
+
+        $zip = new ZipArchive();
+        if($zip->open($tempFile) === TRUE) {
+            if(($infosFile = $zip->getFromName("infos.json")) === FALSE) {
+                $zip->close();
+                throw new Exception(__('Le fichier n\'est pas un export kTwinkly valide (fichier infos non trouvé)', __FILE__));
+            }
+            $infos = json_decode($infosFile, TRUE);
+            if(($infos["productcode"] !== $eqLogic->getConfiguration('productcode')) || ($infos["hardwareid"] !== $eqLogic->getConfiguration('hardwareid'))) {
+                $zip->close();
+                throw new Exception(__('Le fichier d\'export ne correspond pas au modèle de guirlande de cet équipement', __FILE__));
+            }
+
+            if(($indexFile = $zip->getFromName("index.json")) === FALSE) {
+                $zip->close();
+                throw new Exception(__('Le fichier n\'est pas un export kTwinkly valide (fichier index non trouvé)', __FILE__));
+            }
+
+            $tempdir = jeedom::getTmpFolder('kTwinkly') . '/import_' . $datetag;
+            mkdir($tempdir);
+            
+            $newIndex = array();
+           
+            // Extractions des zips des animations
+            foreach(json_decode($indexFile, TRUE) as $m) {
+                $oldMovieItem = array_search($m["unique_id"], array_column($currentIndex, 'unique_id'));
+                if($oldMovieItem === FALSE) {
+                    $movieFile = $zip->getFromName($m["file"]);
+                    $movieName = 'movie_' . $id . '_' . $datetag . '_' . sanitize_filename($m["name"]) . '.zip';
+                    file_put_contents($tempdir . "/" . $movieName, $movieFile);
+                    $m["file"] = $movieName;
+                    $newIndex[] = $m;         
+                }   
+            }
+
+            // Création du nouvel index            
+            $newIndexFile = 'moviecache_' . $id . '.json';
+            file_put_contents($tempdir . '/' . $newIndexFile, json_encode($newIndex));
+            
+            $newPlaylist = array();
+            if(($playlistFile = $zip->getFromName("playlist_01.json")) !== FALSE) {
+                foreach(json_decode($playlistFile, TRUE) as $p) {
+                    $movieItem = array_search($p["unique_id"], array_column($newIndex, 'unique_id'));
+                    $p["file"] = $newIndex[$movieItem]["file"];
+                    $newPlaylist[] = $p;
+                }
+                $newPlaylistFile = 'playlist_' . $id . '_01.json';
+                file_put_contents($tempdir . '/' . $newPlaylistFile, json_encode($newPlaylist));
+            }
+            $zip->close();
+
+            // Suppression des anciennes animations et playlists
+            unlink(__DIR__ . '/../../data/' . $newIndexFile);
+            unlink(__DIR__ . '/../../data/' . $newPlaylistFile);
+            array_map("unlink", glob(__DIR__ . '/../../data/movie_' . $id . '_*.zip'));
+            
+            // Déplacement des fichiers dans la destination
+            rename($tempdir . '/' . $newIndexFile, __DIR__ . '/../../data/' . $newIndexFile);
+            if(count($newPlaylist) > 0) {
+                rename($tempdir . '/' . $newPlaylistFile, __DIR__ . '/../../data/' . $newPlaylistFile);
+            }
+            foreach($newIndex as $m) {
+                rename($tempdir . '/' . $m["file"], __DIR__ . '/../../data/' . $m["file"]);
+            }
+
+            // Suppression du repertoire temporaire
+            rmdir($tempdir);
+
+            // Chargement des infos dans la liste
+            $cmdMovies = $eqLogic->getCmd(null, 'movie');
+            $lv = "";
+            foreach($newIndex as $m) {
+                $lv .= ';' . $m["file"] . "|" . $m["name"];
+            }
+            $lv = substr($lv, 1);
+            $cmdMovies->setConfiguration("listValue", $lv);
+            $cmdMovies->save();
+        }
+
+        // Suppression du fichier temporaire
+        unlink($tempFile);
+
+        ajax::success();
     }
 
     throw new Exception(__('Aucune méthode correspondant à : ', __FILE__) . init('action'));

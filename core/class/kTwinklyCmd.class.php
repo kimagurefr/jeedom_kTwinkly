@@ -278,7 +278,7 @@ class kTwinklyCmd extends cmd {
                             if(file_exists($movieCacheFile)) {
                                 $movieCache = json_decode(file_get_contents($movieCacheFile), TRUE);
                                 $movieIndex = array_search($currentmovie_uuid, array_column($movieCache, 'id'));
-                                $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $movieCache[$movieIndex]["zip"], false) || $changed;
+                                $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $movieCache[$movieIndex]["file"], false) || $changed;
                             }                            
                         }
                         $movies = $t->get_movies();
