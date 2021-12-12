@@ -597,7 +597,7 @@ class kTwinkly extends eqLogic {
         } catch (\Exception $e) {}
 
         // Suppression des exports de cet équipement
-        $exportpath = __DIR__ . '/../../data/kTwinkly_export_' . $id . '_*.zip';
+        $exportpath = __DIR__ . '/../../data/kTwinkly_export_' .  $this->getId() . '_*.zip';
         try {
             array_map( "unlink", glob( $exportpath ) );
         } catch (\Exception $e) {}

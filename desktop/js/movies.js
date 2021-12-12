@@ -26,7 +26,7 @@ $("#moviesList").sortable({
 
 $('#md_modal').on('dialogclose', function(event) {
     $('#md_modal').off('dialogclose');
-    console.log('equipement id = ' + $('.eqLogicAttr[data-l1key=id]').value());
+    //console.log('equipement id = ' + $('.eqLogicAttr[data-l1key=id]').value());
 
     $.ajax({
         type: "POST",
@@ -80,6 +80,8 @@ $('#bt_deleteMovie').off('click').on('click', function() {
                 });
             }
         });
+    } else {
+        $('#div_alert_movies').showAlert({message: "Aucun fichier sélectionné", level: 'danger'});
     }
 });
 
@@ -97,6 +99,7 @@ $('#bt_saveMovie').off('click').on('click', function() {
           return;
         }
         //$('#md_modal').dialog('close');
+        $('#div_alert_movies').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
         moviesNotSaved = 0;
       }
     });
@@ -133,4 +136,37 @@ $('.changeProxyState').off('click').on('click', function () {
             return;
         }
     })
+});
+
+$('#cb_selectall').change(function() {
+    $('input:checkbox.kTWinklyMovieItem').prop('checked', this.checked);    
+});
+
+$('input[type=checkbox].kTWinklyMovieItem').change(function () {
+    var chk = $(this).prop("checked");
+    var allchk =  $('#cb_selectall').prop('checked');
+    if(allchk && !chk) {
+        $('#cb_selectall').prop('checked', false);
+    }
+});
+
+$('#bt_downloadSelectedMovies').off('click').on('click', function() {
+    var nbmovies = $('.kTWinklyMovieItem:checked').length;
+    $('#moviesList #action').val('downloadSelectedMovies');
+    $.ajax({
+        type: "POST",
+        url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
+        data: $("#moviesList").serialize(),
+        datatype: "json",
+        error: function(request, status, error) { },
+        success: function (data) {
+            if (data.state != 'ok') {
+                $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
+                return;
+            } else {
+                $('#div_alert_movies').showAlert({message: '{{Export réussi}} de ' + data.result.count + ' {{animation(s)}}', level: 'success'});
+                window.open('core/php/downloadFile.php?pathfile='+data.result.exportFile, "_blank", null)
+            }
+        }
+    });
 });

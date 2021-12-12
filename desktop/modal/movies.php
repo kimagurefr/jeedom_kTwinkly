@@ -35,6 +35,14 @@ if ($lv != "") {
     $moviesList = array();
 }
 
+$movieCacheFile = __DIR__ . '/../../data/moviecache_' . $eqId . '.json';
+if(file_exists($movieCacheFile)) {
+    $movieCache = json_decode(file_get_contents($movieCacheFile), TRUE);
+} else {
+    $movieCache = array();
+}
+
+
 // Etat du proxy mitm
 if (isset($_GET["proxy"])) {
     $proxymode = $_GET["proxy"];
@@ -93,12 +101,13 @@ if ($proxymode == 1) {
                     <input type="hidden" id="id" name="id" value="<?php echo $eqId; ?>">
                     <input type="hidden" id="action" name="action" value="">
 <?php
-  if (count($moviesList) > 0) {
+  //if (count($moviesList) > 0) {
+  if (count($movieCache) > 0) {
 ?>
                     <table id="table_movies" class="table table-bordered table-condensed">
                         <thead>
                             <tr>
-                                <th style="width: 50px"></th>
+                                <th style="width: 50px" class="center"><input type="checkbox" id="cb_selectall"></th>
                                 <th style="width: 50px"></th>
                                 <th>{{Titre}}</th>
                             </tr>
@@ -108,23 +117,29 @@ if ($proxymode == 1) {
   //$animfiles = glob(dirname(__FILE__) . '/../../data/twinkly_' . $eqId . '_*.bin');
   $cnt=0;
   //foreach($animfiles as $a) {
-  foreach($moviesList as $item) {
+  //foreach($moviesList as $item) {
+  foreach($movieCache as $item) {
 	$cnt++;
-	$listItem = explode('|', $item);
-	$filename = $listItem[0];
-    $title = $listItem[1];
+	//$listItem = explode('|', $item);
+    //$filename = $listItem[0];
+    //$title = $listItem[1];
+    $filename = $item["file"];
+    $title = $item["name"];
+    $unique_id = $item["unique_id"];
 
 	echo '<tr class="movie">';
-	echo '  <input type="hidden" id="file_' . $cnt . '" name="files[]" value="' . $filename . '"/>';
+	//echo '  <input type="hidden" id="file_' . $cnt . '" name="files[]" value="' . $filename . '"/>';
 
     // Case de sélection
 	echo '  <td class="center" style="width: 50px">';
-	echo '      <input type="checkbox" class="kTWinklyMovieItem" name="selectedFilenames[]" value="' . $filename . '"/>';
+	//echo '      <input type="checkbox" class="kTWinklyMovieItem" name="selectedFilenames[]" value="' . $filename . '"/>';
+    echo '      <input type="checkbox" class="kTWinklyMovieItem" name="selectedFilenames[]" value="' . $unique_id . '"/>';
 	echo '  </td>';
 
     // Bouton de téléchargement
     echo '  <td class="center" style="width: 50px">';
-    echo '      <a href="plugins/kTwinkly/data/'.$filename.'" target="_blank"><i class="fas fa-file-download"></i></a>';
+    //echo '      <a href="plugins/kTwinkly/data/'.$filename.'" target="_blank"><i class="fas fa-file-download"></i></a>';
+    echo '      <a href="#" onClick="window.open(\'core/php/downloadFile.php?pathfile=/var/www/html/plugins/kTwinkly/data/' . $filename . '\', \'_blank\', null);"><i class="fas fa-file-download"></i></a>';
     echo '  </td>';
 
     // Titre de l'animation
@@ -139,9 +154,10 @@ if ($proxymode == 1) {
                     </table>
 <?php } ?>
                     <span class="btn btn-default btn-file">
-                        {{Ajouter}}... <input id="bt_uploadMovie" type="file" name="file" style="display: inline-block">
+                      <i class="fas fa-plus-circle"></i> {{Ajouter}}... <input id="bt_uploadMovie" type="file" name="file" style="display: inline-block" multiple>
                     </span>
-                    <span class="btn btn-default" id="bt_deleteMovie">{{Supprimer}}</span>
+                    <span class="btn btn-danger" id="bt_deleteMovie"><i class="fas fa-minus-circle"></i> {{Supprimer}}</span>
+                    <span class="btn btn-default" id="bt_downloadSelectedMovies"><i class="fas fa-file-archive"></i> {{Télécharger}}</span>
                     <span class="btn btn-success" id="bt_saveMovie"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</span>
                 </fieldset>
             </form>

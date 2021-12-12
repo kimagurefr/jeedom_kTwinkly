@@ -122,7 +122,8 @@ class kTwinklyCmd extends cmd {
                     $t->set_mode("off");
                     $newmode = $t->get_mode();
                     $newstate = ($newmode=="off"?"off":"on");
-                    $newbrightness = $t->get_brightness();
+                    //$newbrightness = $t->get_brightness();
+                    $newbrightness = 0;
 
                     $changed = $eqLogic->checkAndUpdateCmd('currentmode', $newmode, false) || $changed;
                     $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;

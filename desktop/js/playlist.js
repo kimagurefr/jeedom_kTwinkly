@@ -209,8 +209,8 @@ $.ajax({
             $('#div_alert_playlists').showAlert({message: data.result, level: 'danger'});
             return;
         } else {
-            console.log(data.result.movies);
-            console.log(data.result.playlist);
+            //console.log(data.result.movies);
+            //console.log(data.result.playlist);
             var allmovies = data.result.movies;
             var playlist = data.result.playlist;
             allmovies.forEach(function(e) {
