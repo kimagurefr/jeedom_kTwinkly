@@ -16,6 +16,27 @@
  */
 
 
+$('#bt_discover').off('click').on('click',function(){
+  $.ajax({
+    type: "POST",
+    url: "plugins/kTwinkly/core/ajax/kTwinkly.ajax.php",
+    data: {
+      action: "discoverDevices",
+    },
+    dataType: 'json',
+    error: function (request, status, error) {
+      handleAjaxError(request, status, error);
+    },
+    success: function (data) {
+      if (data.state != 'ok') {
+        $('#div_alert').showAlert({message: data.result, level: 'danger'});
+        return;
+      }
+      $('#div_alert').showAlert({message: '{{Synchronisation réussie}}', level: 'success'});
+      setTimeout(window.location.reload(), 5000);
+    }
+  });
+})
 
 
 /*
@@ -176,27 +197,5 @@ function printEqLogic(_eqLogic) {
         }
       });
     });
-
-    $('#bt_discover').off('click').on('click',function(){
-      $.ajax({
-        type: "POST",
-        url: "plugins/kTwinkly/core/ajax/kTwinkly.ajax.php",
-        data: {
-          action: "discoverDevices",
-        },
-        dataType: 'json',
-        error: function (request, status, error) {
-          handleAjaxError(request, status, error);
-        },
-        success: function (data) {
-          if (data.state != 'ok') {
-            $('#div_alert').showAlert({message: data.result, level: 'danger'});
-            return;
-          }
-          $('#div_alert').showAlert({message: '{{Synchronisation réussie}}', level: 'success'});
-          setTimeout(window.location.reload(), 5000);
-        }
-      });
-    })
   } 
 }
