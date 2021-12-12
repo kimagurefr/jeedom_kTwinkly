@@ -301,6 +301,24 @@ class kTwinkly extends eqLogic {
             }
 
             $cmdIndex++;
+            $currentMovieCmd = $this->getCmd(null, "currentmovie");
+            if (!is_object($currentMovieCmd))
+            {
+                $currentMovieCmd = new kTwinklyCmd();
+                $currentMovieCmd->setName(__('Animation Courante', __FILE__));
+                $currentMovieCmd->setEqLogic_id($this->getId());
+                $currentMovieCmd->setLogicalId('currentmovie');
+                $currentMovieCmd->setType('info');
+                $currentMovieCmd->setSubType('string');
+                $currentMovieCmd->setIsVisible(0);
+                $currentMovieCmd->setOrder($cmdIndex);
+                $currentMovieCmd->save();
+            }
+
+            $movieCmd->setValue($currentMovieCmd->getId());
+            $movieCmd->save();
+
+            $cmdIndex++;
             $stateCmd = $this->getCmd(null, "state");
             if (!is_object($stateCmd))
             {
@@ -397,7 +415,9 @@ class kTwinkly extends eqLogic {
                     $memoryFreeCmd->setLogicalId('memoryfree');
                     $memoryFreeCmd->setType('info');
                     $memoryFreeCmd->setSubType('numeric');
+                    $memoryFreeCmd->setUnite("%");
                     $memoryFreeCmd->setIsVisible(0);
+                    $memoryFreeCmd->setIsHistorized(0);
                     $memoryFreeCmd->setOrder($cmdIndex);
                     $memoryFreeCmd->save();
                 } 
@@ -550,6 +570,11 @@ class kTwinkly extends eqLogic {
                 $refreshCmd->save();
             }            
         }
+
+        log::add('kTwinkly','debug','kTwinkly::postUpdate');
+        
+        self::populate_movies_list($this->getID());
+
         if ($this->getChanged())
         {
             self::deamon_start();
@@ -559,10 +584,23 @@ class kTwinkly extends eqLogic {
     // Fonction exécutée automatiquement avant la suppression de l'équipement 
     public function preRemove()
     {
-	    // Suppression des animations liées à cet équipement
-        $animpath = __DIR__ . '/../../data/twinkly_' . $this->getId() . '_*';
-        log::add('kTwinkly','debug','Suppression des animations liées à l\'équipement : ' . $animpath);
+        log::add('kTwinkly','debug','Suppression des fichiers liées à l\'équipement');
+
+        // Suppression des animations liées à cet équipement
+        $animpath = __DIR__ . '/../../data/movie_' . $this->getId() . '_*.zip';
         array_map( "unlink", glob( $animpath ) );
+
+        // Suppression du cache des animations pour cet équipement
+        $cachepath = __DIR__ . '/../../data/moviecache_' . $this->getId() . '.json';
+        unlink($cachepath);
+
+        // Suppression des playlists
+        $playlistpath = __DIR__ . '/../../data/playlist_' . $this->getId() . '_*.json';
+        array_map( "unlink", glob( $playlistpath ) );
+        
+        // Suppression des exports de cet équipement
+        $exportpath = __DIR__ . '/../../data/kTwinkly_export_' . $id . '_*.zip';
+        array_map( "unlink", glob( $exportpath ) );
     }
 
     // Découverte automatique des équipements sur le réseau
@@ -672,7 +710,7 @@ class kTwinkly extends eqLogic {
 
             $fwversion = $d["details"]["firmware_version"];
             $eqLogic->setConfiguration('firmware',$fwversion);
- 
+
 		    $eqLogic->save();
 	    }
     }
@@ -735,8 +773,10 @@ class kTwinkly extends eqLogic {
     }
 
     // Rafraîchissement des valeurs par appel à l'API
-    public static function refreshstate($_eqLogic_id = null)
+    public static function refreshstate($_eqLogic_id = null, $manual=FALSE)
     {
+        log::add('kTwinkly','debug','kTwinkly refreshsate id=' . $_eqLogic_id . ' manual=' . $manual);
+
         if (self::$_eqLogics == null)
         {
             self::$_eqLogics = self::byType('kTwinkly');
@@ -760,7 +800,7 @@ class kTwinkly extends eqLogic {
             }
 
             // On vérifie si l'autorefresh est actif
-            if (intval($refreshFrequency) > 0 && $eqLogic->getConfiguration('autorefresh')==1)
+            if ((intval($refreshFrequency) > 0 && $eqLogic->getConfiguration('autorefresh')==1) || ($manual == TRUE))
             {
                 try
                 {
@@ -783,7 +823,7 @@ class kTwinkly extends eqLogic {
                         $currentMode = $t->get_mode();
                         $brightness = $t->get_brightness();
                         $state = ($currentMode=="off"?"off":"on");
-        
+                        log::add('kTwinkly','debug','kTwinkly refreshstate - current state = ' . $state . ' / ' . $currentMode);
                         $changed = $eqLogic->checkAndUpdateCmd('currentmode', $currentMode, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $brightness, false) || $changed;
@@ -1070,5 +1110,81 @@ class kTwinkly extends eqLogic {
             }
         }
         return $return;
+    }
+
+    // Charge la liste des animations dans la liste déroulante à partir des fichiers sur le disque
+    public static function populate_movies_list($_id)
+    {
+        log::add('kTwinkly','debug','populate_movies_list - id=' . $_id);
+        $eqLogic = eqLogic::byId($_id);
+        $movieCmd = $eqLogic->getCmd(null, "movie");
+
+        $dataDir = __DIR__ . '/../../data/';
+        $movieMask = $dataDir . 'movie_' . $_id . '_*.zip';
+        $allMovies = glob($movieMask);
+        $movieList = "";
+        $movieTable = array();
+
+        if (count($allMovies) != 0) {
+            log::add('kTwinkly','debug','populate_movies_list - found ' . count($allMovies) . ' movies');
+            foreach($allMovies as $filePath) {
+                $filename = substr($filePath, strlen($dataDir));
+                $zip = new ZipArchive();
+                if ($zip->open($filePath) === TRUE)
+                {
+                    for ($i=0; $i<$zip->numFiles; $i++)
+                    {
+                        $zfilename = $zip->statIndex($i)["name"];
+                        if (preg_match('/json$/',strtolower($zfilename)))
+                        {
+                            $jsonstring = $zip->getFromIndex($i);
+                            $json = json_decode($jsonstring, TRUE);
+                            $movieName = $json["name"] ?? substr($filename, 0, -4);
+                            $uuid = $json["unique_id"] ?? $filename;
+
+                            $movieList .= ';' . $filename . '|' . $movieName;
+                            array_push($movieTable, array("unique_id" => $uuid, "name" => $movieName, "file" => $filename));
+                        }
+                    }
+                }
+            }
+            $movieList = substr($movieList, 1); // Supprime le ";" initial
+        }
+        $movieCmd->setConfiguration('listValue', $movieList);
+        $movieCmd->save();
+
+        $movieCache = $dataDir . 'moviecache_' . $_id . '.json';
+        file_put_contents($movieCache, json_encode($movieTable));
+        
+        $eqLogic->refreshWidget();
+    }
+
+    // Met à jour le titre des animations dans le JSON inclus dans le zip
+    public static function update_titles($_id, $changed) 
+    {
+        $eqLogic = eqLogic::byId($_id);
+        $dataDir = __DIR__ . '/../../data/';
+        
+        foreach($changed as $c)
+        {
+            $filePath = $dataDir . $c["zip"];
+            $zip = new ZipArchive();
+            if ($zip->open($filePath) === TRUE)
+            {
+                for ($i=0; $i<$zip->numFiles; $i++)
+                {
+                    $zfilename = $zip->statIndex($i)["name"];
+                    if (preg_match('/json$/',strtolower($zfilename)))
+                    {
+                        $jsonstring = $zip->getFromIndex($i);
+                        $json = json_decode($jsonstring, TRUE);
+                        $json["name"] = $c["new"]; // On change le nom (ou on l'ajoute la premiere fois pour les GEN1)
+                        $zip->deleteIndex($i); // On supprime l'ancien fichier JSON
+                        $zip->addFromString($zfilename, json_encode($json)); // On ajoute le JSON modifié
+                        $zip->close();
+                    }
+                }                
+            }
+        }
     }
 }

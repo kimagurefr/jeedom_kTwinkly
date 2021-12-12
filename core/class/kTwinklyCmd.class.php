@@ -245,7 +245,14 @@ class kTwinklyCmd extends cmd {
                     
                     if(version_supports_brightness($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware")))
                     {
-                        $newbrightness = $t->get_brightness();
+                        if($newstate === "off")
+                        {
+                            $newbrightness=0;
+                        }
+                        else
+                        {
+                            $newbrightness = $t->get_brightness();
+                        }
                         $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
                     }
 
@@ -257,6 +264,23 @@ class kTwinklyCmd extends cmd {
                     }
 
                     if(version_supports_getmovies($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware"))) {
+                        if($newstate === "off")
+                        {
+                            $changed = $eqLogic->checkAndUpdateCmd('currentmovie', "", false) || $changed;
+                        }
+                        else
+                        {
+                            $currentmovie = $t->get_current_movie();
+                            $currentmovie_uuid = $currentmovie["unique_id"];
+                            $currentmovie_name = $currentmovie["name"];
+                            
+                            $movieCacheFile = __DIR__ . '/../../data/moviecache_' . $eqLogic->getId() . '.json';
+                            if(file_exists($movieCacheFile)) {
+                                $movieCache = json_decode(file_get_contents($movieCacheFile), TRUE);
+                                $movieIndex = array_search($currentmovie_uuid, array_column($movieCache, 'id'));
+                                $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $movieCache[$movieIndex]["file"], false) || $changed;
+                            }                            
+                        }
                         $movies = $t->get_movies();
                         $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
                         $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;

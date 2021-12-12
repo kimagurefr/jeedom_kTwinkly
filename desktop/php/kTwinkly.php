@@ -167,10 +167,16 @@ $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
 									<label class="col-sm-3 control-label"></label>
 									<div class="col-sm-8">
 										<span class="btn btn-default" id="bt_movies">
-											{{Gérer les animations}}...
+											<i class="fas fa-film"></i> {{Gérer les animations}}...
 										</span>
 										<span class="btn btn-default" style="visibility: hidden" id="bt_playlists" data-l1key="gen2button">
-											{{Gérer la playlist}}...
+											<i class="fas fa-list"></i> {{Gérer la playlist}}...
+										</span>
+										<span class="btn btn-default btn-file" data-l1key="gen2button">
+    										<i class="fas fa-file-import"></i> {{Importer...}} <input id="bt_import" type="file" name="file" style="display: inline-block">
+										</span>
+										<span class="btn btn-default" id="bt_export" data-l1key="gen2button">
+										    <i class="fas fa-file-export"></i> {{Exporter...}}
 										</span>
                                         <!--
 										<span class="btn btn-default" id="bt_mqtt">

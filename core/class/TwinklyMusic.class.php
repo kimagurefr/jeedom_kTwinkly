@@ -113,13 +113,14 @@ class TwinklyMusic {
 	// $content_type = type de contenu de $postdata
     private function do_api_post($method, $postdata, $authenticated=TRUE, $verify_auth=TRUE, $special_token=NULL, $content_type="application/json")
     {
-        $this->debug("## CALL TWINKLY API [POST : $method] - auth=$authenticated verifyauth=$verify_auth");
-
+        $debugmsg = ">>>> API [POST : $method] - auth=$authenticated verifyauth=$verify_auth";
         if ($content_type == "application/json") {
-            $this->debug("POST data : $postdata");
+            $debugmsg .= " - POST data : $postdata";
         } else {
-            $this->debug('POST data : (binary data)');
+            $debugmsg .= " - POST data : (binary data)";
         }
+
+        $this->debug($debugmsg);
 
         $ch = curl_init($this->endpoint . "/" . $method);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -142,12 +143,12 @@ class TwinklyMusic {
         }
         $data = curl_exec($ch);
         $result = json_decode($data, true) or NULL;
-        $this->debug("API RESULT : $data");
+        $this->debug("<<<< API RESULT : $data");
         $this->debug("");
         curl_close($ch);
 
         if (is_null($result)) {
-            $this->debug("Twinkly API error [POST : $method] data=$result", TRUE);
+            $this->debug("#### ERROR API [POST : $method] data=$result", TRUE);
             $this->debug("");
             throw new Exception("Twinkly API error [POST : $method] data=$data");
         }
@@ -159,7 +160,7 @@ class TwinklyMusic {
 	// $authenticated = indique si la requête doit être envoyée avec un access token (TRUE) ou s'il s'agit d'une requête non authentifiée (FALSE)
     private function do_api_get($method, $authenticated=TRUE)
     {
-        $this->debug("## CALL TWINKLY API [GET : $method] - auth=$authenticated");
+        $this->debug(">>>> API [GET : $method] - auth=$authenticated");
         $ch = curl_init($this->endpoint . "/" . $method);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
@@ -171,14 +172,14 @@ class TwinklyMusic {
         }
         $data = curl_exec($ch);
         $result = json_decode($data, true) or NULL;
-        $this->debug("API RESULT : $data");
+        $this->debug("<<<< API RESULT : $data");
         $this->debug("");
         curl_close($ch);
 
         if ($result) {
             return $result;
         } else {
-            $this->debug("Twinkly API error [GET : $method] data=$data", TRUE);
+            $this->debug("#### ERROR API [GET : $method] data=$data", TRUE);
             $this->debug("");
             throw new Exception("Twinkly API error [GET : $method] data=$data");
         }
@@ -187,7 +188,7 @@ class TwinklyMusic {
     // Envoie une methode DELETE à l'API
     private function do_api_delete($method, $authenticated=TRUE)
     {
-        $this->debug("## CALL TWINKLY API [DELETE : $method] - auth=$authenticated");
+        $this->debug(">>>> API [DELETE : $method] - auth=$authenticated");
         $ch = curl_init($this->endpoint . "/" . $method);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
@@ -199,14 +200,14 @@ class TwinklyMusic {
         }
         $data = curl_exec($ch);
         $result = json_decode($data, true) or NULL;
-        $this->debug("API RESULT : $data");
+        $this->debug("<<<< API RESULT : $data");
         $this->debug("");
         curl_close($ch);
 
         if ($result) {
             return $result;
         } else {
-            $this->debug("Twinkly API error [DELETE : $method] data=$data", TRUE);
+            $this->debug("#### ERROR API [DELETE : $method] data=$data", TRUE);
             throw new Exception("Twinkly API error [DELETE : $method] data=$data");
         }
     }
@@ -216,7 +217,7 @@ class TwinklyMusic {
     {
         if ($this->token !== NULL) {
             // Token exists
-            $this->debug("  # Check validity of current token");
+            //$this->debug("  # Check validity of current token");
             $expiry = $this->token["expiry"];
             if ($expiry - (new DateTime())->getTimestamp() > 60) {
                 // Token not expired
@@ -232,19 +233,19 @@ class TwinklyMusic {
                 $result = json_decode($data, true) or NULL;
                 if(!is_null($result) && $result["code"]=="1000") {
                     // Token valid
-                    $this->debug("    Token is still valid. No need to re-authenticate");
+                    //$this->debug("    Token is still valid. No need to re-authenticate");
                     return TRUE;
                 }
             } else {
-                $this->debug("   Existing token has expired : authentication required");
+                $this->debug("    Token expired - Authentication required");
             }
         } else {
-            $this->debug("  # No existing token found : authentication required");
+            $this->debug("    No token found -  authentication required");
         }
         // Token missing, expired or invalid
-        $this->debug("    Performing new authentication");
+        //$this->debug("    Performing new authentication");
         $this->authenticate();
-        $this->debug("  # Authentication successful - returning to calling API");
+        //$this->debug("  # Authentication successful - returning to calling API");
     }
 
     // Authentification sur l'API et récupération d'un access token
@@ -252,7 +253,7 @@ class TwinklyMusic {
 	// et déconnectera donc les autres clients déjà connectés (notamment l'application mobile)
     private function authenticate()
     {
-        $this->debug('  # Authentication (get new auth token)');
+        $this->debug('    + Authentication (get new auth token)');
 
         // Generate a random 32-byte challenge
         $challenge = random_bytes(32);
@@ -271,7 +272,7 @@ class TwinklyMusic {
         curl_close($ch);
 
         if (is_null($result) || $result["code"] != "1000") {
-            $this->debug("  Call to /login failed : $data", TRUE);
+            $this->debug("#### ERROR Call to /login failed : $data", TRUE);
             throw new Exception("Twinkly authentication error [POST /login] : $data"); 
         }
 
@@ -284,16 +285,16 @@ class TwinklyMusic {
         $dk = $this->derive_key($this::SHARED_KEY_CHALLENGE, $this->mac);
         $enc = $this->rc4($challenge, $dk);
         $rsp = sha1($enc);
-        $this->debug("    Requested challenge response : $challenge_response");
-        $this->debug("    Computed challenge response  : $rsp");
+        //$this->debug("    Requested challenge response : $challenge_response");
+        //$this->debug("    Computed challenge response  : $rsp");
 
         // Authentication should normally fail when challenge-response does not match the computed value
         // As we are talking directly with the controller locally, this may be safely ignored
         if ($rsp != $challenge_response) {
-            $this->debug("    !! Authentication WARNING : incorrect challenge-response - IGNORING");
+            $this->debug("#### WARNING : incorrect challenge-response - IGNORING");
             //throw new Exception("Twinkly Authentication error. Incorrect challenge-response. [POST : login]");
         } else {
-            $this->debug("    Challenge response matches expected value");
+            //$this->debug("    Challenge response matches expected value");
         }
         $json = json_encode(array("challenge-response" => $challenge_response));
 
@@ -309,16 +310,16 @@ class TwinklyMusic {
         curl_close($ch);
 
         if (is_null($result) || $result["code"] != "1000") {
-            $this->debug("  Call to /verify failed : $data", TRUE);
+            $this->debug("#### ERROR Call to /verify failed : $data", TRUE);
             throw new Exception("Twinkly authentication error [POST /verify] : $data");
         }
 
         $expiry_timestamp = (new DateTime())->getTimestamp() + $auth_expiry;
-        $this->debug("  # Authentication successful - Storing new access token");
+        $this->debug("    + Authentication successful");
         $this->token = array("auth_token" => $auth_token, "expiry" => $expiry_timestamp);
 
         $this->save_token();
-    }    
+    } 
 
 
     public function get_stats()

@@ -878,7 +878,7 @@ class TwinklyString {
     // Ajoute des animations à la playlist courante
     // Le format d'entrée est un tableau de ["unique_id","json","bin","duration"]
     // Le paramètre newplaylist indique s'il faut ajouter à la playlist courante ou repartir d'une playlist vide
-    public function add_to_playlist($movies, $newplaylist = FALSE)
+    public function add_to_playlist($movies, $newplaylist = TRUE)
     {
         $this->debug('TwinklyString::add_to_playlist');
         if (is_array($movies) == TRUE) {
@@ -893,7 +893,7 @@ class TwinklyString {
 
             $pldata = [ "entries" => [] ];  
             // On garde la playlist courante ?          
-            if ($newplaylist != TRUE) {
+            if ($newplaylist !== TRUE) {
                 foreach ($current_playlist as $e) {
                     $pldata["entries"][] = [
                         "duration" => $e["duration"],
