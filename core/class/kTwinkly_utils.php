@@ -111,6 +111,19 @@ function generate_GUID() {
     return strtoupper(vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4)));
 }
 
+function convert_cache_to_listvalue($cache) {
+    if(is_array($cache)) {
+        $lv = "";
+        foreach($cache as $m) {
+            $lv .= ";" . $m["file"] . '|' . $m["name"];
+        }
+        $lv = substr($lv, 1);
+        return $lv;
+    } else {
+        return "";
+    }
+}
+
 function sanitize_filename($filename) {
     // Remplace les caractères accentués
     $newname = iconv(mb_detect_encoding($filename, mb_detect_order(), true),'ASCII//TRANSLIT',$filename);
@@ -154,4 +167,14 @@ function generate_device_id($mac)
     return "Twinkly-" . str_replace(":","",$mac);
 }
 
+function get_movie_cache($id) {
+    if($id !== "" && $id !== NULL) {
+        $movieCacheFile = __DIR__ . '/../../data/moviecache_' . $id . '.json';
+        if(file_exists($movieCacheFile)) {
+            $movieCache = json_decode(file_get_contents($movieCacheFile), TRUE);
+            return $movieCache;
+        }
+    }
+    return array();
+}
 ?>
