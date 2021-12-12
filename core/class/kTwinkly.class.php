@@ -108,7 +108,7 @@ class kTwinkly extends eqLogic {
                     $debug = TRUE;
                 }                                
 
-                if($this->getConfiguration('devicetype') == "" || $this->getConfiguration('devicetype') == $null)
+                if($this->getConfiguration('devicetype') == "" || $this->getConfiguration('devicetype') == NULL)
                 {
                     // Find device type
                     log::add('kTwinkly','debug','kTwinkly::preUpdate - identification du type de matériel');
@@ -1117,7 +1117,6 @@ class kTwinkly extends eqLogic {
     {
         log::add('kTwinkly','debug','populate_movies_list - id=' . $_id);
         $eqLogic = eqLogic::byId($_id);
-        $movieCmd = $eqLogic->getCmd(null, "movie");
 
         $dataDir = __DIR__ . '/../../data/';
         $movieMask = $dataDir . 'movie_' . $_id . '_*.zip';
@@ -1150,6 +1149,8 @@ class kTwinkly extends eqLogic {
             }
             $movieList = substr($movieList, 1); // Supprime le ";" initial
         }
+        
+        $movieCmd = $eqLogic->getCmd(null, "movie");
         $movieCmd->setConfiguration('listValue', $movieList);
         $movieCmd->save();
 

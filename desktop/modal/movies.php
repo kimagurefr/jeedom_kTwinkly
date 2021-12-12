@@ -31,6 +31,8 @@ $cmdMovies = $eqLogic->getCmd(null, 'movie');
 $lv = $cmdMovies->getConfiguration("listValue");
 if ($lv != "") {
 	$moviesList = explode(';', $lv);
+} else {
+    $moviesList = array();
 }
 
 // Etat du proxy mitm

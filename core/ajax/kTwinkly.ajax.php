@@ -179,7 +179,7 @@ try {
     }
     
     if (init('action') == 'uploadMovie') {
-        $id = init(id);
+        $id = init('id');
         $eqLogic = eqLogic::byId($id);
 
         if (!is_object($eqLogic)) {
@@ -286,7 +286,7 @@ try {
     }
 
     if (init('action') == 'deleteMovie') {
-	    $id = init(id);
+	    $id = init('id');
 	    $eqLogic = eqLogic::byId($id);
 
 	    $deletedfilenames = $_POST["selectedFilenames"];
@@ -319,7 +319,7 @@ try {
 	    $filenames = $_POST["files"];
 	    $labels = $_POST["labels"];
 
-        $id = init(id);
+        $id = init('id');
 	    $eqLogic = eqLogic::byId($id);
 	    $movieCmd = $eqLogic->getCmd(null, 'movie');
 
@@ -364,7 +364,7 @@ try {
 
     // Envoie la playlist à la guirlande
     if (init('action') == 'createPlaylist') {
-        $id = init(id);
+        $id = init('id');
         $eqLogic = eqLogic::byId($id);
 
         $ip = $eqLogic->getConfiguration("ipaddress");
@@ -400,7 +400,7 @@ try {
     }
 
     if (init('action') == 'deletePlaylist') {
-        $id = init(id);
+        $id = init('id');
         $eqLogic = eqLogic::byId($id);
 
         $ip = $eqLogic->getConfiguration("ipaddress");
@@ -417,7 +417,7 @@ try {
     }
 
     if (init('action') == 'savePlaylist') {
-        $id = init(id);
+        $id = init('id');
         $movies = init(playlist);
 
         $movieCacheFile = __DIR__ . '/../../data/moviecache_' . $id . '.json';
@@ -438,7 +438,7 @@ try {
     }
 
     if (init('action') == 'clearMemory') {
-        $id = init(id);
+        $id = init('id');
         $eqLogic = eqLogic::byId($id);
 
         $ip = $eqLogic->getConfiguration("ipaddress");
@@ -454,7 +454,7 @@ try {
 
 
     if (init('action') == 'changeproxystate') {
-        $id = init(id);
+        $id = init('id');
         $eqLogic = eqLogic::byId($id);
         $tempdir = jeedom::getTmpFolder('kTwinkly');
 
@@ -494,7 +494,7 @@ try {
 
     // Arrete le proxy et ignore les fichiers capturés : appelé lors de la fermeture de la modale
     if (init('action') == 'stopProxy') {
-        $id = init(id);
+        $id = init('id');
         $eqLogic = eqLogic::byId($id);
         if (kTwinkly::is_mitm_running()) {
             kTwinkly::stop_mitmproxy();
@@ -511,7 +511,7 @@ try {
     }
 
     if (init('action') == 'updateMqtt') {
-	    $id = init(id);
+	    $id = init('id');
 	    $eqLogic = eqLogic::byId($id);
 	    $ip = $eqLogic->getConfiguration("ipaddress");
 	    $mac = $eqLogic->getConfiguration("macaddress");
@@ -590,7 +590,7 @@ try {
     }
 
     if (init('action') == 'uploadPlaylist') {
-        $id = init(id);
+        $id = init('id');
         $eqLogic = eqLogic::byId($id);
         if (!is_object($eqLogic)) {
             throw new Exception(__('EqLogic inconnu verifiez l\'id', __FILE__));
@@ -617,7 +617,7 @@ try {
     }
 
     if (init('action') == 'exportAll') {
-        $id = init(id);
+        $id = init('id');
         $eqLogic = eqLogic::byId($id);
         if (!is_object($eqLogic)) {
             throw new Exception(__('EqLogic inconnu verifier l\'id', __FILE__));
@@ -695,7 +695,7 @@ try {
     }
 
     if (init('action') == 'importAll') {
-        $id = init(id);
+        $id = init('id');
         $eqLogic = eqLogic::byId($id);
 
         if (!is_object($eqLogic)) {
