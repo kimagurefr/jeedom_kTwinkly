@@ -145,7 +145,6 @@ $('#cb_selectall').change(function() {
 $('input[type=checkbox].kTWinklyMovieItem').change(function () {
     var chk = $(this).prop("checked");
     var allchk =  $('#cb_selectall').prop('checked');
-    console.log("checkbox : " + chk + " all=" + allchk);
     if(allchk && !chk) {
         $('#cb_selectall').prop('checked', false);
     }

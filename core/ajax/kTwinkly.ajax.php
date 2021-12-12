@@ -195,7 +195,7 @@ try {
         $filename = $_FILES['file']['name'];
         $extension = strtolower(strrchr($filename, '.'));
 
-        log::add('kTwinkly','debug',"Tentative d'upload d'un fichier pour l'equipement " . $id . ' : ' . $filename);
+        log::add('kTwinkly','debug',"Tentative d'upload d'un fichier pour l'equipement GEN" . $hwgen . ' ' . $id . ' : ' . $filename);
 
         if (!in_array($extension, array('.zip'))) {
             throw new Exception(__("L'extension du fichier est invalide (zip uniquement)", __FILE__));
@@ -227,7 +227,7 @@ try {
 
             if ($cnt==2 && $index_bin >=0 && $index_json >= 0) {
                 $json = json_decode($zip->getFromIndex($index_json), true);
-                if ($json["name"]) {
+                if ($json["hardwareid"]) {
                     $is_gen2 = true;
                 }
                 if (($hwgen == "1" && $is_gen2) || ($hwgen == "2" && !$is_gen2)) {
@@ -264,13 +264,23 @@ try {
                             $zip->close();
                             throw new Exception(__("Le nombre de leds de l'animation ne correspond pas à celui de la guirlande", __FILE__));
                         }
-                        $destfilepath = dirname(__FILE__) . '/../../data/movie_' . $id . '_' . date('YmdHis') . '.zip';
+                        if($json["name"] !== NULL && $json["name"]!== "") {
+                            $destfilepath = dirname(__FILE__) . '/../../data/movie_' . $id . '_' . date('YmdHis') . '_' . sanitize_filename($json["name"]) . '.zip';
+                        } else {
+                            $destfilepath = dirname(__FILE__) . '/../../data/movie_' . $id . '_' . date('YmdHis') . '.zip';
+                        }
+                        
                         log::add('kTwinkly','debug',"upload d'un fichier pour id $id : $destfilepath");
                         file_put_contents($destfilepath, file_get_contents($_FILES['file']['tmp_name']));
 
                         $movieCmd = $eqLogic->getCmd(null, 'movie');
                         $oldList = $movieCmd->getConfiguration('listValue');
-                        $newList = add_movie_to_listValue($oldList, basename($destfilepath), substr($filename, 0, strlen($filename)-4)); 
+                        if($json["name"] !== NULL && $json["name"]!== "") {
+                            $newList = add_movie_to_listValue($oldList, $json["name"]); 
+                        } else {
+                            $newList = add_movie_to_listValue($oldList, basename($destfilepath), substr($filename, 0, strlen($filename)-4)); 
+                        }
+                        
                         log::add('kTwinkly','debug','Nouvelle liste d\'animations pour eq ' . $id . ' => ' . $newList);
                     }
                     $movieCmd->setConfiguration('listValue', $newList);
