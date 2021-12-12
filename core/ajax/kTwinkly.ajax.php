@@ -852,6 +852,13 @@ try {
 
         if(count($exportedMovieIDs) > 0 ) {
             log::add('kTwinkly','debug','Export des ' . count($exportedMovieIDs) . ' animations sélectionnées de l\'équipement id=' . $id);
+
+            // On supprime les anciens exports pour cet équipement
+            $exportpath = __DIR__ . '/../../data/kTwinkly_moviexport_' . $id . '_*.zip';
+            try {
+                array_map( "unlink", glob( $exportpath ) );
+            } catch (\Exception $e) {}
+                        
             $exportFile = __DIR__ . '/../../data/kTwinkly_moviexport_' . $id . '_' . sanitize_filename($eqLogic->getName()) . '_' . $eqLogic->getConfiguration("productcode") . '_' . date('YmdHis') . '.zip';
             $movieCacheFile = __DIR__ . '/../../data/moviecache_' . $id . '.json';
             if(file_exists($movieCacheFile)) {

@@ -154,7 +154,7 @@ if ($proxymode == 1) {
                     </table>
 <?php } ?>
                     <span class="btn btn-default btn-file">
-                      <i class="fas fa-plus-circle"></i> {{Ajouter}}... <input id="bt_uploadMovie" type="file" name="file" style="display: inline-block">
+                      <i class="fas fa-plus-circle"></i> {{Ajouter}}... <input id="bt_uploadMovie" type="file" name="file" style="display: inline-block" multiple>
                     </span>
                     <span class="btn btn-danger" id="bt_deleteMovie"><i class="fas fa-minus-circle"></i> {{Supprimer}}</span>
                     <span class="btn btn-default" id="bt_downloadSelectedMovies"><i class="fas fa-file-archive"></i> {{Télécharger}}</span>

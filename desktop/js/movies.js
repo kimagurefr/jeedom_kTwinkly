@@ -142,10 +142,18 @@ $('#cb_selectall').change(function() {
     $('input:checkbox.kTWinklyMovieItem').prop('checked', this.checked);    
 });
 
+$('input[type=checkbox].kTWinklyMovieItem').change(function () {
+    var chk = $(this).prop("checked");
+    var allchk =  $('#cb_selectall').prop('checked');
+    console.log("checkbox : " + chk + " all=" + allchk);
+    if(allchk && !chk) {
+        $('#cb_selectall').prop('checked', false);
+    }
+});
+
 $('#bt_downloadSelectedMovies').off('click').on('click', function() {
     var nbmovies = $('.kTWinklyMovieItem:checked').length;
     $('#moviesList #action').val('downloadSelectedMovies');
-    console.log('download ' + nbmovies + ' movies');
     $.ajax({
         type: "POST",
         url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php',
