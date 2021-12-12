@@ -454,7 +454,7 @@ class kTwinkly extends eqLogic {
                 $refreshCmd->setOrder($cmdIndex);
                 $refreshCmd->save();
             }
-
+            self::populate_movies_list($this->getID());
         }
         elseif($this->getConfiguration("devicetype") == "music")
         {
@@ -573,8 +573,6 @@ class kTwinkly extends eqLogic {
 
         log::add('kTwinkly','debug','kTwinkly::postUpdate');
         
-        self::populate_movies_list($this->getID());
-
         if ($this->getChanged())
         {
             self::deamon_start();
@@ -1159,8 +1157,10 @@ class kTwinkly extends eqLogic {
         }
         
         $movieCmd = $eqLogic->getCmd(null, "movie");
-        $movieCmd->setConfiguration('listValue', $movieList);
-        $movieCmd->save();
+        if(is_object($movieCmd)) {
+            $movieCmd->setConfiguration('listValue', $movieList);
+            $movieCmd->save();
+        }
 
         $movieCache = $dataDir . 'moviecache_' . $_id . '.json';
         file_put_contents($movieCache, json_encode($movieTable));
