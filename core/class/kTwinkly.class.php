@@ -588,19 +588,27 @@ class kTwinkly extends eqLogic {
 
         // Suppression des animations liées à cet équipement
         $animpath = __DIR__ . '/../../data/movie_' . $this->getId() . '_*.zip';
-        array_map( "unlink", glob( $animpath ) );
-
-        // Suppression du cache des animations pour cet équipement
-        $cachepath = __DIR__ . '/../../data/moviecache_' . $this->getId() . '.json';
-        unlink($cachepath);
+        try {
+            array_map( "unlink", glob( $animpath ) );    
+        } catch (\Exception $e) {}
 
         // Suppression des playlists
         $playlistpath = __DIR__ . '/../../data/playlist_' . $this->getId() . '_*.json';
-        array_map( "unlink", glob( $playlistpath ) );
-        
+        try {
+            array_map( "unlink", glob( $playlistpath ) );
+        } catch (\Exception $e) {}
+
         // Suppression des exports de cet équipement
         $exportpath = __DIR__ . '/../../data/kTwinkly_export_' . $id . '_*.zip';
-        array_map( "unlink", glob( $exportpath ) );
+        try {
+            array_map( "unlink", glob( $exportpath ) );
+        } catch (\Exception $e) {}
+
+        // Suppression du cache des animations pour cet équipement
+        $cachepath = __DIR__ . '/../../data/moviecache_' . $this->getId() . '.json';
+        if(is_file($cachepath)) {
+            unlink($cachepath);
+        }
     }
 
     // Découverte automatique des équipements sur le réseau

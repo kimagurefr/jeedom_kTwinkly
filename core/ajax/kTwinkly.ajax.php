@@ -628,8 +628,10 @@ try {
 
         // On supprime les anciens exports pour cet équipement
         $exportpath = __DIR__ . '/../../data/kTwinkly_export_' . $id . '_*.zip';
-        array_map( "unlink", glob( $exportpath ) );
-        
+        try {
+            array_map( "unlink", glob( $exportpath ) );
+        } catch (\Exception $e) {}
+
         // On récupère les infos de la guirlande
         $infos = array(
             "productcode" => $eqLogic->getConfiguration('productcode'),
@@ -779,10 +781,16 @@ try {
             $zip->close();
 
             // Suppression des anciennes animations et playlists
-            unlink(__DIR__ . '/../../data/' . $newIndexFile);
-            unlink(__DIR__ . '/../../data/' . $newPlaylistFile);
-            array_map("unlink", glob(__DIR__ . '/../../data/movie_' . $id . '_*.zip'));
-            
+            if(is_file(__DIR__ . '/../../data/' . $newIndexFile)) {
+                unlink(__DIR__ . '/../../data/' . $newIndexFile);
+            }            
+            if(is_file(__DIR__ . '/../../data/' . $newPlaylistFile)) {
+                unlink(__DIR__ . '/../../data/' . $newPlaylistFile);
+            }            
+            try {
+                array_map("unlink", glob(__DIR__ . '/../../data/movie_' . $id . '_*.zip'));
+            } catch (\Exception $e) {}
+
             // Déplacement des fichiers dans la destination
             rename($tempdir . '/' . $newIndexFile, __DIR__ . '/../../data/' . $newIndexFile);
             if(count($newPlaylist) > 0) {
