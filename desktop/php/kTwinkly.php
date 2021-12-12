@@ -172,10 +172,10 @@ $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
 										<span class="btn btn-default" style="visibility: hidden" id="bt_playlists" data-l1key="gen2button">
 											<i class="fas fa-list"></i> {{Gérer la playlist}}...
 										</span>
-										<span class="btn btn-default btn-file" data-l1key="gen2button">
+										<span class="btn btn-default btn-file" style="visibility: hidden" data-l1key="gen2button" id="span_bt_import">
     										<i class="fas fa-file-import"></i> {{Importer...}} <input id="bt_import" type="file" name="file" style="display: inline-block">
 										</span>
-										<span class="btn btn-default" id="bt_export" data-l1key="gen2button">
+										<span class="btn btn-default" style="visibility: hidden" id="bt_export" data-l1key="gen2button">
 										    <i class="fas fa-file-export"></i> {{Exporter...}}
 										</span>
                                         <!--

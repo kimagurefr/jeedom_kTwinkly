@@ -98,6 +98,8 @@ function printEqLogic(_eqLogic) {
       $('#bt_movies').css('visibility', 'visible');
       $('#info_leds_1').css('visibility', 'visible');
       $('#info_leds_2').css('visibility', 'visible');
+      $('#bt_export').css('visibility', 'visible');
+      $('#span_bt_import').css('visibility', 'visible');      
       if (_eqLogic.configuration['hwgen'] !== "1") { 
           $('#bt_playlists').css('visibility', 'visible');
           $('#cb_clearmemory').css('visibility', 'visible');
@@ -111,6 +113,8 @@ function printEqLogic(_eqLogic) {
       $('#info_leds_2').css('visibility', 'hidden');
       $('#bt_playlists').css('visibility', 'hidden');
       $('#cb_clearmemory').css('visibility', 'hidden');
+      $('#bt_export').css('visibility', 'hidden');
+      $('#span_bt_import').css('visibility', 'hidden');
     }
 
     /*
