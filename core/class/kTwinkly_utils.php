@@ -174,7 +174,18 @@ function get_movie_cache($id) {
             $movieCache = json_decode(file_get_contents($movieCacheFile), TRUE);
             return $movieCache;
         }
+    } else {
+        return array();
     }
-    return array();
+}
+
+function get_movie_from_cache($cache, $unique_id) {
+    if(is_array($cache) && (count($cache)>0)) {
+        $movieIndex = array_search(strtolower($unique_id), array_column($cache, 'unique_id'));
+        if($movieIndex !== false) {
+            return $cache[$movieIndex];
+        }
+    }
+    return null;
 }
 ?>
