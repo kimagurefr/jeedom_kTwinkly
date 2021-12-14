@@ -141,7 +141,9 @@ if ($proxymode == 1) {
 
     // Titre de l'animation
 	echo '  <td>';
-	echo '      <input class="movieAttr form-control input-sm" maxlength="15" id="label_' . $cnt . '" name="labels[]" value="' . $title . '"/>';
+	//echo '      <input class="movieAttr form-control input-sm" maxlength="15" id="label_' . $cnt . '" name="labels[]" value="' . $title . '"/>';
+    echo '      <input class="movieAttr form-control input-sm" maxlength="15" id="label_' . $unique_id . '" name="labels[]" value="' . $title . '"/>';
+    echo '      <input type="hidden" name="uids[]" value="' . $unique_id . '"/>';
 	echo '  </td>';
 
 	echo '</tr>';

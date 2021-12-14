@@ -346,13 +346,43 @@ try {
     }
 
     if (init('action') == 'saveMovie') {
-	    $filenames = $_POST["files"];
 	    $labels = $_POST["labels"];
+        $uids = $_POST["uids"];
 
         $id = init('id');
 	    $eqLogic = eqLogic::byId($id);
 	    $movieCmd = $eqLogic->getCmd(null, 'movie');
+        $oldlist = $movieCmd->getConfiguration('listValue');
 
+        $updatedNames = array();
+        $newList = "";
+        $movieCache = get_movie_cache($id);
+        for ($i=0; $i < count($uids); $i++) {
+            $uid = $uids[$i];
+            $label = $labels[$i];
+            $file = $filenames[$i];
+
+            $movie = get_movie_from_cache($movieCache, $uid);
+            log::add('kTwinkly','debug','savemovie eq=' . $id . ' file=' . $movie["file"] . ' - compare old=' . $movie["name"] . ' with new='.$label);
+
+            if($movie["name"] !== $label) {
+                // Le nom a été changé, il faut mettre à jour l'info dans le json
+                array_push($updatedNames, array("unique_id" => $uid, "file" => $movie["file"] , "old" => $movie["name"], "new" => $label));                
+            }
+            $newList .= ';' . $file . '|' . $label;
+        }
+        $newList = substr($newList, 1);
+
+        if(count($updatedNames) > 0) {
+            kTwinkly::update_titles($id, $updatedNames);
+        }
+
+	    $movieCmd->setConfiguration('listValue', $newList);
+	    $movieCmd->save();
+	    $eqLogic->save();
+	    $eqLogic->refreshWidget();        
+
+/*
         $oldlist = $movieCmd->getConfiguration('listValue');
         if($oldlist != NULL && $oldlist !== "") {
             $oldlistTable = array();
@@ -383,11 +413,12 @@ try {
         if(count($changed) > 0) {
             kTwinkly::update_titles($id, $changed);
         }
-
+       
 	    $movieCmd->setConfiguration('listValue', $newList);
 	    $movieCmd->save();
 	    $eqLogic->save();
 	    $eqLogic->refreshWidget();
+*/
 
 	    ajax::success();
     }
