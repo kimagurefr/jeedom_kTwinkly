@@ -128,23 +128,20 @@ if ($proxymode == 1) {
     $unique_id = $item["unique_id"];
 
 	echo '<tr class="movie">';
-	//echo '  <input type="hidden" id="file_' . $cnt . '" name="files[]" value="' . $filename . '"/>';
 
     // Case de sélection
 	echo '  <td class="center" style="width: 50px">';
-	//echo '      <input type="checkbox" class="kTWinklyMovieItem" name="selectedFilenames[]" value="' . $filename . '"/>';
     echo '      <input type="checkbox" class="kTWinklyMovieItem" name="selectedFilenames[]" value="' . $unique_id . '"/>';
 	echo '  </td>';
 
     // Bouton de téléchargement
     echo '  <td class="center" style="width: 50px">';
-    //echo '      <a href="plugins/kTwinkly/data/'.$filename.'" target="_blank"><i class="fas fa-file-download"></i></a>';
     echo '      <a href="#" onClick="window.open(\'core/php/downloadFile.php?pathfile=/var/www/html/plugins/kTwinkly/data/' . $filename . '\', \'_blank\', null);"><i class="fas fa-file-download"></i></a>';
     echo '  </td>';
 
     // Titre de l'animation
 	echo '  <td>';
-	echo '      <input class="movieAttr form-control input-sm" maxlength="50" id="label_' . $cnt . '" name="labels[]" value="' . $title . '"/>';
+	echo '      <input class="movieAttr form-control input-sm" maxlength="15" id="label_' . $cnt . '" name="labels[]" value="' . $title . '"/>';
 	echo '  </td>';
 
 	echo '</tr>';

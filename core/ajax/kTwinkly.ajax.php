@@ -227,7 +227,8 @@ try {
 
             if ($cnt==2 && $index_bin >=0 && $index_json >= 0) {
                 $json = json_decode($zip->getFromIndex($index_json), true);
-                if ($json["hardwareid"]) {
+                //if ($json["hardwareid"]) {
+                if ($json["unique_id"]) {
                     $is_gen2 = true;
                 }
                 if (($hwgen == "1" && $is_gen2) || ($hwgen == "2" && !$is_gen2)) {
@@ -237,7 +238,8 @@ try {
                     if ($is_gen2) {
                         // Fichier déjà existant dans le cache
                         $movieCache = get_movie_cache($id);
-                        if(array_search($json["unique_id"], array_column($movieCache, 'unique_id')) !== false ) {
+
+                        if(get_movie_from_cache($movieCache, $json["unique_id"]) !== null) {
                             throw new Exception(__("Une animation portant le même identifiant est déjà présent dans la liste", __FILE__));
                         }
 
@@ -313,10 +315,7 @@ try {
         if(count($deletedMovieIDs) > 0 ) {
             log::add('kTwinkly','debug','Supression des ' . count($deletedMovieIDs) . ' animations sélectionnées de l\'équipement id=' . $id);
 
-            $movieCacheFile = __DIR__ . '/../../data/moviecache_' . $id . '.json';
-            if(file_exists($movieCacheFile)) {
-                $movieCache = json_decode(file_get_contents($movieCacheFile), true);
-            }
+            $movieCache = get_movie_cache($id);
 
             $newCache = array();
             foreach($movieCache as $m) {
@@ -451,15 +450,11 @@ try {
         $id = init('id');
         $movies = init(playlist);
 
-        $movieCacheFile = __DIR__ . '/../../data/moviecache_' . $id . '.json';
-        $movieCache = json_decode(file_get_contents($movieCacheFile), true);
-
+        $movieCache = get_movie_cache($id);
         $playlist = array();
         foreach ($movies as $item) {
-            //$movieIndex = array_search($item["file"], array_column($movieCache, 'file'));
-            //array_push($playlist, array("unique_id" => $movieCache[$movieIndex]["unique_id"], "file" => $item["file"], "name" => $movieCache[$movieIndex]["name"], "duration" => $item["duration"]));
-            $movieIndex = array_search($item["unique_id"], array_column($movieCache, 'unique_id'));
-            array_push($playlist, array("unique_id" => $item["unique_id"], "file" => $item["file"], "name" => $movieCache[$movieIndex]["name"], "duration" => $item["duration"]));
+            $movieItem = get_movie_from_cache($movieCache, $item["unique_id"]);
+            array_push($playlist, array("unique_id" => $item["unique_id"], "file" => $item["file"], "name" => $movieItem["name"], "duration" => $item["duration"]));
         }
 
         $json = json_encode($playlist);
@@ -677,10 +672,8 @@ try {
         $newCache = array();
         $newPlaylist = array();
 
-        $movieCacheFile = realpath(__DIR__ . '/../../data/moviecache_' . $id . '.json');        
-        if(file_exists($movieCacheFile)) {
-            $movieCache = json_decode(file_get_contents($movieCacheFile), true);
-
+        $movieCache = get_movie_cache($id);
+        if(count($movieCache) > 0) {            
             foreach($movieCache as $m) {
                 $movieFile = realpath(__DIR__ . '/../../data/' . $m["file"]);
                 $movieDest = 'movie_' . sanitize_filename($m["name"]) . '.zip';
@@ -693,8 +686,7 @@ try {
             if(file_exists($playlistFile)) {
                 $playlist = json_decode(file_get_contents($playlistFile), true);
                 foreach($playlist as $p) {
-                    $movieItem = array_search($p["unique_id"], array_column($newCache, 'unique_id'));
-                    $p["file"] = $newCache[$movieItem]["file"];
+                    $movieItem = get_movie_from_cache($newCache, $p["unique_id"]);
                     $newPlaylist[] = $p;
                 }
             }

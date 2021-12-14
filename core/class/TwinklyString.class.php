@@ -805,6 +805,17 @@ class TwinklyString {
 
     }
 
+    public function get_current_playlist_item()
+    {
+        $this->debug("TwinklyString::get_current_playlist_item");
+        $result = $this->do_api_get("playlist/current");
+        if ($result["code"] != "1000") {
+            $this->debug("get_current_playlist_item error...");
+            throw new Exception("get_current_playlist_item error [GET : playlist/current] data=" . print_r($result,TRUE));
+        }
+        return $result;
+    }
+
     public function add_movie($movie_data, $jsondata)
     {
         $this->debug("TwinklyString::add_movie(bindata, $jsondata)");

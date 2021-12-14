@@ -299,24 +299,25 @@ class kTwinkly extends eqLogic {
                 $movieCmd->setOrder($cmdIndex);
                 $movieCmd->save();
             }
-
-            $cmdIndex++;
-            $currentMovieCmd = $this->getCmd(null, "currentmovie");
-            if (!is_object($currentMovieCmd))
-            {
-                $currentMovieCmd = new kTwinklyCmd();
-                $currentMovieCmd->setName(__('Animation Courante', __FILE__));
-                $currentMovieCmd->setEqLogic_id($this->getId());
-                $currentMovieCmd->setLogicalId('currentmovie');
-                $currentMovieCmd->setType('info');
-                $currentMovieCmd->setSubType('string');
-                $currentMovieCmd->setIsVisible(0);
-                $currentMovieCmd->setOrder($cmdIndex);
-                $currentMovieCmd->save();
+            
+            if(version_supports_getmovies($this->getConfiguration("firmware_family"), $this->getConfiguration("firmware"))) {
+                $cmdIndex++;
+                $currentMovieCmd = $this->getCmd(null, "currentmovie");
+                if (!is_object($currentMovieCmd))
+                {
+                    $currentMovieCmd = new kTwinklyCmd();
+                    $currentMovieCmd->setName(__('Animation Courante', __FILE__));
+                    $currentMovieCmd->setEqLogic_id($this->getId());
+                    $currentMovieCmd->setLogicalId('currentmovie');
+                    $currentMovieCmd->setType('info');
+                    $currentMovieCmd->setSubType('string');
+                    $currentMovieCmd->setIsVisible(1);
+                    $currentMovieCmd->setOrder($cmdIndex);
+                    $currentMovieCmd->save();
+                }    
+                $movieCmd->setValue($currentMovieCmd->getId());
+                $movieCmd->save();            
             }
-
-            $movieCmd->setValue($currentMovieCmd->getId());
-            $movieCmd->save();
 
             $cmdIndex++;
             $stateCmd = $this->getCmd(null, "state");
@@ -564,7 +565,7 @@ class kTwinkly extends eqLogic {
                 $refreshCmd->setLogicalId('refresh');
                 $refreshCmd->setType('action');
                 $refreshCmd->setSubType('other');
-                $refreshCmd->setIsVisible(0);
+                $refreshCmd->setIsVisible(1);
                 $refreshCmd->setValue('refresh');
                 //$refreshCmd->setOrder(6);
                 $refreshCmd->save();
@@ -824,18 +825,25 @@ class kTwinkly extends eqLogic {
 
                     if($eqLogic->getConfiguration('devicetype') == 'leds')
                     {
+                        /*
                         $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
     
-                        $currentMode = $t->get_mode();
+                        $currentMode = $t->get_mode();                        
                         $brightness = $t->get_brightness();
                         $state = ($currentMode=="off"?"off":"on");
                         log::add('kTwinkly','debug','kTwinkly refreshstate - current state = ' . $state . ' / ' . $currentMode);
                         $changed = $eqLogic->checkAndUpdateCmd('currentmode', $currentMode, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $brightness, false) || $changed;
+                        */
+                        $refreshCmd = $eqLogic->getCmd(null, "refresh");
+                        if (!is_object($refreshCmd)) {
+                            $refreshCmd->execute();
+                        }
                     }
                     else if($eqLogic->getConfiguration('devicetype') == 'music')
                     {
+                        /*
                         $t = new TwinklyMusic($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
     
                         $current_mode = $t->get_mode();
@@ -844,12 +852,18 @@ class kTwinkly extends eqLogic {
                         
                         //$microphone_state = ($t->get_mic_enabled()?"on":"off");
                         //$changed = $eqLogic->checkAndUpdateCmd('micstate', $microphone_state, false) || $changed;
+                        */
+                        $refreshCmd = $eqLogic->getCmd(null, "refresh");
+                        if (!is_object($refreshCmd)) {
+                            $refreshCmd->execute();
+                        }
                     }
-    
+                    /*
                     if ($changed)
                     {
                         $eqLogic->refreshWidget();
                     }
+                    */
                 }
                 catch (Exception $e)
                 {
