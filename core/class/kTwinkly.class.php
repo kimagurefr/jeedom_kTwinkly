@@ -1190,7 +1190,7 @@ class kTwinkly extends eqLogic {
         
         foreach($changed as $c)
         {
-            $filePath = $dataDir . $c["zip"];
+            $filePath = $dataDir . $c["file"];
             $zip = new ZipArchive();
             if ($zip->open($filePath) === TRUE)
             {
