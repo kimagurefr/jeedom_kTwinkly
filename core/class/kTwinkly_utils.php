@@ -33,6 +33,25 @@ function get_product_info($_product_code) {
     return (array)$result;
 }
 
+// Renvoie l'image du produit, depuis products.json ou depuis products_custom.json
+function get_product_image($_product_code) {
+    $infos = get_product_info($_product_code);
+    if(array_key_exists("pack_preview", $infos)) {
+        // L'image existe dans le fichier products.json récupéré de l'app Twinkly
+        return $infos["pack_preview"];
+    } else {
+        $additional_info = json_decode(file_get_contents(__DIR__ . '/../config/products_custom.json'), TRUE);
+        $idx = array_search($_product_code, array_column($additional_info, 'product_code'));
+        if($idx !== false) {
+            $img = $additional_info[$idx]["pack_preview"];
+            if($img !== null) {
+                return $img;
+            }
+        }
+        return "default.png";
+    }
+}
+
 // Transforme un numéro de version de firmware de la forme x.x.x en entier pour faciliter la comparaison de versions
 function versionToInt($_str) {
     $split = explode('.',$_str);
@@ -188,4 +207,5 @@ function get_movie_from_cache($cache, $unique_id) {
     }
     return null;
 }
+
 ?>

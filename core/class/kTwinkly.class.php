@@ -143,7 +143,8 @@ class kTwinkly extends eqLogic {
                     $info = $t->get_details();
                     $this->setConfiguration('productcode',$info["product_code"]);
                     $this->setConfiguration('productname',get_product_info($info["product_code"])["commercial_name"]);
-                    $this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
+                    //$this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
+                    $this->setConfiguration('productimage',get_product_image($info["product_code"]));
                     $this->setConfiguration('product',$info["product_name"]);
                     $this->setConfiguration('devicename',$info["device_name"]);
                     $this->setConfiguration('numberleds',$info["number_of_led"]);
@@ -176,7 +177,8 @@ class kTwinkly extends eqLogic {
                     $info = $t->get_details();
                     $this->setConfiguration('productcode',$info["product_code"]);
                     $this->setConfiguration('productname',get_product_info($info["product_code"])["commercial_name"]);
-                    $this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
+                    //$this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
+                    $this->setConfiguration('productimage',get_product_image($info["product_code"]));
                     $this->setConfiguration('product',$info["product_name"]);
                     $this->setConfiguration('devicename',$info["device_name"]);
                     $this->setConfiguration('hardwareid',$info["hw_id"]);
@@ -651,7 +653,8 @@ class kTwinkly extends eqLogic {
             }
             $eqLogic->setConfiguration('productcode',$d["details"]["product_code"]);
             $eqLogic->setConfiguration('productname',get_product_info($d["details"]["product_code"])["commercial_name"]);
-            $eqLogic->setConfiguration('productimage',get_product_info($d["details"]["product_code"])["pack_preview"]);
+            //$eqLogic->setConfiguration('productimage',get_product_info($d["details"]["product_code"])["pack_preview"]);
+            $eqLogic->setConfiguration('productimage',get_product_image($d["details"]["product_code"]));
             $eqLogic->setConfiguration('product',$d["details"]["product_name"]);
             $eqLogic->setConfiguration('devicename',$d["details"]["device_name"]);
             $eqLogic->setConfiguration('numberleds',$d["details"]["number_of_led"]);
@@ -709,7 +712,8 @@ class kTwinkly extends eqLogic {
 		    $eqLogic->setConfiguration('macaddress', $d["mac"]);
             $eqLogic->setConfiguration('productcode',$d["details"]["product_code"]);
             $eqLogic->setConfiguration('productname',get_product_info($d["details"]["product_code"])["commercial_name"]);
-            $eqLogic->setConfiguration('productimage',get_product_info($d["details"]["product_code"])["pack_preview"]);
+            //$eqLogic->setConfiguration('productimage',get_product_info($d["details"]["product_code"])["pack_preview"]);
+            $eqLogic->setConfiguration('productimage',get_product_image($d["details"]["product_code"]));
             $eqLogic->setConfiguration('product',$d["details"]["product_name"]);
             $eqLogic->setConfiguration('devicename',$d["details"]["device_name"]);
             $eqLogic->setConfiguration('hardwareid',$d["details"]["hw_id"]);
