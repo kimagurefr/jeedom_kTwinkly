@@ -120,9 +120,7 @@ if ($proxymode == 1) {
   //foreach($moviesList as $item) {
   foreach($movieCache as $item) {
 	$cnt++;
-	//$listItem = explode('|', $item);
-    //$filename = $listItem[0];
-    //$title = $listItem[1];
+
     $filename = $item["file"];
     $title = $item["name"];
     $unique_id = $item["unique_id"];

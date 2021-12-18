@@ -144,24 +144,29 @@ $('.savePlaylist').off('click').on('click', function() {
 });
 
 $('.addToPlaylist').off('click').on('click', function() {
-    var tr = '<tr class="plitem">';
-    tr += '  <td>';
-    tr += '      <select class="form-control playlistAttr playlistMovie" name="plItems[]">';
-    $('#availableMoviesList option').each(function() {
-        tr += '<option value="' + $(this).val() + '" data-movieid="' + $(this).attr("data-movieid").toLowerCase() + '">' + $(this).text() + '</option>';
-    });
-    tr += '      </select>';
-    tr += '  </td>';
-    tr += '  <td>';
-    tr += '      <input class="playlistAttr form-control input-sm playlistDuration" type="text" style="width: 15%" maxlength="3" name="duration[]" value="30"/>';
-    tr += '  </td>';
-    tr += '  <td>';
-    tr += '     <i class="fas fa-minus-circle pull-right cursor removeFromPlaylist" data-plitem="1234"></i>';
-    tr += '  </td>';
-    tr += '</tr>';
-
-    $('#playlist tbody').append(tr);
-    playlistNotSaved=1;
+    if($('.plitem').length < 15) {
+        var tr = '<tr class="plitem">';
+        tr += '  <td>';
+        tr += '      <select class="form-control playlistAttr playlistMovie" name="plItems[]">';
+        $('#availableMoviesList option').each(function() {
+            tr += '<option value="' + $(this).val() + '" data-movieid="' + $(this).attr("data-movieid").toLowerCase() + '">' + $(this).text() + '</option>';
+        });
+        tr += '      </select>';
+        tr += '  </td>';
+        tr += '  <td>';
+        tr += '      <input class="playlistAttr form-control input-sm playlistDuration" type="text" style="width: 15%" maxlength="3" name="duration[]" value="30"/>';
+        tr += '  </td>';
+        tr += '  <td>';
+        tr += '     <i class="fas fa-minus-circle pull-right cursor removeFromPlaylist" data-plitem="1234"></i>';
+        tr += '  </td>';
+        tr += '</tr>';
+    
+        $('#playlist tbody').append(tr);
+        playlistNotSaved=1;
+    } else {
+        $('#div_alert_playlists').showAlert({message: "{{La playlist ne peut contenir plus de 15 animations}}", level: 'info'});
+        setTimeout(function() {$('#div_alert_playlists').hideAlert();}, 3000);
+    }
 });
 
 $("#playlist").on("click", ".removeFromPlaylist", function(){
