@@ -33,7 +33,7 @@ function get_product_info($_product_code) {
     return (array)$result;
 }
 
-// Renvoie une info depuis la table de configuration du plugin
+// Renvoie les informations du produit depuis la table de configuration du plugin
 function get_custom_info($_product_code) {
     $allproducts = json_decode(file_get_contents(__DIR__ . '/../config/products_custom.json'), TRUE);
     $result = NULL;
@@ -46,7 +46,7 @@ function get_custom_info($_product_code) {
     return (array)$result;
 }
 
-// Renvoie l'image du produit, depuis products.json ou depuis products_custom.json
+// Renvoie l'image du produit, depuis products_custom.json (priorité 1) ou depuis products.json (priorité 2), ou une image par défaut
 function get_product_image($_product_code) {
     $custominfo = get_custom_info($_product_code);
     $info = get_product_info($_product_code);
@@ -117,6 +117,7 @@ function version_upload_type($_fw_family, $_fw_version) {
     }
 }
 
+
 function convert_rgb_to_string_json($_json_color) {
     if(is_array($_json_color)) {        
         return "#" . sprintf('%02X', $_json_color["red"]) . sprintf('%02X', $_json_color["green"]) . sprintf('%02X', $_json_color["blue"]);
@@ -133,7 +134,7 @@ function convert_rgb_to_string($red, $green, $blue) {
     }
 }
 
-// Génère un GUI utilisé pour stocker les animations capturées via le proxy
+// Génère un GUID utilisé pour stocker les animations capturées via le proxy
 function generate_GUID() {
     $data = openssl_random_pseudo_bytes(16);
     $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
