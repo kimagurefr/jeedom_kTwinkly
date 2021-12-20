@@ -424,22 +424,22 @@ class kTwinkly extends eqLogic {
                     $memoryFreeCmd->setOrder($cmdIndex);
                     $memoryFreeCmd->save();
                 } 
-            }
 
-            $cmdIndex++;
-            $clearMemCmd = $this->getCmd(null, "clearmem");
-            if (!is_object($clearMemCmd))
-            {
-                $clearMemCmd = new kTwinklyCmd();
-                $clearMemCmd->setName(__('Efface mémoire', __FILE__));
-                $clearMemCmd->setEqLogic_id($this->getId());
-                $clearMemCmd->setLogicalId('clearmem');
-                $clearMemCmd->setType('action');
-                $clearMemCmd->setSubType('other');
-                $clearMemCmd->setIsVisible(0);
-                $clearMemCmd->setValue('clearmem');
-                $clearMemCmd->setOrder($cmdIndex);
-                $clearMemCmd->save();
+                $cmdIndex++;
+                $clearMemCmd = $this->getCmd(null, "clearmem");
+                if (!is_object($clearMemCmd))
+                {
+                    $clearMemCmd = new kTwinklyCmd();
+                    $clearMemCmd->setName(__('Efface mémoire', __FILE__));
+                    $clearMemCmd->setEqLogic_id($this->getId());
+                    $clearMemCmd->setLogicalId('clearmem');
+                    $clearMemCmd->setType('action');
+                    $clearMemCmd->setSubType('other');
+                    $clearMemCmd->setIsVisible(0);
+                    $clearMemCmd->setValue('clearmem');
+                    $clearMemCmd->setOrder($cmdIndex);
+                    $clearMemCmd->save();
+                }
             }
 
             $cmdIndex++;
