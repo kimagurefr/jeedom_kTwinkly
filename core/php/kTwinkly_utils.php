@@ -22,10 +22,10 @@ require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 // Renvoie les informations du produit depuis la table de configuration récupérée de l'appli mobile Android
 function get_product_info($_product_code) {
-    $allproducts = json_decode(file_get_contents(__DIR__ . '/../config/products.json'));
+    $allproducts = json_decode(file_get_contents(__DIR__ . '/../config/products.json'), TRUE);
     $result = NULL;
     foreach($allproducts as $p) {
-        if ($p->product_code == $_product_code) {
+        if ($p["product_code"] == $_product_code) {
             $result = $p;
             break;
         }
@@ -33,21 +33,32 @@ function get_product_info($_product_code) {
     return (array)$result;
 }
 
-// Renvoie l'image du produit, depuis products.json ou depuis products_custom.json
-function get_product_image($_product_code) {
-    $infos = get_product_info($_product_code);
-    if(array_key_exists("pack_preview", $infos)) {
-        // L'image existe dans le fichier products.json récupéré de l'app Twinkly
-        return $infos["pack_preview"];
-    } else {
-        $additional_info = json_decode(file_get_contents(__DIR__ . '/../config/products_custom.json'), TRUE);
-        $idx = array_search($_product_code, array_column($additional_info, 'product_code'));
-        if($idx !== false) {
-            $img = $additional_info[$idx]["pack_preview"];
-            if($img !== null) {
-                return $img;
-            }
+// Renvoie les informations du produit depuis la table de configuration du plugin
+function get_custom_info($_product_code) {
+    $allproducts = json_decode(file_get_contents(__DIR__ . '/../config/products_custom.json'), TRUE);
+    $result = NULL;
+    foreach($allproducts as $p) {
+        if ($p["product_code"] == $_product_code) {
+            $result = $p;
+            break;
         }
+    }
+    return (array)$result;
+}
+
+// Renvoie l'image du produit, depuis products_custom.json (priorité 1) ou depuis products.json (priorité 2), ou une image par défaut
+function get_product_image($_product_code) {
+    $custominfo = get_custom_info($_product_code);
+    $info = get_product_info($_product_code);
+
+    if(array_key_exists("pack_preview", $custominfo)) {
+        // L'image existe dans le fichier products_custom.json, on la prend en priorité
+        return $custominfo["pack_preview"];
+    } elseif(array_key_exists("pack_preview", $info)) {
+        // L'image existe dans le fichier products.json récupéré de l'app Twinkly
+        return $info["pack_preview"];
+    } else {
+        // Image par défaut
         return "default.png";
     }
 }
@@ -106,6 +117,7 @@ function version_upload_type($_fw_family, $_fw_version) {
     }
 }
 
+
 function convert_rgb_to_string_json($_json_color) {
     if(is_array($_json_color)) {        
         return "#" . sprintf('%02X', $_json_color["red"]) . sprintf('%02X', $_json_color["green"]) . sprintf('%02X', $_json_color["blue"]);
@@ -122,7 +134,7 @@ function convert_rgb_to_string($red, $green, $blue) {
     }
 }
 
-// Génère un GUI utilisé pour stocker les animations capturées via le proxy
+// Génère un GUID utilisé pour stocker les animations capturées via le proxy
 function generate_GUID() {
     $data = openssl_random_pseudo_bytes(16);
     $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100

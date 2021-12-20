@@ -20,7 +20,7 @@
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 require_once __DIR__  . '/TwinklyString.class.php';
-require_once __DIR__  . '/kTwinkly_utils.php';
+require_once __DIR__  . '/../php/kTwinkly_utils.php';
 
 class kTwinklyCmd extends cmd {
     public static $_widgetPossibility = array();

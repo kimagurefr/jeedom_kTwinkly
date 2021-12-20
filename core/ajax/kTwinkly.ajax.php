@@ -16,7 +16,7 @@
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once __DIR__  . '/../class/kTwinkly_utils.php';
+require_once __DIR__  . '/../php/kTwinkly_utils.php';
 
 function add_movie_to_listValue($oldlist, $newitem, $displayname=NULL)
 {

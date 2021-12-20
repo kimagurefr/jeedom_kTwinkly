@@ -21,7 +21,7 @@ require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 require_once __DIR__  . '/TwinklyString.class.php';
 require_once __DIR__  . '/TwinklyMusic.class.php';
-require_once __DIR__  . '/kTwinkly_utils.php';
+require_once __DIR__  . '/../php/kTwinkly_utils.php';
 
 include_file('core', 'kTwinklyCmd', 'class', 'kTwinkly');
 
@@ -424,22 +424,22 @@ class kTwinkly extends eqLogic {
                     $memoryFreeCmd->setOrder($cmdIndex);
                     $memoryFreeCmd->save();
                 } 
-            }
 
-            $cmdIndex++;
-            $clearMemCmd = $this->getCmd(null, "clearmem");
-            if (!is_object($clearMemCmd))
-            {
-                $clearMemCmd = new kTwinklyCmd();
-                $clearMemCmd->setName(__('Efface mémoire', __FILE__));
-                $clearMemCmd->setEqLogic_id($this->getId());
-                $clearMemCmd->setLogicalId('clearmem');
-                $clearMemCmd->setType('action');
-                $clearMemCmd->setSubType('other');
-                $clearMemCmd->setIsVisible(0);
-                $clearMemCmd->setValue('clearmem');
-                $clearMemCmd->setOrder($cmdIndex);
-                $clearMemCmd->save();
+                $cmdIndex++;
+                $clearMemCmd = $this->getCmd(null, "clearmem");
+                if (!is_object($clearMemCmd))
+                {
+                    $clearMemCmd = new kTwinklyCmd();
+                    $clearMemCmd->setName(__('Efface mémoire', __FILE__));
+                    $clearMemCmd->setEqLogic_id($this->getId());
+                    $clearMemCmd->setLogicalId('clearmem');
+                    $clearMemCmd->setType('action');
+                    $clearMemCmd->setSubType('other');
+                    $clearMemCmd->setIsVisible(0);
+                    $clearMemCmd->setValue('clearmem');
+                    $clearMemCmd->setOrder($cmdIndex);
+                    $clearMemCmd->save();
+                }
             }
 
             $cmdIndex++;
