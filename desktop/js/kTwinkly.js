@@ -44,19 +44,21 @@ $('#bt_discover').off('click').on('click',function(){
 */
 function addCmdToTable(_cmd) {
   if (!isset(_cmd)) {
-     var _cmd = {configuration: {}};
+    var _cmd = {configuration: {}};
   }
   if (!isset(_cmd.configuration)) {
-     _cmd.configuration = {};
+    _cmd.configuration = {};
   }
+
   if (init(_cmd.logicalId) == 'refresh') {
     return;
   }
 
-  //console.log(_cmd);
   var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
   tr += '<td class="hidden-xs">'
   tr += '<span class="cmdAttr" data-l1key="id"></span>';
+  tr += '<input class="cmdAttr form-control input-sm" data-l1key="type" style="display : none;">';
+  tr += '<input class="cmdAttr form-control input-sm" data-l1key="subType" style="display : none;">';
   tr += '</td>';
   tr += '<td>'
   tr += '<div class="input-group">'
@@ -69,23 +71,20 @@ function addCmdToTable(_cmd) {
   tr += '</td>'
   tr += '<td>';
   tr += '<label class="checkbox-inline"><input type="checkbox" class="cmdAttr" data-l1key="isVisible" checked/>{{Afficher}}</label> '
-  if (init(_cmd.type) == 'info') {
-    tr += '<label class="checkbox-inline"><input type="checkbox" class="cmdAttr" data-l1key="isHistorized" checked/>{{Historiser}}</label> '
+  if (!isset(_cmd.type) || _cmd.type == 'info' ){
+    tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></span> ';
   }
   tr += '</td>';
   tr += '<td><span class="cmdAttr" data-l1key="htmlstate"></span></td>';
   tr += '<td>';
   if (is_numeric(_cmd.id)) {
     tr += '<a class="btn btn-default btn-xs cmdAction" data-action="configure"><i class="fas fa-cogs"></i></a> ';
-    if (init(_cmd.type) == 'action') {
-      tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fas fa-rss"></i> {{Tester}}</a>';
-    }
   }
+  tr += '<a class="btn btn-default btn-xs cmdAction" data-action="test"><i class="fas fa-rss"></i> {{Tester}}</a>';
   tr += '</td>';
   tr += '</tr>';
 
   $('#table_cmd tbody').append(tr);
-  $('#table_cmd tbody tr').last().setValues(_cmd, '.cmdAttr')
   var tr = $('#table_cmd tbody tr').last();
   jeedom.eqLogic.builSelectCmd({
     id:  $('.eqLogicAttr[data-l1key=id]').value(),
