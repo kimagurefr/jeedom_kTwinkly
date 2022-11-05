@@ -22,15 +22,45 @@ require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 // Renvoie les informations du produit depuis la table de configuration récupérée de l'appli mobile Android
 function get_product_info($_product_code) {
-    $allproducts = json_decode(file_get_contents(__DIR__ . '/../config/products.json'));
+    $allproducts = json_decode(file_get_contents(__DIR__ . '/../config/products.json'), TRUE);
     $result = NULL;
     foreach($allproducts as $p) {
-        if ($p->product_code == $_product_code) {
+        if ($p["product_code"] == $_product_code) {
             $result = $p;
             break;
         }
     }
     return (array)$result;
+}
+
+// Renvoie les informations du produit depuis la table de configuration du plugin
+function get_custom_info($_product_code) {
+    $allproducts = json_decode(file_get_contents(__DIR__ . '/../config/products_custom.json'), TRUE);
+    $result = NULL;
+    foreach($allproducts as $p) {
+        if ($p["product_code"] == $_product_code) {
+            $result = $p;
+            break;
+        }
+    }
+    return (array)$result;
+}
+
+// Renvoie l'image du produit, depuis products_custom.json (priorité 1) ou depuis products.json (priorité 2), ou une image par défaut
+function get_product_image($_product_code) {
+    $custominfo = get_custom_info($_product_code);
+    $info = get_product_info($_product_code);
+
+    if(array_key_exists("pack_preview", $custominfo)) {
+        // L'image existe dans le fichier products_custom.json, on la prend en priorité
+        return $custominfo["pack_preview"];
+    } elseif(array_key_exists("pack_preview", $info)) {
+        // L'image existe dans le fichier products.json récupéré de l'app Twinkly
+        return $info["pack_preview"];
+    } else {
+        // Image par défaut
+        return "default.png";
+    }
 }
 
 // Transforme un numéro de version de firmware de la forme x.x.x en entier pour faciliter la comparaison de versions
@@ -87,6 +117,7 @@ function version_upload_type($_fw_family, $_fw_version) {
     }
 }
 
+
 function convert_rgb_to_string_json($_json_color) {
     if(is_array($_json_color)) {        
         return "#" . sprintf('%02X', $_json_color["red"]) . sprintf('%02X', $_json_color["green"]) . sprintf('%02X', $_json_color["blue"]);
@@ -103,12 +134,25 @@ function convert_rgb_to_string($red, $green, $blue) {
     }
 }
 
-// Génère un GUI utilisé pour stocker les animations capturées via le proxy
+// Génère un GUID utilisé pour stocker les animations capturées via le proxy
 function generate_GUID() {
     $data = openssl_random_pseudo_bytes(16);
     $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
     $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
     return strtoupper(vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4)));
+}
+
+function convert_cache_to_listvalue($cache) {
+    if(is_array($cache)) {
+        $lv = "";
+        foreach($cache as $m) {
+            $lv .= ";" . $m["file"] . '|' . $m["name"];
+        }
+        $lv = substr($lv, 1);
+        return $lv;
+    } else {
+        return "";
+    }
 }
 
 function sanitize_filename($filename) {
@@ -152,6 +196,28 @@ function create_playlist_item($zipfile, $duration=30) {
 function generate_device_id($mac) 
 {
     return "Twinkly-" . str_replace(":","",$mac);
+}
+
+function get_movie_cache($id) {
+    if($id !== "" && $id !== NULL) {
+        $movieCacheFile = __DIR__ . '/../../data/moviecache_' . $id . '.json';
+        if(file_exists($movieCacheFile)) {
+            $movieCache = json_decode(file_get_contents($movieCacheFile), TRUE);
+            return $movieCache;
+        }
+    } else {
+        return array();
+    }
+}
+
+function get_movie_from_cache($cache, $unique_id) {
+    if(is_array($cache) && (count($cache)>0)) {
+        $movieIndex = array_search(strtolower($unique_id), array_column($cache, 'unique_id'));
+        if($movieIndex !== false) {
+            return $cache[$movieIndex];
+        }
+    }
+    return null;
 }
 
 ?>

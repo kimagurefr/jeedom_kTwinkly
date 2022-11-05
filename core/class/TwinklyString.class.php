@@ -805,6 +805,17 @@ class TwinklyString {
 
     }
 
+    public function get_current_playlist_item()
+    {
+        $this->debug("TwinklyString::get_current_playlist_item");
+        $result = $this->do_api_get("playlist/current");
+        if ($result["code"] != "1000") {
+            $this->debug("get_current_playlist_item error...");
+            throw new Exception("get_current_playlist_item error [GET : playlist/current] data=" . print_r($result,TRUE));
+        }
+        return $result;
+    }
+
     public function add_movie($movie_data, $jsondata)
     {
         $this->debug("TwinklyString::add_movie(bindata, $jsondata)");
@@ -878,7 +889,7 @@ class TwinklyString {
     // Ajoute des animations à la playlist courante
     // Le format d'entrée est un tableau de ["unique_id","json","bin","duration"]
     // Le paramètre newplaylist indique s'il faut ajouter à la playlist courante ou repartir d'une playlist vide
-    public function add_to_playlist($movies, $newplaylist = FALSE)
+    public function add_to_playlist($movies, $newplaylist = TRUE)
     {
         $this->debug('TwinklyString::add_to_playlist');
         if (is_array($movies) == TRUE) {
@@ -893,7 +904,7 @@ class TwinklyString {
 
             $pldata = [ "entries" => [] ];  
             // On garde la playlist courante ?          
-            if ($newplaylist != TRUE) {
+            if ($newplaylist !== TRUE) {
                 foreach ($current_playlist as $e) {
                     $pldata["entries"][] = [
                         "duration" => $e["duration"],

@@ -21,7 +21,7 @@ require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 require_once __DIR__  . '/TwinklyString.class.php';
 require_once __DIR__  . '/TwinklyMusic.class.php';
-require_once __DIR__  . '/kTwinkly_utils.php';
+require_once __DIR__  . '/../php/kTwinkly_utils.php';
 
 include_file('core', 'kTwinklyCmd', 'class', 'kTwinkly');
 
@@ -108,7 +108,7 @@ class kTwinkly extends eqLogic {
                     $debug = TRUE;
                 }                                
 
-                if($this->getConfiguration('devicetype') == "" || $this->getConfiguration('devicetype') == $null)
+                if($this->getConfiguration('devicetype') == "" || $this->getConfiguration('devicetype') == NULL)
                 {
                     // Find device type
                     log::add('kTwinkly','debug','kTwinkly::preUpdate - identification du type de matériel');
@@ -143,7 +143,8 @@ class kTwinkly extends eqLogic {
                     $info = $t->get_details();
                     $this->setConfiguration('productcode',$info["product_code"]);
                     $this->setConfiguration('productname',get_product_info($info["product_code"])["commercial_name"]);
-                    $this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
+                    //$this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
+                    $this->setConfiguration('productimage',get_product_image($info["product_code"]));
                     $this->setConfiguration('product',$info["product_name"]);
                     $this->setConfiguration('devicename',$info["device_name"]);
                     $this->setConfiguration('numberleds',$info["number_of_led"]);
@@ -176,7 +177,8 @@ class kTwinkly extends eqLogic {
                     $info = $t->get_details();
                     $this->setConfiguration('productcode',$info["product_code"]);
                     $this->setConfiguration('productname',get_product_info($info["product_code"])["commercial_name"]);
-                    $this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
+                    //$this->setConfiguration('productimage',get_product_info($info["product_code"])["pack_preview"]);
+                    $this->setConfiguration('productimage',get_product_image($info["product_code"]));
                     $this->setConfiguration('product',$info["product_name"]);
                     $this->setConfiguration('devicename',$info["device_name"]);
                     $this->setConfiguration('hardwareid',$info["hw_id"]);
@@ -299,6 +301,25 @@ class kTwinkly extends eqLogic {
                 $movieCmd->setOrder($cmdIndex);
                 $movieCmd->save();
             }
+            
+            if(version_supports_getmovies($this->getConfiguration("firmware_family"), $this->getConfiguration("firmware"))) {
+                $cmdIndex++;
+                $currentMovieCmd = $this->getCmd(null, "currentmovie");
+                if (!is_object($currentMovieCmd))
+                {
+                    $currentMovieCmd = new kTwinklyCmd();
+                    $currentMovieCmd->setName(__('Animation Courante', __FILE__));
+                    $currentMovieCmd->setEqLogic_id($this->getId());
+                    $currentMovieCmd->setLogicalId('currentmovie');
+                    $currentMovieCmd->setType('info');
+                    $currentMovieCmd->setSubType('string');
+                    $currentMovieCmd->setIsVisible(1);
+                    $currentMovieCmd->setOrder($cmdIndex);
+                    $currentMovieCmd->save();
+                }    
+                $movieCmd->setValue($currentMovieCmd->getId());
+                $movieCmd->save();            
+            }
 
             $cmdIndex++;
             $stateCmd = $this->getCmd(null, "state");
@@ -397,26 +418,28 @@ class kTwinkly extends eqLogic {
                     $memoryFreeCmd->setLogicalId('memoryfree');
                     $memoryFreeCmd->setType('info');
                     $memoryFreeCmd->setSubType('numeric');
+                    $memoryFreeCmd->setUnite("%");
                     $memoryFreeCmd->setIsVisible(0);
+                    $memoryFreeCmd->setIsHistorized(0);
                     $memoryFreeCmd->setOrder($cmdIndex);
                     $memoryFreeCmd->save();
                 } 
-            }
 
-            $cmdIndex++;
-            $clearMemCmd = $this->getCmd(null, "clearmem");
-            if (!is_object($clearMemCmd))
-            {
-                $clearMemCmd = new kTwinklyCmd();
-                $clearMemCmd->setName(__('Efface mémoire', __FILE__));
-                $clearMemCmd->setEqLogic_id($this->getId());
-                $clearMemCmd->setLogicalId('clearmem');
-                $clearMemCmd->setType('action');
-                $clearMemCmd->setSubType('other');
-                $clearMemCmd->setIsVisible(0);
-                $clearMemCmd->setValue('clearmem');
-                $clearMemCmd->setOrder($cmdIndex);
-                $clearMemCmd->save();
+                $cmdIndex++;
+                $clearMemCmd = $this->getCmd(null, "clearmem");
+                if (!is_object($clearMemCmd))
+                {
+                    $clearMemCmd = new kTwinklyCmd();
+                    $clearMemCmd->setName(__('Efface mémoire', __FILE__));
+                    $clearMemCmd->setEqLogic_id($this->getId());
+                    $clearMemCmd->setLogicalId('clearmem');
+                    $clearMemCmd->setType('action');
+                    $clearMemCmd->setSubType('other');
+                    $clearMemCmd->setIsVisible(0);
+                    $clearMemCmd->setValue('clearmem');
+                    $clearMemCmd->setOrder($cmdIndex);
+                    $clearMemCmd->save();
+                }
             }
 
             $cmdIndex++;
@@ -434,7 +457,7 @@ class kTwinkly extends eqLogic {
                 $refreshCmd->setOrder($cmdIndex);
                 $refreshCmd->save();
             }
-
+            self::populate_movies_list($this->getID());
         }
         elseif($this->getConfiguration("devicetype") == "music")
         {
@@ -544,12 +567,15 @@ class kTwinkly extends eqLogic {
                 $refreshCmd->setLogicalId('refresh');
                 $refreshCmd->setType('action');
                 $refreshCmd->setSubType('other');
-                $refreshCmd->setIsVisible(0);
+                $refreshCmd->setIsVisible(1);
                 $refreshCmd->setValue('refresh');
                 //$refreshCmd->setOrder(6);
                 $refreshCmd->save();
             }            
         }
+
+        log::add('kTwinkly','debug','kTwinkly::postUpdate');
+        
         if ($this->getChanged())
         {
             self::deamon_start();
@@ -559,10 +585,31 @@ class kTwinkly extends eqLogic {
     // Fonction exécutée automatiquement avant la suppression de l'équipement 
     public function preRemove()
     {
-	    // Suppression des animations liées à cet équipement
-        $animpath = __DIR__ . '/../../data/twinkly_' . $this->getId() . '_*';
-        log::add('kTwinkly','debug','Suppression des animations liées à l\'équipement : ' . $animpath);
-        array_map( "unlink", glob( $animpath ) );
+        log::add('kTwinkly','debug','Suppression des fichiers liées à l\'équipement');
+
+        // Suppression des animations liées à cet équipement
+        $animpath = __DIR__ . '/../../data/movie_' . $this->getId() . '_*.zip';
+        try {
+            array_map( "unlink", glob( $animpath ) );    
+        } catch (\Exception $e) {}
+
+        // Suppression des playlists
+        $playlistpath = __DIR__ . '/../../data/playlist_' . $this->getId() . '_*.json';
+        try {
+            array_map( "unlink", glob( $playlistpath ) );
+        } catch (\Exception $e) {}
+
+        // Suppression des exports de cet équipement
+        $exportpath = __DIR__ . '/../../data/kTwinkly_export_' .  $this->getId() . '_*.zip';
+        try {
+            array_map( "unlink", glob( $exportpath ) );
+        } catch (\Exception $e) {}
+
+        // Suppression du cache des animations pour cet équipement
+        $cachepath = __DIR__ . '/../../data/moviecache_' . $this->getId() . '.json';
+        if(is_file($cachepath)) {
+            unlink($cachepath);
+        }
     }
 
     // Découverte automatique des équipements sur le réseau
@@ -606,7 +653,8 @@ class kTwinkly extends eqLogic {
             }
             $eqLogic->setConfiguration('productcode',$d["details"]["product_code"]);
             $eqLogic->setConfiguration('productname',get_product_info($d["details"]["product_code"])["commercial_name"]);
-            $eqLogic->setConfiguration('productimage',get_product_info($d["details"]["product_code"])["pack_preview"]);
+            //$eqLogic->setConfiguration('productimage',get_product_info($d["details"]["product_code"])["pack_preview"]);
+            $eqLogic->setConfiguration('productimage',get_product_image($d["details"]["product_code"]));
             $eqLogic->setConfiguration('product',$d["details"]["product_name"]);
             $eqLogic->setConfiguration('devicename',$d["details"]["device_name"]);
             $eqLogic->setConfiguration('numberleds',$d["details"]["number_of_led"]);
@@ -664,7 +712,8 @@ class kTwinkly extends eqLogic {
 		    $eqLogic->setConfiguration('macaddress', $d["mac"]);
             $eqLogic->setConfiguration('productcode',$d["details"]["product_code"]);
             $eqLogic->setConfiguration('productname',get_product_info($d["details"]["product_code"])["commercial_name"]);
-            $eqLogic->setConfiguration('productimage',get_product_info($d["details"]["product_code"])["pack_preview"]);
+            //$eqLogic->setConfiguration('productimage',get_product_info($d["details"]["product_code"])["pack_preview"]);
+            $eqLogic->setConfiguration('productimage',get_product_image($d["details"]["product_code"]));
             $eqLogic->setConfiguration('product',$d["details"]["product_name"]);
             $eqLogic->setConfiguration('devicename',$d["details"]["device_name"]);
             $eqLogic->setConfiguration('hardwareid',$d["details"]["hw_id"]);
@@ -672,7 +721,7 @@ class kTwinkly extends eqLogic {
 
             $fwversion = $d["details"]["firmware_version"];
             $eqLogic->setConfiguration('firmware',$fwversion);
- 
+
 		    $eqLogic->save();
 	    }
     }
@@ -735,8 +784,10 @@ class kTwinkly extends eqLogic {
     }
 
     // Rafraîchissement des valeurs par appel à l'API
-    public static function refreshstate($_eqLogic_id = null)
+    public static function refreshstate($_eqLogic_id = null, $manual=FALSE)
     {
+        log::add('kTwinkly','debug','kTwinkly refreshsate id=' . $_eqLogic_id . ' manual=' . $manual);
+
         if (self::$_eqLogics == null)
         {
             self::$_eqLogics = self::byType('kTwinkly');
@@ -760,7 +811,7 @@ class kTwinkly extends eqLogic {
             }
 
             // On vérifie si l'autorefresh est actif
-            if (intval($refreshFrequency) > 0 && $eqLogic->getConfiguration('autorefresh')==1)
+            if ((intval($refreshFrequency) > 0 && $eqLogic->getConfiguration('autorefresh')==1) || ($manual == TRUE))
             {
                 try
                 {
@@ -778,18 +829,25 @@ class kTwinkly extends eqLogic {
 
                     if($eqLogic->getConfiguration('devicetype') == 'leds')
                     {
+                        /*
                         $t = new TwinklyString($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
     
-                        $currentMode = $t->get_mode();
+                        $currentMode = $t->get_mode();                        
                         $brightness = $t->get_brightness();
                         $state = ($currentMode=="off"?"off":"on");
-        
+                        log::add('kTwinkly','debug','kTwinkly refreshstate - current state = ' . $state . ' / ' . $currentMode);
                         $changed = $eqLogic->checkAndUpdateCmd('currentmode', $currentMode, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('state', $state, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $brightness, false) || $changed;
+                        */
+                        $refreshCmd = $eqLogic->getCmd(null, "refresh");
+                        if (!is_object($refreshCmd)) {
+                            $refreshCmd->execute();
+                        }
                     }
                     else if($eqLogic->getConfiguration('devicetype') == 'music')
                     {
+                        /*
                         $t = new TwinklyMusic($ip, $mac, $debug, $additionalDebugLog, jeedom::getTmpFolder('kTwinkly'));
     
                         $current_mode = $t->get_mode();
@@ -798,12 +856,18 @@ class kTwinkly extends eqLogic {
                         
                         //$microphone_state = ($t->get_mic_enabled()?"on":"off");
                         //$changed = $eqLogic->checkAndUpdateCmd('micstate', $microphone_state, false) || $changed;
+                        */
+                        $refreshCmd = $eqLogic->getCmd(null, "refresh");
+                        if (!is_object($refreshCmd)) {
+                            $refreshCmd->execute();
+                        }
                     }
-    
+                    /*
                     if ($changed)
                     {
                         $eqLogic->refreshWidget();
                     }
+                    */
                 }
                 catch (Exception $e)
                 {
@@ -1070,5 +1134,84 @@ class kTwinkly extends eqLogic {
             }
         }
         return $return;
+    }
+
+    // Charge la liste des animations dans la liste déroulante à partir des fichiers sur le disque
+    public static function populate_movies_list($_id)
+    {
+        log::add('kTwinkly','debug','populate_movies_list - id=' . $_id);
+        $eqLogic = eqLogic::byId($_id);
+
+        $dataDir = __DIR__ . '/../../data/';
+        $movieMask = $dataDir . 'movie_' . $_id . '_*.zip';
+        $allMovies = glob($movieMask);
+        $movieList = "";
+        $movieTable = array();
+
+        if (count($allMovies) != 0) {
+            log::add('kTwinkly','debug','populate_movies_list - found ' . count($allMovies) . ' movies');
+            foreach($allMovies as $filePath) {
+                $filename = substr($filePath, strlen($dataDir));
+                $zip = new ZipArchive();
+                if ($zip->open($filePath) === TRUE)
+                {
+                    for ($i=0; $i<$zip->numFiles; $i++)
+                    {
+                        $zfilename = $zip->statIndex($i)["name"];
+                        if (preg_match('/json$/',strtolower($zfilename)))
+                        {
+                            $jsonstring = $zip->getFromIndex($i);
+                            $json = json_decode($jsonstring, TRUE);
+                            $movieName = $json["name"] ?? substr($filename, 0, -4);
+                            $uuid = $json["unique_id"] ?? $filename;
+
+                            $movieList .= ';' . $filename . '|' . $movieName;
+                            array_push($movieTable, array("unique_id" => $uuid, "name" => $movieName, "file" => $filename));
+                        }
+                    }
+                }
+            }
+            $movieList = substr($movieList, 1); // Supprime le ";" initial
+        }
+        
+        $movieCmd = $eqLogic->getCmd(null, "movie");
+        if(is_object($movieCmd)) {
+            $movieCmd->setConfiguration('listValue', $movieList);
+            $movieCmd->save();
+        }
+
+        $movieCache = $dataDir . 'moviecache_' . $_id . '.json';
+        file_put_contents($movieCache, json_encode($movieTable));
+        
+        $eqLogic->refreshWidget();
+    }
+
+    // Met à jour le titre des animations dans le JSON inclus dans le zip
+    public static function update_titles($_id, $changed) 
+    {
+        $eqLogic = eqLogic::byId($_id);
+        $dataDir = __DIR__ . '/../../data/';
+        
+        foreach($changed as $c)
+        {
+            $filePath = $dataDir . $c["file"];
+            $zip = new ZipArchive();
+            if ($zip->open($filePath) === TRUE)
+            {
+                for ($i=0; $i<$zip->numFiles; $i++)
+                {
+                    $zfilename = $zip->statIndex($i)["name"];
+                    if (preg_match('/json$/',strtolower($zfilename)))
+                    {
+                        $jsonstring = $zip->getFromIndex($i);
+                        $json = json_decode($jsonstring, TRUE);
+                        $json["name"] = $c["new"]; // On change le nom (ou on l'ajoute la premiere fois pour les GEN1)
+                        $zip->deleteIndex($i); // On supprime l'ancien fichier JSON
+                        $zip->addFromString($zfilename, json_encode($json)); // On ajoute le JSON modifié
+                        $zip->close();
+                    }
+                }                
+            }
+        }
     }
 }

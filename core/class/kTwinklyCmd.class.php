@@ -20,7 +20,7 @@
 require_once __DIR__  . '/../../../../core/php/core.inc.php';
 
 require_once __DIR__  . '/TwinklyString.class.php';
-require_once __DIR__  . '/kTwinkly_utils.php';
+require_once __DIR__  . '/../php/kTwinkly_utils.php';
 
 class kTwinklyCmd extends cmd {
     public static $_widgetPossibility = array();
@@ -109,10 +109,40 @@ class kTwinklyCmd extends cmd {
                     $changed = $eqLogic->checkAndUpdateCmd('currentmode', $newmode, false) || $changed;
                     $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                     $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
+/*
+                    if($newmode === "movie" && version_supports_getmovies($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware"))) {
+                        $currentmovie = $t->get_current_movie();
+                        $currentmovie_uuid = $currentmovie["unique_id"];           
+                        $movieCache = get_movie_cache($eqLogic->getId());
+                        if(count($movieCache) > 0) {                            
+                            $movie_item = get_movie_from_cache($movieCache, $currentmovie_uuid);
+                            log::add('kTwinkly','debug',"Refresh (mode movie) -  current movie id=".$currentmovie_uuid. " - name=".$movie_item["name"]);
+                            $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $movie_item["name"], false) || $changed;
+                        }                            
+                        $movies = $t->get_movies();
+                        $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
+                        $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;
+                    } elseif($newmode === "playlist") {
+                        $playlist_item = $t->get_current_playlist_item();
+                        $playlist_item_id = $playlist_item["unique_id"];
+                        $movieCache = get_movie_cache($eqLogic->getId());
+                        if(count($movieCache) > 0) {
+                            $pi = get_movie_from_cache($movieCache, $playlist_item_id);
+                            $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $pi["name"], false) || $changed;
+                        }                                                    
+                        $movies = $t->get_movies();
+                        $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
+                        $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;
+                    }
+
+*/
+                    $changed = $this->refresh_current_movie($newmode, $t) || $changed;
+
                     if ($changed)
                     {
                         $eqLogic->refreshWidget();
                     }
+
                 }
                 else if ($action == "off")
                 {
@@ -122,9 +152,10 @@ class kTwinklyCmd extends cmd {
                     $t->set_mode("off");
                     $newmode = $t->get_mode();
                     $newstate = ($newmode=="off"?"off":"on");
-                    $newbrightness = $t->get_brightness();
+                    $newbrightness = 0;
 
                     $changed = $eqLogic->checkAndUpdateCmd('currentmode', $newmode, false) || $changed;
+                    $changed = $eqLogic->checkAndUpdateCmd('currentmovie', "", false) || $changed;
                     $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                     $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
                     if ($changed)
@@ -199,6 +230,7 @@ class kTwinklyCmd extends cmd {
                                 else
                                 {
                                     // Upload en mode GEN2
+                                    $uuid = $json["unique_id"];
                                     $tempfile = $tempdir . '/' . $value . '.bin';
                                     file_put_contents($tempfile, $bin_data);
 
@@ -215,6 +247,33 @@ class kTwinklyCmd extends cmd {
                                 $changed = $eqLogic->checkAndUpdateCmd('currentmode', $newmode, false) || $changed;
                                 $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
                                 $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
+/*
+                                if($newmode === "movie" && version_supports_getmovies($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware"))) {
+                                    $currentmovie = $t->get_current_movie();
+                                    $currentmovie_uuid = $currentmovie["unique_id"];           
+                                    $movieCache = get_movie_cache($eqLogic->getId());
+                                    if(count($movieCache) > 0) {                            
+                                        $movie_item = get_movie_from_cache($movieCache, $currentmovie_uuid);
+                                        log::add('kTwinkly','debug',"Refresh (mode movie) -  current movie id=".$currentmovie_uuid. " - name=".$movie_item["name"]);
+                                        $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $movie_item["name"], false) || $changed;
+                                    }                            
+                                    $movies = $t->get_movies();
+                                    $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
+                                    $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;
+                                } elseif($newmode === "playlist") {         
+                                    $playlist_item = $t->get_current_playlist_item();
+                                    $playlist_item_id = $playlist_item["unique_id"];
+                                    $movieCache = get_movie_cache($eqLogic->getId());
+                                    if(count($movieCache) > 0) {
+                                        $pi = get_movie_from_cache($movieCache, $playlist_item_id);
+                                        $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $pi["name"], false) || $changed;
+                                    }                                                    
+                                    $movies = $t->get_movies();
+                                    $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
+                                    $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;
+                                }
+*/
+                                $changed = $this->refresh_current_movie($newmode, $t) || $changed;
                                 if ($changed)
                                 {
                                     $eqLogic->refreshWidget();
@@ -245,7 +304,14 @@ class kTwinklyCmd extends cmd {
                     
                     if(version_supports_brightness($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware")))
                     {
-                        $newbrightness = $t->get_brightness();
+                        if($newstate === "off")
+                        {
+                            $newbrightness=0;
+                        }
+                        else
+                        {
+                            $newbrightness = $t->get_brightness();
+                        }
                         $changed = $eqLogic->checkAndUpdateCmd('brightness_state', $newbrightness, false) || $changed;
                     }
 
@@ -256,10 +322,43 @@ class kTwinklyCmd extends cmd {
                         $changed = $eqLogic->checkAndUpdateCmd('color_state', $newcolor, false) || $changed;
                     }
 
-                    if(version_supports_getmovies($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware"))) {
-                        $movies = $t->get_movies();
-                        $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
-                        $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;
+                    if($newstate === "off")
+                    {
+                        $changed = $eqLogic->checkAndUpdateCmd('currentmovie', "", false) || $changed;
+                    } else {
+/*
+                        if($newmode === "movie" && version_supports_getmovies($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware"))) {
+                            log::add('kTwinkly','debug',"Refresh (mode movie)");
+
+                            $currentmovie = $t->get_current_movie();
+                            $currentmovie_uuid = $currentmovie["unique_id"];           
+
+                            $movieCache = get_movie_cache($eqLogic->getId());
+                            if(count($movieCache) > 0) {                            
+                                $movie_item = get_movie_from_cache($movieCache, $currentmovie_uuid);
+                                log::add('kTwinkly','debug',"Refresh (mode movie) -  current movie id=".$currentmovie_uuid. " - name=".$movie_item["name"]);
+                                $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $movie_item["name"], false) || $changed;
+                            }                            
+                            $movies = $t->get_movies();
+                            $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
+                            $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;
+                        } elseif($newmode === "playlist") {
+                            log::add('kTwinkly','debug',"Refresh (mode playlist)");
+
+                            $playlist_item = $t->get_current_playlist_item();
+                            $playlist_item_id = $playlist_item["unique_id"];
+
+                            $movieCache = get_movie_cache($eqLogic->getId());
+                            if(count($movieCache) > 0) {
+                                $pi = get_movie_from_cache($movieCache, $playlist_item_id);
+                                $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $pi["name"], false) || $changed;
+                            }                                                    
+                            $movies = $t->get_movies();
+                            $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
+                            $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;
+                        }                        
+*/
+                        $changed = $this->refresh_current_movie($newmode, $t) || $changed;
                     }
 
                     if ($changed)
@@ -278,6 +377,9 @@ class kTwinklyCmd extends cmd {
 
                         $changed = $eqLogic->checkAndUpdateCmd('currentmode', $newmode, false) || $changed;
                         $changed = $eqLogic->checkAndUpdateCmd('state', $newstate, false) || $changed;
+
+                        $changed = $this->refresh_current_movie($newmode, $t) || $changed;
+
                         if ($changed)
                         {
                             $eqLogic->refreshWidget();
@@ -415,6 +517,40 @@ class kTwinklyCmd extends cmd {
         } finally {
             $eqLogic->setConfiguration('autorefresh', $autorefresh);
         }
+    }
+
+    private function refresh_current_movie($newmode, $t) {        
+        $eqLogic = $this->getEqLogic();
+        if (!is_object($eqLogic))
+        {
+            return;
+        }
+
+        if($newmode === "movie" && version_supports_getmovies($eqLogic->getConfiguration("firmware_family"), $eqLogic->getConfiguration("firmware"))) {
+            $currentmovie = $t->get_current_movie();
+            $currentmovie_uuid = $currentmovie["unique_id"];           
+            $movieCache = get_movie_cache($eqLogic->getId());
+            if(count($movieCache) > 0) {                            
+                $movie_item = get_movie_from_cache($movieCache, $currentmovie_uuid);
+                log::add('kTwinkly','debug',"Refresh (mode movie) -  current movie id=".$currentmovie_uuid. " - name=".$movie_item["name"]);
+                $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $movie_item["name"], false) || $changed;
+            }                            
+            $movies = $t->get_movies();
+            $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
+            $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;
+        } elseif($newmode === "playlist") {
+            $playlist_item = $t->get_current_playlist_item();
+            $playlist_item_id = $playlist_item["unique_id"];
+            $movieCache = get_movie_cache($eqLogic->getId());
+            if(count($movieCache) > 0) {
+                $pi = get_movie_from_cache($movieCache, $playlist_item_id);
+                $changed = $eqLogic->checkAndUpdateCmd('currentmovie', $pi["name"], false) || $changed;
+            }                                                    
+            $movies = $t->get_movies();
+            $memfree = round(intval($movies["available_frames"]) / intval($movies["max_capacity"]) * 100,2);
+            $changed = $eqLogic->checkAndUpdateCmd('memoryfree', $memfree, false) || $changed;
+        }
+        return $changed;
     }
 }
 
