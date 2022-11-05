@@ -254,18 +254,19 @@ $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
 			<div role="tabpanel" class="tab-pane" id="commandtab">
 				<br/><br/>
 				<div class="table-responsive">
-					<table id="table_cmd" class="table table-bordered table-condensed">
-						<thead>
-							<tr>
-								<th>{{Id}}</th>
-								<th>{{Nom}}</th>
-								<th>{{Options}}</th>
-								<th>{{Action}}</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
+				<table id="table_cmd" class="table table-bordered table-condensed">
+					<thead>
+						<tr>
+							<th class="hidden-xs" style="min-width:50px;width:70px;">{{ID}}</th>
+							<th style="min-width:150px;width:300px;">{{Nom}}</th>
+							<th style="min-width:200px;width:200px;">{{Options}}</th>
+							<th>{{Etat}}</th>
+							<th style="min-width:80px;width:140px;">{{Action}}</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
 				</div>
 			</div><!-- /.tabpanel #commandtab-->
 
