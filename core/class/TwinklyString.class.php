@@ -423,12 +423,16 @@ class TwinklyString {
     public function get_brightness()
     {
         $this->debug("TwinklyString::get_brightness");
-        $result = $this->do_api_get("led/out/brightness");
-        if ($result["code"] != "1000") {
-            $this->debug("  get_brightness error : " . json_encode($result), TRUE);
-            throw new Exception("get_brightness error [GET : led/out/brightness] data=" . print_r($result,TRUE));
+        if($this->get_mode() == "off") {
+            return "0";
+        } else {
+            $result = $this->do_api_get("led/out/brightness");
+            if ($result["code"] != "1000") {
+                $this->debug("  get_brightness error : " . json_encode($result), TRUE);
+                throw new Exception("get_brightness error [GET : led/out/brightness] data=" . print_r($result,TRUE));
+            }
+            return $result["value"];
         }
-        return $result["value"];
     }
 
     // Choisit le niveau de luminosité de la guirlande (de 0 à 100)
@@ -437,19 +441,13 @@ class TwinklyString {
         $this->debug("TwinklyString::set_brightness($value)");
         $this->debug("  get current mode");
         $current_mode = $this->get_mode();
-        if ($current_mode == "movie" || $current_mode == "playlist")
-        {
-            $json = json_encode(array("type" => "A","value" => intval($value)));
-            $result = $this->do_api_post("led/out/brightness", $json);
-            if ($result["code"] != "1000") {
-                $this->debug("  set_brightness error : " . json_encode($result), TRUE);
-                throw new Exception("set_brightness error [POST : led/out/brightness] data=" . print_r($result,TRUE));
-            }
-            return TRUE;
-        } else {
-            $this->debug("  brigthness can be set while in movie or playlist mode only", TRUE);
-            return FALSE;
+        $json = json_encode(array("type" => "A","value" => intval($value)));
+        $result = $this->do_api_post("led/out/brightness", $json);
+        if ($result["code"] != "1000") {
+            $this->debug("  set_brightness error : " . json_encode($result), TRUE);
+            throw new Exception("set_brightness error [POST : led/out/brightness] data=" . print_r($result,TRUE));
         }
+        return TRUE;
     }
 
     // Renvoie la couleur courante en mode color
