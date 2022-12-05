@@ -57,6 +57,8 @@ function get_product_image($_product_code) {
     } elseif(array_key_exists("pack_preview", $info)) {
         // L'image existe dans le fichier products.json récupéré de l'app Twinkly
         return $info["pack_preview"];
+    } elseif (file_exists(__DIR__ . '/../config/images/' . $info["product_code"] . '.png')) {
+        return $info["product_code"] . '.png';
     } else {
         // Image par défaut
         return "default.png";
