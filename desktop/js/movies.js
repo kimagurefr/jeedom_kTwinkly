@@ -43,6 +43,7 @@ $('#md_kTwinkly_movies').on('dialogclose', function(event) {
 
 $('#bt_uploadMovie').fileupload({
     replaceFileInput: false,
+    dropZone: $('#md_kTwinkly_movies'),
     url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php?action=uploadMovie&id=' + $('.eqLogicAttr[data-l1key=id]').value(),
     dataType: 'json',
     done: function (e, data) {

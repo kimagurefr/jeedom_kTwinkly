@@ -188,6 +188,7 @@ $("#playlist").on("keyup",".playlistDuration", function(event) {
 
 $('#bt_uploadPlaylist').fileupload({
     replaceFileInput: false,
+    dropZone: $('#md_kTwinkly_playlist'),
     url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php?action=uploadPlaylist&id=' + $('.eqLogicAttr[data-l1key=id]').value(),
     dataType: 'json',
     done: function (e, data) {
