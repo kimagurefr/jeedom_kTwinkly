@@ -133,15 +133,45 @@ function printEqLogic(_eqLogic) {
     */
     $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
+    $("#md_kTwinkly_playlist").dialog({
+      closeText: '',
+      autoOpen: false,
+      modal: true,
+      height: 600,
+      width: 850,
+      position: { my: 'top', at: 'top+150' },
+      open: function () {
+        $("body").css({overflow: 'hidden'});
+      },
+      beforeClose: function (event, ui) {
+        $("body").css({overflow: 'inherit'});
+      }
+    });
+
+    $("#md_kTwinkly_movies").dialog({
+      closeText: '',
+      autoOpen: false,
+      modal: true,
+      height: 600,
+      width: 850,
+      position: { my: 'top', at: 'top+150' },
+      open: function () {
+        $("body").css({overflow: 'hidden'});
+      },
+      beforeClose: function (event, ui) {
+        $("body").css({overflow: 'inherit'});
+      }
+    });
+
     $("#bt_movies").off('click').on('click', function() {
-      $('#md_modal').dialog({
+      $('#md_kTwinkly_movies').dialog({
             title: "{{Gestion des animations}}",
             beforeClose: function() {
                 if (moviesNotSaved == 1) {
                     bootbox.confirm('{{Etes-vous sûr de vouloir quitter sans sauvegarder les modifications}} ?', function (result) {
                         if(result) {
-                            $('#md_modal').dialog('option', 'beforeClose', function() {})
-                            $('#md_modal').dialog("close");
+                            $('#md_kTwinkly_movies').dialog('option', 'beforeClose', function() {})
+                            $('#md_kTwinkly_movies').dialog("close");
                         }
                     });
                     return false;
@@ -153,14 +183,14 @@ function printEqLogic(_eqLogic) {
     });
 
     $("#bt_playlists").off('click').on('click', function() {
-      $('#md_modal').dialog({
+      $('#md_kTwinkly_playlist').dialog({
             title: "{{Gestion de la playlist}}",
             beforeClose: function() {
                 if (playlistNotSaved == 1) {
                     bootbox.confirm('{{Etes-vous sûr de vouloir quitter sans sauvegarder les modifications}} ?', function (result) {
                         if(result) {
-                            $('#md_modal').dialog('option', 'beforeClose', function() {})
-                            $('#md_modal').dialog("close");
+                            $('#md_kTwinkly_playlist').dialog('option', 'beforeClose', function() {})
+                            $('#md_kTwinkly_playlist').dialog("close");
                         }
                     });
                     return false;
@@ -171,11 +201,13 @@ function printEqLogic(_eqLogic) {
         }).load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
     });
 
+    /*
     $("#bt_mqtt").off('click').on('click', function() {
       $('#md_modal')
             .dialog({ title: "{{Configuration MQTT}}" })
           .load('index.php?v=d&plugin=kTwinkly&modal=mqtt&id=' + $('.eqLogicAttr[data-l1key=id]').value()).dialog('open');
     });
+    */
 
     $("#bt_import").fileupload({
       replaceFileInput: false,

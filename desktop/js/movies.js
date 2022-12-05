@@ -24,8 +24,8 @@ $("#moviesList").sortable({
     update: function( event, ui ) { moviesNotSaved = 1; }
 });
 
-$('#md_modal').on('dialogclose', function(event) {
-    $('#md_modal').off('dialogclose');
+$('#md_kTwinkly_movies').on('dialogclose', function(event) {
+    $('#md_kTwinkly_movies').off('dialogclose');
     //console.log('equipement id = ' + $('.eqLogicAttr[data-l1key=id]').value());
 
     $.ajax({
@@ -51,7 +51,7 @@ $('#bt_uploadMovie').fileupload({
         return;
       }else{
         //$('#div_alert').showAlert({message: '{{Fichier envoyé avec succès}}', level: 'success'});
-        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
+        $('#md_kTwinkly_movies').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
         moviesNotSaved = 1;
       }
     }
@@ -74,7 +74,7 @@ $('#bt_deleteMovie').off('click').on('click', function() {
                             $('#div_alert').showAlert({message: data.result, level: 'danger'});
                             return;
                         }
-                        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
+                        $('#md_kTwinkly_movies').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
                         moviesNotSaved = 1;
                     }
                 });
@@ -98,7 +98,7 @@ $('#bt_saveMovie').off('click').on('click', function() {
           $('#div_alert').showAlert({message: data.result, level: 'danger'});
           return;
         }
-        //$('#md_modal').dialog('close');
+        //$('#md_kTwinkly_movies').dialog('close');
         $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
         moviesNotSaved = 0;
       }
@@ -131,7 +131,7 @@ $('.changeProxyState').off('click').on('click', function () {
                 if (newmovies > 0) {
                     moviesNotSaved = 1;
                 }
-                $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&proxy=' + newstate + '&newmovies=' + newmovies + '&reload=1');
+                $('#md_kTwinkly_movies').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&proxy=' + newstate + '&newmovies=' + newmovies + '&reload=1');
             }
             return;
         }
