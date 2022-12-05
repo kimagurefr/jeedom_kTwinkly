@@ -201,8 +201,8 @@ try {
             throw new Exception(__("L'extension du fichier est invalide (zip uniquement)", __FILE__));
         }
 
-        if (filesize($_FILES['file']['tmp_name']) > 1000000) {
-            throw new Exception(__('Le fichier est trop gros (maximum 1mo)', __FILE__));
+        if (filesize($_FILES['file']['tmp_name']) > 2000000) {
+            throw new Exception(__('Le fichier est trop gros (maximum 2 Mo)', __FILE__));
         }
 
         $zip = new ZipArchive();
@@ -659,7 +659,7 @@ try {
         }  
         $extension = strtolower(strrchr($_FILES['file']['name'], '.'));
         if (!in_array($extension, array('.json'))) {
-                throw new Exception('Extension du fichier non valide (autorisé .json) : ' . $extension);
+                throw new Exception(__("L'extension du fichier est invalide (json uniquement)", __FILE__));
         }
         if (filesize($_FILES['file']['tmp_name']) > 5000) {
                 throw new Exception(__('Le fichier est trop gros (maximum 5ko)', __FILE__));
@@ -763,10 +763,10 @@ try {
         }  
         $extension = strtolower(strrchr($_FILES['file']['name'], '.'));
         if (!in_array($extension, array('.zip'))) {
-                throw new Exception('Extension du fichier non valide (autorisé .zip) : ' . $extension);
+                throw new Exception(__("L'extension du fichier est invalide (zip uniquement)", __FILE__));
         }
-        if (filesize($_FILES['file']['tmp_name']) > 10000000) {
-                throw new Exception(__('Le fichier est trop gros (maximum 10Mo)', __FILE__));
+        if (filesize($_FILES['file']['tmp_name']) > 2000000) {
+                throw new Exception(__('Le fichier est trop gros (maximum 2 Mo)', __FILE__));
         }        
 
         $datetag = date('YmdHis');

@@ -16,7 +16,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW2016", 
@@ -35,7 +36,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "LL224C01M01", 
@@ -49,6 +51,22 @@
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
         "mapping_algorithm": "2D"
+    }, 
+    {
+        "product_code": "TC060SEUM06", 
+        "firmware_family": "B", 
+        "led_profile": "RGB", 
+        "led_number": 60, 
+        "default_name": "Custom", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "MP056SEUM05", 
@@ -67,7 +85,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "MP224SEUM06", 
@@ -122,7 +141,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW056SEUM05", 
@@ -151,7 +171,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW056SEUM06", 
@@ -180,7 +201,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW056SEUM07", 
@@ -209,7 +231,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW105SEUM04", 
@@ -238,7 +261,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW105SEUM06", 
@@ -267,7 +291,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW105SEUM07", 
@@ -296,7 +321,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW175SEUM04", 
@@ -315,7 +341,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW175SEUM06", 
@@ -334,7 +361,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW175SEUM07", 
@@ -353,7 +381,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW224SEUM04", 
@@ -372,7 +401,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "CUS245STQ08", 
@@ -387,7 +417,8 @@
         "mapping_algorithm": "2D", 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "CUS497HHQ08", 
@@ -402,7 +433,8 @@
         "mapping_algorithm": "2D", 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "CUS553MCQ08", 
@@ -417,7 +449,8 @@
         "mapping_algorithm": "2D", 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "FR525C01P", 
@@ -446,7 +479,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TP255TEUP06", 
@@ -464,7 +498,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TP270TEUP07", 
@@ -482,7 +517,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TP330TEUP07", 
@@ -500,7 +536,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "CC015C14P", 
@@ -518,6 +555,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -539,6 +579,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -560,6 +603,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -581,6 +627,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -602,6 +651,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -623,6 +675,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -644,6 +699,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -665,6 +723,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -687,7 +748,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "IC005C20PIC", 
@@ -706,11 +768,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "IC010C20PIC", 
@@ -729,11 +795,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "IC050C06PWD", 
@@ -752,11 +822,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "IC050C09PWD", 
@@ -775,11 +849,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "IC050C20PWD", 
@@ -798,11 +876,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "LL030C07P10E", 
@@ -820,6 +902,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -841,6 +926,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -863,11 +951,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "strip"
+        "icon": "strip", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/strip.png"
     }, 
     {
         "product_code": "LS100S01P07", 
@@ -886,7 +978,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "LS100S02P07", 
@@ -905,7 +998,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "LS175S01P07", 
@@ -924,7 +1018,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "LS225S01P07", 
@@ -943,7 +1038,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML050C09P", 
@@ -962,7 +1058,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music", 
+            "iot"
+        ], 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML050C20P", 
@@ -981,7 +1085,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music", 
+            "iot"
+        ], 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML056C08P", 
@@ -1000,11 +1112,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML056C09P", 
@@ -1023,11 +1139,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML056C20P", 
@@ -1046,11 +1166,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML100C09P", 
@@ -1069,11 +1193,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML100C20P", 
@@ -1092,11 +1220,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML105C08P", 
@@ -1115,11 +1247,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML105C09P", 
@@ -1138,11 +1274,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML105C20P", 
@@ -1161,11 +1301,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML150C08P", 
@@ -1184,11 +1328,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML150C09P", 
@@ -1207,11 +1355,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML150C20P", 
@@ -1230,11 +1382,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML175C08P", 
@@ -1253,11 +1409,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "ML175C20P", 
@@ -1276,11 +1436,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "NE080C20PMD", 
@@ -1299,11 +1463,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "NE100C02PMD", 
@@ -1322,11 +1490,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "NE100C20PMD", 
@@ -1345,11 +1517,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "NE80C20PMD", 
@@ -1368,11 +1544,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "OS008C10P", 
@@ -1391,11 +1571,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS012C06P", 
@@ -1414,11 +1598,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS020C20P", 
@@ -1437,11 +1625,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS020C20PC12", 
@@ -1460,11 +1652,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS020C20PC7", 
@@ -1483,11 +1679,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS020C20PC9", 
@@ -1506,11 +1706,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS020C20PG35", 
@@ -1529,11 +1733,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS024C05P", 
@@ -1552,11 +1760,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS025C08P", 
@@ -1575,11 +1787,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS025C08PC12", 
@@ -1598,11 +1814,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS025C08PC9", 
@@ -1621,11 +1841,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS025C08PG35", 
@@ -1644,11 +1868,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS025C20P", 
@@ -1667,11 +1895,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS025C20PC12", 
@@ -1690,11 +1922,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS025C20PC7", 
@@ -1713,11 +1949,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS025C20PG35", 
@@ -1736,11 +1976,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS040C20PGS", 
@@ -1759,11 +2003,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS048C05P", 
@@ -1782,11 +2030,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS050C04PGS", 
@@ -1805,11 +2057,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS050C09PGS", 
@@ -1828,11 +2084,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "OS050C20PGS", 
@@ -1851,11 +2111,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "SF030C20P", 
@@ -1872,6 +2136,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -1892,6 +2159,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -1912,6 +2182,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -1932,6 +2205,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -1952,6 +2228,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -1972,6 +2251,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -1992,6 +2274,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -2012,6 +2297,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -2032,6 +2320,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -2052,6 +2343,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -2072,6 +2366,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -2092,6 +2389,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -2112,6 +2412,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -2132,7 +2435,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "reindeer"
+        "icon": "reindeer", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/reindeer.png"
     }, 
     {
         "product_code": "TD160SEUP07", 
@@ -2149,7 +2453,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "reindeer"
+        "icon": "reindeer", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/reindeer.png"
     }, 
     {
         "product_code": "TI1020SRUP07", 
@@ -2166,7 +2471,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "TI120SEUP07", 
@@ -2186,7 +2492,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "wall", 
-        "pack_preview": "Twinkly_Wall_120LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "Twinkly_Wall_120LEDS.jpg"
     }, 
     {
         "product_code": "TI200SEUP07", 
@@ -2206,7 +2513,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "wall", 
-        "pack_preview": "Twinkly_Wall_200LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "Twinkly_Wall_200LEDS.jpg"
     }, 
     {
         "product_code": "TI200SEUP09", 
@@ -2226,7 +2534,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "wall", 
-        "pack_preview": "Twinkly_Wall_200LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "Twinkly_Wall_200LEDS.jpg"
     }, 
     {
         "product_code": "TI2011SRUP07", 
@@ -2245,7 +2554,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "TI2011SRUP09", 
@@ -2264,7 +2574,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "TI210SEUP07", 
@@ -2284,7 +2595,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "wall", 
-        "pack_preview": "Twinkly_Curtain_210LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "Twinkly_Curtain_210LEDS.jpg"
     }, 
     {
         "product_code": "TI210SEUP09", 
@@ -2304,7 +2616,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "wall", 
-        "pack_preview": "Twinkly_Curtain_210LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "Twinkly_Curtain_210LEDS.jpg"
     }, 
     {
         "product_code": "TP035TEUP07", 
@@ -2322,7 +2635,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TP035WEUP07", 
@@ -2339,7 +2653,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "wreath"
+        "icon": "wreath", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wreath.png"
     }, 
     {
         "product_code": "TP035GEUP06", 
@@ -2356,7 +2671,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "wreath"
+        "icon": "wreath", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wreath.png"
     }, 
     {
         "product_code": "TP056GEUP07", 
@@ -2373,7 +2689,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "garland"
+        "icon": "garland", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/garland.png"
     }, 
     {
         "product_code": "TP056TEUP07", 
@@ -2391,7 +2708,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "garland"
+        "icon": "garland", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/garland.png"
     }, 
     {
         "product_code": "TP070TEUP07", 
@@ -2409,7 +2727,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TP125TEUP07", 
@@ -2427,7 +2746,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TP220TEUP07", 
@@ -2445,7 +2765,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TP255TEUP07", 
@@ -2463,7 +2784,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TS170SEUP06", 
@@ -2480,7 +2802,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "snowman"
+        "icon": "snowman", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/snowman.png"
     }, 
     {
         "product_code": "TS170SEUP07", 
@@ -2497,7 +2820,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "snowman"
+        "icon": "snowman", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/snowman.png"
     }, 
     {
         "product_code": "TT025C01P25E", 
@@ -2515,6 +2839,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -2536,6 +2863,9 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
@@ -2568,7 +2898,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW056SEUP07", 
@@ -2597,7 +2928,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW056SPXP09", 
@@ -2627,7 +2959,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_105LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_105LEDS.jpg"
     }, 
     {
         "product_code": "TW056XEUP07", 
@@ -2656,7 +2989,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TW105SEUP06", 
@@ -2686,7 +3020,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_105LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_105LEDS.jpg"
     }, 
     {
         "product_code": "TW105SEUP07", 
@@ -2706,7 +3041,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_105LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_105LEDS.jpg"
     }, 
     {
         "product_code": "TW105SEUP09", 
@@ -2726,7 +3062,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_105LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_105LEDS.jpg"
     }, 
     {
         "product_code": "TW105XEUP07", 
@@ -2746,7 +3083,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_105LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_105LEDS.jpg"
     }, 
     {
         "product_code": "TW175GEUP06", 
@@ -2766,7 +3104,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_SpecialEdition_175LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_SpecialEdition_175LEDS.jpg"
     }, 
     {
         "product_code": "TW175GEUP07", 
@@ -2786,7 +3125,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_SpecialEdition_175LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_SpecialEdition_175LEDS.jpg"
     }, 
     {
         "product_code": "TW175SEUP06", 
@@ -2806,7 +3146,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_175LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_175LEDS.jpg"
     }, 
     {
         "product_code": "TW175SEUP07", 
@@ -2826,7 +3167,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_175LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_175LEDS.jpg"
     }, 
     {
         "product_code": "TW175SEUP09", 
@@ -2846,7 +3188,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_175LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_175LEDS.jpg"
     }, 
     {
         "product_code": "TW175WEUP07", 
@@ -2866,7 +3209,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_SpecialEdition_175LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_SpecialEdition_175LEDS.jpg"
     }, 
     {
         "product_code": "TW225GEUP07", 
@@ -2886,7 +3230,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_SpecialEdition_225LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_SpecialEdition_225LEDS.jpg"
     }, 
     {
         "product_code": "TW225SEUP06", 
@@ -2906,7 +3251,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_225LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_225LEDS.jpg"
     }, 
     {
         "product_code": "TW225SEUP07", 
@@ -2926,7 +3272,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_225LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_225LEDS.jpg"
     }, 
     {
         "product_code": "TW225SEUP09", 
@@ -2946,7 +3293,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_225LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_225LEDS.jpg"
     }, 
     {
         "product_code": "TW225WEUP07", 
@@ -2964,7 +3312,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_SpecialEdition_225LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_SpecialEdition_225LEDS.jpg"
     }, 
     {
         "product_code": "TX170SEUP07", 
@@ -2981,7 +3330,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "snowman"
+        "icon": "snowman", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/snowman.png"
     }, 
     {
         "product_code": "U 1SDPP", 
@@ -3001,7 +3351,8 @@
         "bluetooth": false, 
         "microphone": false, 
         "icon": "string", 
-        "pack_preview": "Twinkly_Strings_225LEDS.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Strings_225LEDS.jpg"
     }, 
     {
         "product_code": "TC060SEUP07", 
@@ -3017,7 +3368,8 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "cone"
+        "icon": "cone", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/cone.png"
     }, 
     {
         "product_code": "MN800EUP00", 
@@ -3045,9 +3397,37 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
-        ]
+        ], 
+        "PPID": "258711-434487"
+    }, 
+    {
+        "product_code": "PCPM015STP1", 
+        "commercial_name": "Polygroup Candy Cane Pathway Markers G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 15, 
+        "default_name": "Candy Cane", 
+        "layout_file": "pathway-candycane-layout-15.json", 
+        "layout_type": "2D", 
+        "pixel_shape": "candycane", 
+        "mapping_allowed": false, 
+        "join_fml": "CandyCane", 
+        "sync_fml": "Pathway", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487"
     }, 
     {
         "product_code": "PCT090STP", 
@@ -3065,9 +3445,37 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
-        ]
+        ], 
+        "PPID": "258711-434487"
+    }, 
+    {
+        "product_code": "PCT090STP1", 
+        "commercial_name": "Polygroup Cone Tree G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 90, 
+        "default_name": "Cone", 
+        "layout_file": "conetree90.json", 
+        "layout_type": "Vertical", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "sync_fml": "ConeTree", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487"
     }, 
     {
         "product_code": "PGI050GOP", 
@@ -3086,10 +3494,42 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
         ], 
-        "icon": "wall"
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
+    }, 
+    {
+        "product_code": "PGI050GOP1", 
+        "commercial_name": "Polygroup Icicle G2 AWW 50L", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 50, 
+        "default_name": "Icicle", 
+        "layout_file": "icicle-layout-50.json", 
+        "layout_type": "Icicle", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Matrix", 
+        "sync_fml": "Icicle", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "PGI190GOP", 
@@ -3108,7 +3548,36 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "wall"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
+    }, 
+    {
+        "product_code": "PGI190GOP1", 
+        "commercial_name": "Polygroup Icicle G2 AWW 190L", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 190, 
+        "default_name": "Icicle", 
+        "layout_file": "icicle-190-poly.json", 
+        "layout_type": "Icicle", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Matrix", 
+        "sync_fml": "Icicle", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "PGI190STP", 
@@ -3127,7 +3596,36 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "wall"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
+    }, 
+    {
+        "product_code": "PGI190STP1", 
+        "commercial_name": "Polygroup Icicle G2 RGB 190L", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 190, 
+        "default_name": "Icicle", 
+        "layout_file": "icicle-190-poly.json", 
+        "layout_type": "Icicle", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Matrix", 
+        "sync_fml": "Icicle", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "PGS050GOP", 
@@ -3146,7 +3644,36 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "PGS050GOP1", 
+        "commercial_name": "Polygroup Led Lights G2 AWW 50L", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 50, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Strings-AWW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS050STP", 
@@ -3165,7 +3692,36 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "PGS050STP1", 
+        "commercial_name": "Polygroup Led Lights G2 RGB 50L", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 50, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS056GOP", 
@@ -3184,7 +3740,12 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS060STP", 
@@ -3201,9 +3762,59 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
-        ]
+        ], 
+        "PPID": "258711-434487"
+    }, 
+    {
+        "product_code": "PGS060STP1", 
+        "commercial_name": "Polygroup Giant Snowflake G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 60, 
+        "default_name": "Snowflake", 
+        "layout_file": "object-snowflake-layout-60.json", 
+        "layout_type": "2D", 
+        "pixel_shape": "gsnowflake", 
+        "mapping_allowed": false, 
+        "sync_fml": "Snowflake", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487"
+    }, 
+    {
+        "product_code": "PGS060STP2", 
+        "commercial_name": "Polygroup Giant Snowflake G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 60, 
+        "default_name": "Snowflake", 
+        "layout_file": "object-snowflake-layout-60.json", 
+        "layout_type": "2D", 
+        "pixel_shape": "gsnowflake", 
+        "mapping_allowed": false, 
+        "sync_fml": "Snowflake", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487"
     }, 
     {
         "product_code": "PGS100GOP", 
@@ -3222,7 +3833,36 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "PGS100GOP1", 
+        "commercial_name": "Polygroup Led Lights G2 AWW 100L", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 100, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-AWW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS100STP", 
@@ -3241,7 +3881,36 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "PGS100STP1", 
+        "commercial_name": "Polygroup Led Lights G2 RGB 100L", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 100, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS105GOP", 
@@ -3260,7 +3929,12 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS150GOP", 
@@ -3279,7 +3953,36 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "PGS150GOP1", 
+        "commercial_name": "Polygroup Led Lights G2 AWW 150L", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 150, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-AWW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS150STP", 
@@ -3298,7 +4001,36 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "PGS150STP1", 
+        "commercial_name": "Polygroup Led Lights G2 RGB 150L", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 150, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS250GOP", 
@@ -3317,7 +4049,36 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "PGS250GOP1", 
+        "commercial_name": "Polygroup Led Lights G2 AWW 250L", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 250, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-AWW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS250STP", 
@@ -3336,7 +4097,36 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "PGS250STP1", 
+        "commercial_name": "Polygroup Led Lights G2 RGB 250L", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 250, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS400GOP", 
@@ -3355,8 +4145,38 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400AWW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400AWW.jpg"
+    }, 
+    {
+        "product_code": "PGS400GOP1", 
+        "commercial_name": "Polygroup Led Lights G2 AWW 400L", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 400, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-AWW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400AWW.jpg"
     }, 
     {
         "product_code": "PGS400STP", 
@@ -3375,8 +4195,38 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGB.jpg"
+    }, 
+    {
+        "product_code": "PGS400STP1", 
+        "commercial_name": "Polygroup Led Lights G2 RGB 400L", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 400, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGB.jpg"
     }, 
     {
         "product_code": "PIC050STP", 
@@ -3395,10 +4245,42 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
         ], 
-        "icon": "wall"
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
+    }, 
+    {
+        "product_code": "PIC050STP1", 
+        "commercial_name": "Polygroup Icicle Style LED Wrapped Dome G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 50, 
+        "default_name": "Icicle", 
+        "layout_file": "icicle-layout-50.json", 
+        "layout_type": "Icicle", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Icicle", 
+        "sync_fml": "Icicle", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "PLI005STP", 
@@ -3417,9 +4299,13 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
-        ]
+        ], 
+        "PPID": "258711-434487"
     }, 
     {
         "product_code": "PNE080STP", 
@@ -3438,10 +4324,42 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
         ], 
-        "icon": "wall"
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
+    }, 
+    {
+        "product_code": "PNE080STP1", 
+        "commercial_name": "Polygroup Net Style LED Mini Dome G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 80, 
+        "default_name": "Net", 
+        "layout_generator": "Matrix (10,8,9)", 
+        "layout_type": "Matrix", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Matrix", 
+        "sync_fml": "Matrix", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "POS020STP", 
@@ -3460,10 +4378,42 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
         ], 
-        "icon": "string"
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "POS020STP1", 
+        "commercial_name": "Polygroup One String C7 / C9 / C12 / G35 G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 20, 
+        "default_name": "One String", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "c7", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "POS040STP", 
@@ -3482,9 +4432,38 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
-        ]
+        ], 
+        "PPID": "258711-434487"
+    }, 
+    {
+        "product_code": "POS040STP1", 
+        "commercial_name": "Polygroup Garland Style LED lights G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 40, 
+        "default_name": "Garland", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487"
     }, 
     {
         "product_code": "PSPM030STP", 
@@ -3501,9 +4480,59 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
-        ]
+        ], 
+        "PPID": "258711-434487"
+    }, 
+    {
+        "product_code": "PSPM030STP1", 
+        "commercial_name": "Polygroup Snowflake Pathway Markers G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 30, 
+        "default_name": "Snowflake", 
+        "layout_file": "pathway-snowflake-layout-30.json", 
+        "layout_type": "2D", 
+        "pixel_shape": "snowflake", 
+        "mapping_allowed": false, 
+        "sync_fml": "Pathway", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487"
+    }, 
+    {
+        "product_code": "PSPM030STP2", 
+        "commercial_name": "Polygroup Snowflake Pathway Markers G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 30, 
+        "default_name": "Snowflake", 
+        "layout_file": "pathway-snowflake-layout-30.json", 
+        "layout_type": "2D", 
+        "pixel_shape": "snowflake", 
+        "mapping_allowed": false, 
+        "sync_fml": "Pathway", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487"
     }, 
     {
         "product_code": "PTT025STP", 
@@ -3521,9 +4550,37 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
-        ]
+        ], 
+        "PPID": "258711-434487"
+    }, 
+    {
+        "product_code": "PTT025STP1", 
+        "commercial_name": "Polygroup Tree Top Star G2", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 25, 
+        "default_name": "Topper", 
+        "layout_file": "object-topper-layout-25.json", 
+        "layout_type": "2D", 
+        "pixel_shape": "topper", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "sync_fml": "Topper", 
+        "licensed": false, 
+        "bluetooth": false, 
+        "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "disabled_features": [
+            "music"
+        ], 
+        "PPID": "258711-434487"
     }, 
     {
         "product_code": "PGC400STP", 
@@ -3542,8 +4599,10 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "cluster"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487"
     }, 
     {
         "product_code": "TWB200STP", 
@@ -3562,8 +4621,64 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "spritzer", 
-        "pack_preview": "TwinklySpritzer200RGB.png"
+        "pack_preview": "TwinklySpritzer200RGB.jpg"
+    }, 
+    {
+        "product_code": "TWB200STV", 
+        "commercial_name": "Twinkly Spritzer 200 Victor's lamp", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 200, 
+        "default_name": "Spritzer", 
+        "layout_file": "spritzer-layout-200.json", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Spritzer", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "pack_preview": "TwinklySpritzer200RGB.jpg"
+    }, 
+    {
+        "product_code": "TWB200STVR", 
+        "commercial_name": "Twinkly Spritzer 200 Victor's lamp new red", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 200, 
+        "default_name": "Spritzer", 
+        "layout_file": "spritzer-layout-200.json", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Spritzer", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "pack_preview": "TwinklySpritzer200RGB.jpg"
+    }, 
+    {
+        "product_code": "TWC400SPP", 
+        "commercial_name": "Twinkly Cluster 400 (RGBW)", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 400, 
+        "default_name": "Cluster", 
+        "layout_generator": "Linear", 
+        "layout_type": "Vertical", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487"
     }, 
     {
         "product_code": "TWC400GOP", 
@@ -3583,8 +4698,7 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "cluster", 
-        "pack_preview": "TwinklyCluster400AWW.png"
+        "pack_preview": "TwinklyCluster400AWW.jpg"
     }, 
     {
         "product_code": "TWC400STP", 
@@ -3604,8 +4718,7 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "cluster", 
-        "pack_preview": "TwinklyCluster400RGB.png"
+        "pack_preview": "TwinklyCluster400RGB.jpg"
     }, 
     {
         "product_code": "TWC400STQ", 
@@ -3625,8 +4738,47 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "cluster", 
-        "pack_preview": "TwinklyCluster400RGB.png"
+        "pack_preview": "TwinklyCluster400RGB.jpg"
+    }, 
+    {
+        "product_code": "TWC400STV", 
+        "commercial_name": "Twinkly Cluster 400 Victor's lamp", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 400, 
+        "default_name": "Cluster", 
+        "layout_generator": "Linear", 
+        "layout_type": "Vertical", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "pack_preview": "TwinklyCluster400RGB.jpg"
+    }, 
+    {
+        "product_code": "TWC400STVR", 
+        "commercial_name": "Twinkly Cluster 400 Victor's lamp new red", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 400, 
+        "default_name": "Cluster", 
+        "layout_generator": "Linear", 
+        "layout_type": "Vertical", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "pack_preview": "TwinklyCluster400RGB.jpg"
     }, 
     {
         "product_code": "TWF020STP", 
@@ -3656,7 +4808,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "Twinkly_Festoonlight_Starter kit.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Festoonlight_Starter kit.jpg"
     }, 
     {
         "product_code": "TWF020STP-B", 
@@ -3686,7 +4839,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "Twinkly_Festoonlight_Starter kit.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Festoonlight_Starter kit.jpg"
     }, 
     {
         "product_code": "TWF020STP9", 
@@ -3707,7 +4861,74 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "Twinkly_Festoonlight_Starter kit.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Festoonlight_Starter kit.jpg"
+    }, 
+    {
+        "product_code": "TWF040STP9", 
+        "commercial_name": "Twinkly Festoon", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 40, 
+        "default_name": "Festoon", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Festoonlight_Starter kit.jpg"
+    }, 
+    {
+        "product_code": "TWF020GOP9", 
+        "commercial_name": "Twinkly Festoon", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 20, 
+        "default_name": "Festoon", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Festoonlight_Starter kit.jpg"
+    }, 
+    {
+        "product_code": "TWF040GOP9", 
+        "commercial_name": "Twinkly Festoon", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 40, 
+        "default_name": "Festoon", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Festoonlight_Starter kit.jpg"
     }, 
     {
         "product_code": "TWF020SPECIAL", 
@@ -3728,7 +4949,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "Twinkly_Festoonlight_Starter kit.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Festoonlight_Starter kit.jpg"
     }, 
     {
         "product_code": "TWF040STP", 
@@ -3749,7 +4971,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "Twinkly_Festoonlight_Starter kit.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "Twinkly_Festoonlight_Starter kit.jpg"
     }, 
     {
         "product_code": "TWI190GOP", 
@@ -3762,14 +4985,15 @@
         "layout_type": "Icicle", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Icicle", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "wall", 
-        "pack_preview": "TwinklyIcicle190AWW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190AWW.jpg"
     }, 
     {
         "product_code": "TWI190GOP1", 
@@ -3782,14 +5006,15 @@
         "layout_type": "Icicle", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Icicle", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "wall", 
-        "pack_preview": "TwinklyIcicle190AWW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190AWW.jpg"
     }, 
     {
         "product_code": "TWI190GOP-T", 
@@ -3802,14 +5027,15 @@
         "layout_type": "Icicle", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Icicle", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "wall", 
-        "pack_preview": "TwinklyIcicle190AWW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190AWW.jpg"
     }, 
     {
         "product_code": "TWI190STP", 
@@ -3822,14 +5048,57 @@
         "layout_type": "Icicle", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Icicle", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "wall", 
-        "pack_preview": "TwinklyIcicle190RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190RGB.jpg"
+    }, 
+    {
+        "product_code": "TWI190STV", 
+        "commercial_name": "Twinkly Icicle 190 Victor's lamp", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 190, 
+        "default_name": "Icicle", 
+        "layout_file": "icicle-layout-190.json", 
+        "layout_type": "Icicle", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Icicle", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190RGB.jpg"
+    }, 
+    {
+        "product_code": "TWI190STVR", 
+        "commercial_name": "Twinkly Icicle 190 Victor's lamp new red", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 190, 
+        "default_name": "Icicle", 
+        "layout_file": "icicle-layout-190.json", 
+        "layout_type": "Icicle", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Icicle", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190RGB.jpg"
     }, 
     {
         "product_code": "TWI190STP1", 
@@ -3842,14 +5111,15 @@
         "layout_type": "Icicle", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Icicle", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "wall", 
-        "pack_preview": "TwinklyIcicle190RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190RGB.jpg"
     }, 
     {
         "product_code": "TWI190STPM", 
@@ -3862,14 +5132,15 @@
         "layout_type": "Icicle", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Icicle", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "wall", 
-        "pack_preview": "TwinklyIcicle190RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190RGB.jpg"
     }, 
     {
         "product_code": "TWI190STP-T", 
@@ -3882,14 +5153,15 @@
         "layout_type": "Icicle", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Icicle", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "wall", 
-        "pack_preview": "TwinklyIcicle190RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190RGB.jpg"
     }, 
     {
         "product_code": "TWS075SUP-B", 
@@ -3902,7 +5174,7 @@
         "layout_type": "2D", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "join_fml": "Strings", 
         "sync_fml": "Strings", 
         "licensed": false, 
@@ -3910,7 +5182,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings150RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings150RGB.jpg"
     }, 
     {
         "product_code": "TWS100STP", 
@@ -3931,7 +5204,96 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings100RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings100RGB.jpg"
+    }, 
+    {
+        "product_code": "TWS050STP", 
+        "commercial_name": "Twinkly Strings 50", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 50, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings100RGB.jpg"
+    }, 
+    {
+        "product_code": "TWS100STV", 
+        "commercial_name": "Twinkly Strings 100 Victor's lamp", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 100, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings100RGB.jpg"
+    }, 
+    {
+        "product_code": "TWS100STV1", 
+        "commercial_name": "Twinkly Strings 100 Victor's lamp", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 100, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings100RGB.jpg"
+    }, 
+    {
+        "product_code": "TWS100STVR", 
+        "commercial_name": "Twinkly Strings 100 Victor's lamp new red", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 100, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings100RGB.jpg"
     }, 
     {
         "product_code": "TWS050STQ", 
@@ -3951,7 +5313,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWS100STQ", 
@@ -3972,7 +5335,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings100RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings100RGB.jpg"
     }, 
     {
         "product_code": "TWS150STP", 
@@ -3993,7 +5357,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings150RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings150RGB.jpg"
     }, 
     {
         "product_code": "TWS150STP-B", 
@@ -4014,7 +5379,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings150RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings150RGB.jpg"
     }, 
     {
         "product_code": "TWS175STP", 
@@ -4034,7 +5400,29 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "TWS175STP1", 
+        "commercial_name": "Twinkly Strings 175 GEN II", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 175, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWS200STP", 
@@ -4054,7 +5442,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWS250GOP", 
@@ -4075,7 +5464,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings250AWW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250AWW.jpg"
     }, 
     {
         "product_code": "TWS250GOP-B", 
@@ -4096,7 +5486,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings250AWW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250AWW.jpg"
     }, 
     {
         "product_code": "TWS250STP", 
@@ -4117,7 +5508,52 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings250RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGB.jpg"
+    }, 
+    {
+        "product_code": "TWS250STV", 
+        "commercial_name": "Twinkly Strings 250 Victor's lamp", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 250, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGB.jpg"
+    }, 
+    {
+        "product_code": "TWS250STVR", 
+        "commercial_name": "Twinkly Strings 250 Victor's lamp new red", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 250, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGB.jpg"
     }, 
     {
         "product_code": "TWS250STQ", 
@@ -4138,7 +5574,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings250RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGB.jpg"
     }, 
     {
         "product_code": "TWS250STP-B", 
@@ -4159,7 +5596,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings250RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGB.jpg"
     }, 
     {
         "product_code": "TWS400GOP", 
@@ -4180,7 +5618,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400AWW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400AWW.jpg"
     }, 
     {
         "product_code": "TWS400GOP1", 
@@ -4201,7 +5640,52 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400AWW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400AWW.jpg"
+    }, 
+    {
+        "product_code": "TWS400GOP2", 
+        "commercial_name": "Twinkly Strings 400 GE (AWW)", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 400, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-AWW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400AWW.jpg"
+    }, 
+    {
+        "product_code": "TWS400GOPM", 
+        "commercial_name": "Twinkly Strings 400 GE (AWW)", 
+        "firmware_family": "F", 
+        "led_profile": "AWW", 
+        "led_number": 400, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-AWW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400AWW.jpg"
     }, 
     {
         "product_code": "TWS400STP", 
@@ -4222,7 +5706,52 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGB.jpg"
+    }, 
+    {
+        "product_code": "TWS400STV", 
+        "commercial_name": "Twinkly Strings 400 Victor's lamp", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 400, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGB.jpg"
+    }, 
+    {
+        "product_code": "TWS400STVR", 
+        "commercial_name": "Twinkly Strings 400 Victor's lamp new red", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 400, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGB.jpg"
     }, 
     {
         "product_code": "TWS400STQ", 
@@ -4243,7 +5772,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGB.jpg"
     }, 
     {
         "product_code": "TWS400STP-B", 
@@ -4264,7 +5794,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGB.jpg"
     }, 
     {
         "product_code": "TWS400SXP", 
@@ -4285,7 +5816,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGB.jpg"
     }, 
     {
         "product_code": "TWT250GOP", 
@@ -4304,7 +5836,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT250STP", 
@@ -4323,7 +5856,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT400GOP", 
@@ -4342,7 +5876,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT400STP", 
@@ -4356,12 +5891,12 @@
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
         "mapping_algorithm": "3D single pass, 3D multi", 
-        "sync_fml": "Tree", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT500GOP", 
@@ -4380,7 +5915,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT500STP", 
@@ -4399,7 +5935,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "MF150BRTHD", 
@@ -4419,7 +5956,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "MN800EUS00", 
@@ -4450,7 +5988,29 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "TWWT050SPP", 
+        "commercial_name": "Twinkly Lights Wall Tree", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 70, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "Strings-RGBW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "PGS050SPP", 
@@ -4469,8 +6029,13 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings050RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings050RGBW.jpg"
     }, 
     {
         "product_code": "PGS100SPP", 
@@ -4489,8 +6054,13 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings150RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings150RGBW.jpg"
     }, 
     {
         "product_code": "PGS150SPP", 
@@ -4509,8 +6079,13 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings150RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings150RGBW.jpg"
     }, 
     {
         "product_code": "PGS250SPP", 
@@ -4529,8 +6104,13 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings250RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGBW.jpg"
     }, 
     {
         "product_code": "PGS400SPP", 
@@ -4549,8 +6129,13 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGBW.jpg"
     }, 
     {
         "product_code": "TWI190SPP", 
@@ -4570,7 +6155,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "wall", 
-        "pack_preview": "TwinklyIcicle190RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190RGBW.jpg"
     }, 
     {
         "product_code": "TWI190SPP-T", 
@@ -4590,7 +6176,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "wall", 
-        "pack_preview": "TwinklyIcicle190RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png", 
+        "pack_preview": "TwinklyIcicle190RGBW.jpg"
     }, 
     {
         "product_code": "TWI190SPPRU", 
@@ -4609,7 +6196,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "TWI380SPP", 
@@ -4628,7 +6216,50 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
+    }, 
+    {
+        "product_code": "TWS050SPP", 
+        "commercial_name": "Twinkly Strings 50 SE (RGBW)", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 50, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-RGBW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "TWS080SPP", 
+        "commercial_name": "Twinkly Strings 80 SE (RGBW)", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 80, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-RGBW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWS100SPP", 
@@ -4648,7 +6279,50 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "TWS120SPP", 
+        "commercial_name": "Twinkly Strings 120 SE (RGBW)", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 120, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-RGBW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "TWS160SPP", 
+        "commercial_name": "Twinkly Strings 160 SE (RGBW)", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 160, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-RGBW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWS175SPP", 
@@ -4668,7 +6342,29 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "TWS175SPP1", 
+        "commercial_name": "Twinkly Strings 175 SE (RGBW)", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 175, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-RGBW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWS250SPP", 
@@ -4689,7 +6385,52 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings250RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGBW.jpg"
+    }, 
+    {
+        "product_code": "TWS250SPP1", 
+        "commercial_name": "Twinkly Strings 250 SE (RGBW)", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 250, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-RGBW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGBW.jpg"
+    }, 
+    {
+        "product_code": "TWS250SPP2", 
+        "commercial_name": "Twinkly Strings 250 SE (RGBW)", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 250, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-RGBW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGBW.jpg"
     }, 
     {
         "product_code": "TWS250SPPM", 
@@ -4710,7 +6451,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings250RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGBW.jpg"
     }, 
     {
         "product_code": "TWS250SPP-B", 
@@ -4731,7 +6473,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings250RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGBW.jpg"
     }, 
     {
         "product_code": "TWS250SPP-T", 
@@ -4752,7 +6495,30 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings250RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings250RGBW.jpg"
+    }, 
+    {
+        "product_code": "TWS320SPP", 
+        "commercial_name": "Twinkly Strings 400 SE (RGBW)", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 320, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-RGBW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGBW.jpg"
     }, 
     {
         "product_code": "TWS400SPP", 
@@ -4773,7 +6539,30 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400RGBW.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGBW.jpg"
+    }, 
+    {
+        "product_code": "TWS600SPP", 
+        "commercial_name": "Twinkly Strings 600 SE (RGBW)", 
+        "firmware_family": "M", 
+        "led_profile": "RGBW", 
+        "led_number": 600, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings-RGBW", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGBW.jpg"
     }, 
     {
         "product_code": "TWST250SPP", 
@@ -4792,7 +6581,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWST400SPP", 
@@ -4811,7 +6601,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWST500SPP", 
@@ -4830,7 +6621,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT200SPP", 
@@ -4849,7 +6641,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT300SPP", 
@@ -4868,7 +6661,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT400S2P", 
@@ -4887,7 +6681,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT400S3P", 
@@ -4906,7 +6701,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT400SPP", 
@@ -4925,7 +6721,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWT500SPP", 
@@ -4944,7 +6741,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWTS500SPP", 
@@ -4963,7 +6761,50 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "TWW210STP", 
+        "commercial_name": "Twinkly Wall 210", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 210, 
+        "default_name": "Wall", 
+        "layout_generator": "Matrix (21,10)", 
+        "layout_type": "Matrix", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Matrix", 
+        "sync_fml": "Matrix", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
+    }, 
+    {
+        "product_code": "TWW210STV", 
+        "commercial_name": "Twinkly Wall 210 Victor's lamp", 
+        "firmware_family": "F", 
+        "led_profile": "RGB", 
+        "led_number": 210, 
+        "default_name": "Wall", 
+        "layout_generator": "Matrix (21,10)", 
+        "layout_type": "Matrix", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Matrix", 
+        "sync_fml": "Matrix", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "TWW210SPP", 
@@ -4976,14 +6817,57 @@
         "layout_type": "Matrix", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "join_fml": "Matrix", 
         "sync_fml": "Matrix", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
+    }, 
+    {
+        "product_code": "TWW210SPP1", 
+        "commercial_name": "Twinkly Wall 210", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 210, 
+        "default_name": "Wall", 
+        "layout_generator": "Matrix (21,10)", 
+        "layout_type": "Matrix", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Matrix", 
+        "sync_fml": "Matrix", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
+    }, 
+    {
+        "product_code": "TWW210SPP2", 
+        "commercial_name": "Twinkly Wall 210", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 210, 
+        "default_name": "Wall", 
+        "layout_generator": "Matrix (21,10)", 
+        "layout_type": "Matrix", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Matrix", 
+        "sync_fml": "Matrix", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "TWW210SPPM", 
@@ -4996,14 +6880,15 @@
         "layout_type": "Matrix", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "join_fml": "Matrix", 
         "sync_fml": "Matrix", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "TWW210SPP-T", 
@@ -5016,14 +6901,15 @@
         "layout_type": "Matrix", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "join_fml": "Matrix", 
         "sync_fml": "Matrix", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "TWW400SPP", 
@@ -5036,14 +6922,15 @@
         "layout_type": "Matrix", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
-        "mapping_algorithm": "2D", 
+        "mapping_algorithm": "2D, 3D multi", 
         "join_fml": "Matrix", 
         "sync_fml": "Matrix", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "wall"
+        "icon": "wall", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/wall.png"
     }, 
     {
         "product_code": "TWG050SPP", 
@@ -5061,7 +6948,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "garland"
+        "icon": "garland", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/garland.png"
     }, 
     {
         "product_code": "PT600W00P08", 
@@ -5095,7 +6983,11 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "PT600W01P08", 
@@ -5129,7 +7021,11 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "PT600W01P09", 
@@ -5163,7 +7059,11 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "LS060C09PRP", 
@@ -5182,11 +7082,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "strip"
+        "icon": "strip", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/strip.png"
     }, 
     {
         "product_code": "LS100C09PRP", 
@@ -5205,11 +7109,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "strip"
+        "icon": "strip", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/strip.png"
     }, 
     {
         "product_code": "LS100C20PRP", 
@@ -5228,11 +7136,15 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music", 
             "iot"
         ], 
-        "icon": "strip"
+        "icon": "strip", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/strip.png"
     }, 
     {
         "product_code": "PT750W01P09", 
@@ -5268,7 +7180,11 @@
         "licensed": false, 
         "bluetooth": false, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "PGT750STP", 
@@ -5304,7 +7220,12 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "PGT600STQ", 
@@ -5334,7 +7255,11 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "PGT1080STP", 
@@ -5361,7 +7286,12 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWH600STP", 
@@ -5380,7 +7310,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "PGS600STP", 
@@ -5399,8 +7330,13 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings600RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings600RGB.jpg"
     }, 
     {
         "product_code": "TWS600STP", 
@@ -5421,7 +7357,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings600RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings600RGB.jpg"
     }, 
     {
         "product_code": "TWS600TEST", 
@@ -5442,7 +7379,8 @@
         "microphone": false, 
         "PPID": "258711-434487", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings600RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings600RGB.jpg"
     }, 
     {
         "product_code": "TWSFIERA300", 
@@ -5462,7 +7400,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWT570STP", 
@@ -5481,7 +7420,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "PGT750SPP", 
@@ -5517,10 +7457,15 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
+        "features": [
+            "shop"
+        ], 
         "disabled_features": [
             "music"
         ], 
-        "icon": "pre_lit_tree"
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWST650SPP", 
@@ -5539,7 +7484,8 @@
         "bluetooth": true, 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWPRO400WRLP", 
@@ -5573,7 +7519,8 @@
             "rgbwlimited"
         ], 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWPRO400WRLP-TS", 
@@ -5607,7 +7554,8 @@
             "rgbwlimited"
         ], 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWPRO400WRLS", 
@@ -5641,7 +7589,8 @@
             "rgbwlimited"
         ], 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWPRO500WRLP", 
@@ -5675,7 +7624,8 @@
             "rgbwlimited"
         ], 
         "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWPLUSCTRLPLC21", 
@@ -5708,17 +7658,54 @@
         "features": [
             "rgbwfull"
         ], 
-        "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "TWPLUSCTRLPLC22", 
+        "commercial_name": "Twinkly Plus PLC", 
+        "firmware_family": "P", 
+        "device_family": "PROWIFI", 
+        "led_profile": "RGB", 
+        "pro_n_ports": 4, 
+        "pro_leds_port": [
+            0, 
+            25, 
+            50, 
+            75, 
+            100, 
+            125, 
+            150, 
+            175, 
+            200, 
+            225, 
+            250
+        ], 
+        "pro_max_leds": 1000, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "microphone": false, 
+        "features": [
+            "rgbwfull"
+        ], 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWPLUSCTRLSPI21", 
         "commercial_name": "Twinkly Plus SPI", 
         "firmware_family": "V", 
-        "device_family": "PROWIFI", 
+        "device_family": "PLUSSPI", 
         "led_profile": "RGB", 
         "led_number": 50, 
         "max_fps": 25, 
+        "pro_n_ports": 1, 
+        "pro_max_leds": 50, 
+        "min_fw_version": "2.8.10", 
         "default_name": "Strings", 
         "layout_generator": "Linear", 
         "layout_type": "Linear", 
@@ -5726,7 +7713,29 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D", 
         "microphone": false, 
-        "PPID": "258711-434487"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "TWPLUSCTRLSPI22", 
+        "commercial_name": "Twinkly Plus SPI", 
+        "firmware_family": "V", 
+        "device_family": "PLUSSPI", 
+        "led_profile": "RGB", 
+        "led_number": 750, 
+        "max_fps": 25, 
+        "pro_n_ports": 1, 
+        "pro_max_leds": 750, 
+        "min_fw_version": "2.8.10", 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "microphone": false, 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWP300SPP", 
@@ -5742,7 +7751,8 @@
         "mapping_algorithm": "2D, 3D multi", 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWP500SPP", 
@@ -5758,7 +7768,8 @@
         "mapping_algorithm": "2D, 3D multi", 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWP750SPP", 
@@ -5774,7 +7785,8 @@
         "mapping_algorithm": "2D, 3D multi", 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWP01KSPP", 
@@ -5790,39 +7802,130 @@
         "mapping_algorithm": "2D, 3D multi", 
         "microphone": false, 
         "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "TWP1K2SPP", 
+        "commercial_name": "Twinkly Light Tree 8M", 
+        "firmware_family": "R", 
+        "led_profile": "RGBW", 
+        "led_number": 1200, 
+        "default_name": "Tree", 
+        "layout_generator": "3D Spiral", 
+        "layout_type": "3D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TWQ064STP", 
-        "commercial_name": "Twinkly Squares Master", 
+        "commercial_name": "Twinkly Squares", 
         "firmware_family": "T", 
+        "device_family": "SQR", 
         "led_profile": "RGB", 
-        "led_number": 64, 
+        "min_fw_version": "2.8.9-beta5", 
         "default_name": "Squares", 
-        "layout_generator": "Matrix (8,8)", 
+        "layout_generator": "2D tree", 
         "layout_type": "2D", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
         "mapping_algorithm": "2D", 
-        "join_fml": "HomeLine", 
         "microphone": false, 
-        "icon": "wall"
+        "features": [
+            "pixelperfect", 
+            "mapconfig"
+        ], 
+        "icon": "squares", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/squares.png"
+    }, 
+    {
+        "product_code": "TWQ064STW", 
+        "commercial_name": "Twinkly Squares low brightness", 
+        "firmware_family": "T", 
+        "device_family": "SQR", 
+        "led_profile": "RGB", 
+        "min_fw_version": "2.8.9-beta5", 
+        "default_name": "Squares", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "microphone": false, 
+        "features": [
+            "pixelperfect", 
+            "mapconfig"
+        ], 
+        "icon": "squares", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/squares.png"
+    }, 
+    {
+        "product_code": "TWQ064ETH", 
+        "commercial_name": "Twinkly Squares low brightness eth", 
+        "firmware_family": "AH", 
+        "device_family": "SQR", 
+        "led_profile": "RGB", 
+        "min_fw_version": "2.8.9-beta5", 
+        "default_name": "Squares", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "microphone": false, 
+        "features": [
+            "pixelperfect", 
+            "mapconfig"
+        ], 
+        "icon": "squares", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/squares.png"
+    }, 
+    {
+        "product_code": "TWQ064STWH", 
+        "commercial_name": "Twinkly Squares high brightness", 
+        "firmware_family": "T", 
+        "device_family": "SQR", 
+        "led_profile": "RGB", 
+        "min_fw_version": "2.8.9-beta5", 
+        "default_name": "Squares", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "microphone": false, 
+        "features": [
+            "pixelperfect", 
+            "mapconfig"
+        ], 
+        "icon": "squares", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/squares.png"
     }, 
     {
         "product_code": "TWQTEST", 
-        "commercial_name": "Twinkly Squares Master", 
+        "commercial_name": "Twinkly Squares", 
         "firmware_family": "T", 
+        "device_family": "SQR", 
         "led_profile": "RGB", 
-        "led_number": 192, 
+        "min_fw_version": "2.8.9-beta5", 
         "default_name": "Squares", 
-        "layout_generator": "Matrix (8,24)", 
+        "layout_generator": "2D tree", 
         "layout_type": "2D", 
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
         "mapping_algorithm": "2D", 
-        "join_fml": "HomeLine", 
         "microphone": false, 
-        "icon": "wall"
+        "features": [
+            "pixelperfect", 
+            "mapconfig"
+        ], 
+        "icon": "squares", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/squares.png"
     }, 
     {
         "product_code": "FLEXTEST192", 
@@ -5838,7 +7941,8 @@
         "mapping_algorithm": "2D", 
         "join_fml": "HomeLine", 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "FLEXTEST180", 
@@ -5854,7 +7958,8 @@
         "mapping_algorithm": "2D", 
         "join_fml": "HomeLine", 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "LINETEST", 
@@ -5870,7 +7975,54 @@
         "mapping_algorithm": "2D", 
         "join_fml": "HomeLine", 
         "microphone": false, 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "DAL060STW", 
+        "commercial_name": "Twinkly Displate 60 leds", 
+        "firmware_family": "AE", 
+        "led_profile": "RGB", 
+        "led_number": 60, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "HomeLine", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(1,8)", 
+            "dimmap", 
+            "generator=line"
+        ], 
+        "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png"
+    }, 
+    {
+        "product_code": "DAL053STW", 
+        "commercial_name": "Twinkly Displate 53 leds", 
+        "firmware_family": "AE", 
+        "led_profile": "RGB", 
+        "led_number": 53, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "HomeLine", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(1,8)", 
+            "dimmap", 
+            "generator=line"
+        ], 
+        "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png"
     }, 
     {
         "product_code": "TWL100STW", 
@@ -5903,7 +8055,115 @@
         ], 
         "PPID": "258711-676065", 
         "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png", 
         "pack_preview": "Twinkly-Line-RGB.png"
+    }, 
+    {
+        "product_code": "TWL100STW1", 
+        "commercial_name": "Twinkly Line 90+90", 
+        "firmware_family": "S", 
+        "led_profile": "RGB", 
+        "led_number": 180, 
+        "max_fps": 25, 
+        "led_configurations": [
+            [
+                0
+            ], 
+            [
+                90, 
+                180
+            ]
+        ], 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "HomeLine", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(1,8)", 
+            "dimmap", 
+            "generator=line"
+        ], 
+        "PPID": "258711-676065", 
+        "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png", 
+        "pack_preview": "Twinkly-Line-RGB.png"
+    }, 
+    {
+        "product_code": "TWD060SWP", 
+        "commercial_name": "Twinkly Line 60 USB CTC", 
+        "firmware_family": "S", 
+        "led_profile": "RGB", 
+        "led_number": 60, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "HomeLine", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(1,8)", 
+            "dimmap", 
+            "generator=line"
+        ], 
+        "PPID": "258711-676065", 
+        "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png", 
+        "pack_preview": "Twinkly-Line-RGB.png"
+    }, 
+    {
+        "product_code": "TWD090SWP", 
+        "commercial_name": "Twinkly Line 90 USB CTC", 
+        "firmware_family": "S", 
+        "led_profile": "RGB", 
+        "led_number": 90, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "HomeLine", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(1,8)", 
+            "dimmap", 
+            "generator=line"
+        ], 
+        "PPID": "258711-676065", 
+        "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png", 
+        "pack_preview": "Twinkly-Line-RGB.png"
+    }, 
+    {
+        "product_code": "TWD060STP", 
+        "commercial_name": "Twinkly Dots 60 USB SPI", 
+        "firmware_family": "S", 
+        "led_profile": "RGB", 
+        "led_number": 60, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(1,8)", 
+            "dimmap", 
+            "generator=line"
+        ], 
+        "PPID": "258711-676065", 
+        "icon": "dots", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/dots.png"
     }, 
     {
         "product_code": "TWL100BBW", 
@@ -5936,6 +8196,7 @@
         ], 
         "PPID": "258711-676065", 
         "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png", 
         "pack_preview": "Twinkly-Line-RGB.png"
     }, 
     {
@@ -5960,12 +8221,13 @@
         ], 
         "PPID": "258711-676065", 
         "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png", 
         "pack_preview": "Twinkly-Line-RGB.png"
     }, 
     {
-        "product_code": "TWFL200STW", 
-        "commercial_name": "Twinkly Flex", 
-        "firmware_family": "S", 
+        "product_code": "POP192STW", 
+        "commercial_name": "POP Paris", 
+        "firmware_family": "AF", 
         "led_profile": "RGB", 
         "led_number": 192, 
         "max_fps": 25, 
@@ -5981,16 +8243,16 @@
             "dimmap=(3,8)", 
             "dimmap"
         ], 
-        "PPID": "258711-676065", 
         "icon": "flex", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/flex.png", 
         "pack_preview": "Twinkly-Flex-RGB.png"
     }, 
     {
-        "product_code": "TWFL400STW", 
-        "commercial_name": "Twinkly Flex", 
-        "firmware_family": "S", 
+        "product_code": "POP190STW", 
+        "commercial_name": "POP London", 
+        "firmware_family": "AF", 
         "led_profile": "RGB", 
-        "led_number": 384, 
+        "led_number": 190, 
         "max_fps": 25, 
         "default_name": "Strings", 
         "layout_generator": "Linear", 
@@ -6004,8 +8266,54 @@
             "dimmap=(3,8)", 
             "dimmap"
         ], 
+        "icon": "flex", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/flex.png", 
+        "pack_preview": "Twinkly-Flex-RGB.png"
+    }, 
+    {
+        "product_code": "TWFL200STW", 
+        "commercial_name": "Twinkly Flex", 
+        "firmware_family": "S", 
+        "led_profile": "RGB", 
+        "led_number": 192, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(3,8)", 
+            "dimmap"
+        ], 
         "PPID": "258711-676065", 
         "icon": "flex", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/flex.png", 
+        "pack_preview": "Twinkly-Flex-RGB.png"
+    }, 
+    {
+        "product_code": "TWFL300STW", 
+        "commercial_name": "Twinkly Flex", 
+        "firmware_family": "S", 
+        "led_profile": "RGB", 
+        "led_number": 288, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(3,8)", 
+            "dimmap"
+        ], 
+        "PPID": "258711-676065", 
+        "icon": "flex", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/flex.png", 
         "pack_preview": "Twinkly-Flex-RGB.png"
     }, 
     {
@@ -6021,7 +8329,6 @@
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
         "mapping_algorithm": "2D", 
-        "join_fml": "HomeLine", 
         "microphone": false, 
         "features": [
             "dimmap=(3,8)", 
@@ -6029,6 +8336,7 @@
         ], 
         "PPID": "258711-676065", 
         "icon": "flex", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/flex.png", 
         "pack_preview": "Twinkly-Flex-RGB.png"
     }, 
     {
@@ -6044,8 +8352,8 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D", 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "NTW070STP", 
@@ -6060,8 +8368,8 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D", 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "NTG100STP", 
@@ -6076,8 +8384,8 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D", 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "garland"
+        "icon": "garland", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/garland.png"
     }, 
     {
         "product_code": "NTP050STP", 
@@ -6092,8 +8400,8 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "NTE100STP", 
@@ -6108,8 +8416,8 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "NTW050STQ", 
@@ -6124,8 +8432,8 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D", 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "NTW070STQ", 
@@ -6140,8 +8448,8 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D", 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "NTG100STQ", 
@@ -6156,8 +8464,8 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D", 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "garland"
+        "icon": "garland", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/garland.png"
     }, 
     {
         "product_code": "NTP050STQ", 
@@ -6172,8 +8480,8 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "NTE100STQ", 
@@ -6188,8 +8496,8 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
         "microphone": false, 
-        "PPID": "258711-434487", 
-        "icon": "pre_lit_tree"
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TMD01USB", 
@@ -6197,7 +8505,14 @@
         "firmware_family": "TM", 
         "device_family": "TM", 
         "default_name": "TwinklyMusic", 
-        "pack_preview": "Twinkly_Music.png"
+        "pack_preview": "Twinkly_Music.jpg"
+    }, 
+    {
+        "product_code": "TWPROMUSIC", 
+        "commercial_name": "Twinkly Music Player Pro", 
+        "device_family": "MPP", 
+        "default_name": "MusicPlayerPro", 
+        "pack_preview": "MusicPlayerPro.jpg"
     }, 
     {
         "product_code": "PLT300STP-G"
@@ -6228,7 +8543,8 @@
         "disabled_features": [
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWPRO1000ETHP", 
@@ -6247,7 +8563,8 @@
         "disabled_features": [
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWPRO1000ETHS", 
@@ -6266,7 +8583,8 @@
         "disabled_features": [
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWPRO1500ETHP", 
@@ -6288,7 +8606,8 @@
         "disabled_features": [
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWPROCTRLPLC21", 
@@ -6310,12 +8629,13 @@
         "disabled_features": [
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWPROCTRLSPI21", 
         "commercial_name": "TWINKLY PRO (PROSPI)", 
-        "device_family": "PRO2", 
+        "device_family": "PROSPI", 
         "led_profile": "RGB", 
         "pro_n_ports": 2, 
         "default_name": "Strings", 
@@ -6327,7 +8647,8 @@
         "disabled_features": [
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TWTESTUCS", 
@@ -6346,7 +8667,8 @@
         "disabled_features": [
             "iot"
         ], 
-        "icon": "string"
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
         "product_code": "TESTQED", 
@@ -6363,12 +8685,13 @@
         "join_fml": "Strings", 
         "sync_fml": "Strings", 
         "icon": "string", 
-        "pack_preview": "TwinklyStrings400RGB.png"
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png", 
+        "pack_preview": "TwinklyStrings400RGB.jpg"
     }, 
     {
         "product_code": "PGT900STP", 
         "commercial_name": "Polygroup PreLit Tree 2022 - GEN II", 
-        "firmware_family": "Q", 
+        "firmware_family": "AA", 
         "led_profile": "RGB", 
         "led_configurations": [
             [
@@ -6388,12 +8711,17 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Tree", 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "PGT1440STP", 
         "commercial_name": "Polygroup PreLit Tree 2022 - GEN II", 
-        "firmware_family": "Q", 
+        "firmware_family": "AA", 
         "led_profile": "RGB", 
         "led_configurations": [
             [
@@ -6403,6 +8731,7 @@
                 0
             ], 
             [
+                960, 
                 1080, 
                 1200, 
                 1320, 
@@ -6416,12 +8745,50 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Tree", 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "PGT1800STP", 
+        "commercial_name": "Polygroup PreLit Tree 2022 - GEN II", 
+        "firmware_family": "AD", 
+        "led_profile": "RGB", 
+        "led_configurations": [
+            [
+                0, 
+                0, 
+                0, 
+                0, 
+                0
+            ], 
+            [
+                1500, 
+                1650, 
+                1800
+            ]
+        ], 
+        "default_name": "Tree", 
+        "layout_generator": "3D Spiral", 
+        "layout_type": "Vertical", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Tree", 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "PGT900SPP", 
         "commercial_name": "Polygroup PreLit Tree 2022 - GEN II RGBW", 
-        "firmware_family": "N", 
+        "firmware_family": "AB", 
         "led_profile": "RGBW", 
         "led_configurations": [
             [
@@ -6430,8 +8797,6 @@
                 0
             ], 
             [
-                660, 
-                750, 
                 810, 
                 900
             ]
@@ -6443,12 +8808,57 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Tree", 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "PGT660SPP", 
+        "commercial_name": "Polygroup PreLit Tree 2022 - GEN II RGBW", 
+        "firmware_family": "AB", 
+        "led_profile": "RGBW", 
+        "led_number": 660, 
+        "default_name": "Tree", 
+        "layout_generator": "3D Spiral", 
+        "layout_type": "Vertical", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Tree", 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "PGT750SPPF", 
+        "commercial_name": "Polygroup PreLit Tree 2022 - GEN II RGBW", 
+        "firmware_family": "AB", 
+        "led_profile": "RGBW", 
+        "led_number": 750, 
+        "default_name": "Tree", 
+        "layout_generator": "3D Spiral", 
+        "layout_type": "Vertical", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Tree", 
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "PGT1200SPP", 
         "commercial_name": "Polygroup PreLit Tree 2022 - GEN II RGBW", 
-        "firmware_family": "N", 
+        "firmware_family": "AB", 
         "led_profile": "RGBW", 
         "led_configurations": [
             [
@@ -6458,6 +8868,7 @@
                 0
             ], 
             [
+                960, 
                 1080, 
                 1200
             ]
@@ -6469,7 +8880,12 @@
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
         "sync_fml": "Tree", 
-        "icon": "pre_lit_tree"
+        "features": [
+            "shop"
+        ], 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
     }, 
     {
         "product_code": "TML200STW", 
@@ -6486,6 +8902,7 @@
         "mapping_algorithm": "2D", 
         "microphone": false, 
         "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png", 
         "pack_preview": "Twinkly-Line-RGB.png"
     }, 
     {
@@ -6503,12 +8920,13 @@
         "mapping_algorithm": "2D", 
         "microphone": false, 
         "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png", 
         "pack_preview": "Twinkly-Line-RGB.png"
     }, 
     {
         "product_code": "TWD100STP", 
         "commercial_name": "Twinkly Dots 100 PLC", 
-        "firmware_family": "X", 
+        "firmware_family": "Y", 
         "led_profile": "RGB", 
         "led_number": 100, 
         "default_name": "Strings", 
@@ -6517,17 +8935,18 @@
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
-        "join_fml": "Strings", 
         "sync_fml": "Strings", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "PPID": "258711-434487", 
+        "icon": "dots", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/dots.png"
     }, 
     {
         "product_code": "TWD100USB", 
         "commercial_name": "Twinkly Dots 100 PLC USB 5V", 
-        "firmware_family": "X", 
+        "firmware_family": "Y", 
         "led_profile": "RGB", 
         "led_number": 100, 
         "default_name": "Strings", 
@@ -6536,17 +8955,18 @@
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
-        "join_fml": "Strings", 
         "sync_fml": "Strings", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "PPID": "258711-434487", 
+        "icon": "dots", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/dots.png"
     }, 
     {
         "product_code": "TWD055USB", 
         "commercial_name": "Twinkly Dots 55 PLC USB 5V", 
-        "firmware_family": "X", 
+        "firmware_family": "Y", 
         "led_profile": "RGB", 
         "led_number": 55, 
         "default_name": "Strings", 
@@ -6555,17 +8975,193 @@
         "pixel_shape": "dot", 
         "mapping_allowed": true, 
         "mapping_algorithm": "2D, 3D multi", 
-        "join_fml": "Strings", 
         "sync_fml": "Strings", 
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "PPID": "258711-434487", 
+        "icon": "dots", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/dots.png"
+    }, 
+    {
+        "product_code": "TWD060STPPLC", 
+        "commercial_name": "Twinkly Dots 60 PLC", 
+        "firmware_family": "Y", 
+        "led_profile": "RGB", 
+        "led_number": 60, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "dots", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/dots.png"
     }, 
     {
         "product_code": "TWD200STP", 
         "commercial_name": "Twinkly Dots 200 PLC", 
-        "firmware_family": "X", 
+        "firmware_family": "Y", 
+        "led_profile": "RGB", 
+        "led_number": 200, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "dots", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/dots.png"
+    }, 
+    {
+        "product_code": "TWD250STP", 
+        "commercial_name": "Twinkly Dots 250 PLC", 
+        "firmware_family": "Y", 
+        "led_profile": "RGB", 
+        "led_number": 250, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "dots", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/dots.png"
+    }, 
+    {
+        "product_code": "TWD400STP", 
+        "commercial_name": "Twinkly Dots 400 PLC", 
+        "firmware_family": "Y", 
+        "led_profile": "RGB", 
+        "led_number": 400, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "dots", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/dots.png"
+    }, 
+    {
+        "product_code": "TWD600STP", 
+        "commercial_name": "Twinkly Dots 600 PLC", 
+        "firmware_family": "Y", 
+        "led_profile": "RGB", 
+        "led_number": 600, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "dots", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/dots.png"
+    }, 
+    {
+        "product_code": "TWX001STP", 
+        "commercial_name": "Twinkly Calex bulb", 
+        "firmware_family": "AC", 
+        "led_profile": "RGB", 
+        "led_number": 1, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "microphone": false, 
+        "icon": "line", 
+        "pack_preview": "Twinkly-Line-RGB.png"
+    }, 
+    {
+        "product_code": "PGL100STW", 
+        "commercial_name": "Polygroup Line 90+90", 
+        "firmware_family": "S", 
+        "led_profile": "RGB", 
+        "led_number": 180, 
+        "max_fps": 25, 
+        "led_configurations": [
+            [
+                0
+            ], 
+            [
+                90, 
+                180
+            ]
+        ], 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "HomeLine", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(1,8)", 
+            "dimmap", 
+            "generator=line", 
+            "shop"
+        ], 
+        "icon": "line", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/line.png", 
+        "pack_preview": "Twinkly-Line-RGB.png"
+    }, 
+    {
+        "product_code": "PGFL200STW", 
+        "commercial_name": "Polygroup Flex", 
+        "firmware_family": "S", 
+        "led_profile": "RGB", 
+        "led_number": 192, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "join_fml": "HomeLine", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(3,8)", 
+            "dimmap", 
+            "shop"
+        ], 
+        "icon": "flex", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/flex.png", 
+        "pack_preview": "Twinkly-Flex-RGB.png"
+    }, 
+    {
+        "product_code": "PGD200STP", 
+        "commercial_name": "Polygroup Dots 200 PLC", 
+        "firmware_family": "Y", 
         "led_profile": "RGB", 
         "led_number": 200, 
         "default_name": "Strings", 
@@ -6579,31 +9175,16 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
     }, 
     {
-        "product_code": "TWD250STP", 
-        "commercial_name": "Twinkly Dots 250 PLC", 
-        "firmware_family": "X", 
-        "led_profile": "RGB", 
-        "led_number": 250, 
-        "default_name": "Strings", 
-        "layout_generator": "2D tree", 
-        "layout_type": "2D", 
-        "pixel_shape": "dot", 
-        "mapping_allowed": true, 
-        "mapping_algorithm": "2D, 3D multi", 
-        "join_fml": "Strings", 
-        "sync_fml": "Strings", 
-        "licensed": false, 
-        "bluetooth": true, 
-        "microphone": false, 
-        "icon": "string"
-    }, 
-    {
-        "product_code": "TWD400STP", 
-        "commercial_name": "Twinkly Dots 400 PLC", 
-        "firmware_family": "X", 
+        "product_code": "PGD400STP", 
+        "commercial_name": "Polygroup Dots 400 PLC", 
+        "firmware_family": "Y", 
         "led_profile": "RGB", 
         "led_number": 400, 
         "default_name": "Strings", 
@@ -6617,6 +9198,159 @@
         "licensed": false, 
         "bluetooth": true, 
         "microphone": false, 
-        "icon": "string"
+        "features": [
+            "shop"
+        ], 
+        "icon": "string", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/string.png"
+    }, 
+    {
+        "product_code": "TWP600STP", 
+        "commercial_name": "Twinkly Victoria Secret 220-220-160", 
+        "firmware_family": "M", 
+        "led_profile": "RGB", 
+        "led_number": 600, 
+        "default_name": "Tree", 
+        "layout_generator": "3D Spiral", 
+        "layout_type": "3D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "TWP720STP", 
+        "commercial_name": "Twinkly Victoria Secret 220-220-280", 
+        "firmware_family": "M", 
+        "led_profile": "RGB", 
+        "led_number": 720, 
+        "default_name": "Tree", 
+        "layout_generator": "3D Spiral", 
+        "layout_type": "3D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "NTT650STP", 
+        "commercial_name": "National PreLit Tree 650", 
+        "firmware_family": "AA", 
+        "led_profile": "RGB", 
+        "led_number": 650, 
+        "default_name": "Tree", 
+        "layout_generator": "3D Spiral", 
+        "layout_type": "Vertical", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Tree", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "NTT850STP", 
+        "commercial_name": "National PreLit Tree 850", 
+        "firmware_family": "AA", 
+        "led_profile": "RGB", 
+        "led_number": 850, 
+        "default_name": "Tree", 
+        "layout_generator": "3D Spiral", 
+        "layout_type": "Vertical", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "sync_fml": "Tree", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "TWD200STPS", 
+        "commercial_name": "Twinkly Dots SPI 200", 
+        "firmware_family": "S", 
+        "led_profile": "RGB", 
+        "led_number": 200, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "2D tree", 
+        "layout_type": "2D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "join_fml": "Strings", 
+        "sync_fml": "Strings", 
+        "licensed": false, 
+        "bluetooth": true, 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "dots", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/dots.png"
+    }, 
+    {
+        "product_code": "TWTT100SPP", 
+        "commercial_name": "Twig Tree 1M", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 100, 
+        "default_name": "Tree", 
+        "layout_generator": "3D Spiral", 
+        "layout_type": "3D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "TWTT150SPP", 
+        "commercial_name": "Twig Tree 1M5", 
+        "firmware_family": "G", 
+        "led_profile": "RGBW", 
+        "led_number": 150, 
+        "default_name": "Tree", 
+        "layout_generator": "3D Spiral", 
+        "layout_type": "3D", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D, 3D multi", 
+        "microphone": false, 
+        "PPID": "258711-434487", 
+        "icon": "pre_lit_tree", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/pre_lit_tree.png"
+    }, 
+    {
+        "product_code": "GN3C3TST600", 
+        "commercial_name": "Test C3 SPI", 
+        "firmware_family": "AI", 
+        "led_profile": "RGB", 
+        "led_number": 600, 
+        "max_fps": 25, 
+        "default_name": "Strings", 
+        "layout_generator": "Linear", 
+        "layout_type": "Linear", 
+        "pixel_shape": "dot", 
+        "mapping_allowed": true, 
+        "mapping_algorithm": "2D", 
+        "microphone": false, 
+        "features": [
+            "dimmap=(3,8)", 
+            "dimmap"
+        ], 
+        "icon": "flex", 
+        "icon_url": "https://twinkly-core-storage.s3.amazonaws.com/icons/flex.png"
     }
 ]
