@@ -179,6 +179,7 @@ function printEqLogic(_eqLogic) {
 
     $("#bt_import").fileupload({
       replaceFileInput: false,
+      dropZone: null,
       url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php?action=importAll&id=' + _eqLogic.id,
       dataType: 'json',
       done: function (e, data) {
