@@ -57,7 +57,6 @@ if (isset($_GET["newmovies"])) {
     $newmovies = -1;
 }
 ?>
-<div style="display: none;width : 100%" id="div_alert_movies"></div>
 
 <div class="row row-overflow">
     <div class="col-xs-12">

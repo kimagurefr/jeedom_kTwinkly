@@ -192,7 +192,7 @@ $('#bt_uploadPlaylist').fileupload({
     dataType: 'json',
     done: function (e, data) {
       if (data.result.state != 'ok') {
-        $('#div_alert_movies').showAlert({message: data.result.result, level: 'danger'});
+        $('#div_alert').showAlert({message: data.result.result, level: 'danger'});
         return;
       }else{
         $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');

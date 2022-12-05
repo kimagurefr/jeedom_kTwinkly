@@ -47,10 +47,10 @@ $('#bt_uploadMovie').fileupload({
     dataType: 'json',
     done: function (e, data) {
       if (data.result.state != 'ok') {
-        $('#div_alert_movies').showAlert({message: data.result.result, level: 'danger'});
+        $('#div_alert').showAlert({message: data.result.result, level: 'danger'});
         return;
       }else{
-        //$('#div_alert_movies').showAlert({message: '{{Fichier envoyé avec succès}}', level: 'success'});
+        //$('#div_alert').showAlert({message: '{{Fichier envoyé avec succès}}', level: 'success'});
         $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
         moviesNotSaved = 1;
       }
@@ -71,7 +71,7 @@ $('#bt_deleteMovie').off('click').on('click', function() {
                     error: function(request, status, error) { },
                     success: function (data) {
                         if (data.state != 'ok') {
-                            $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
+                            $('#div_alert').showAlert({message: data.result, level: 'danger'});
                             return;
                         }
                         $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=movies&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
@@ -81,7 +81,7 @@ $('#bt_deleteMovie').off('click').on('click', function() {
             }
         });
     } else {
-        $('#div_alert_movies').showAlert({message: "Aucun fichier sélectionné", level: 'danger'});
+        $('#div_alert').showAlert({message: "Aucun fichier sélectionné", level: 'danger'});
     }
 });
 
@@ -95,11 +95,11 @@ $('#bt_saveMovie').off('click').on('click', function() {
       error: function(request, status, error) { },
       success: function (data) {
         if (data.state != 'ok') { 
-          $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
+          $('#div_alert').showAlert({message: data.result, level: 'danger'});
           return;
         }
         //$('#md_modal').dialog('close');
-        $('#div_alert_movies').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
+        $('#div_alert').showAlert({message: '{{Sauvegarde réussie}}', level: 'success'});
         moviesNotSaved = 0;
       }
     });
@@ -122,7 +122,7 @@ $('.changeProxyState').off('click').on('click', function () {
         success: function (data) {
             console.log('ajax result = ' + data.state);
             if (data.state != 'ok') {
-                 $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
+                 $('#div_alert').showAlert({message: data.result, level: 'danger'});
             } else {
                 newstate = data.result.proxy_enabled;
                 newmovies = data.result.newmovies;
@@ -161,10 +161,10 @@ $('#bt_downloadSelectedMovies').off('click').on('click', function() {
         error: function(request, status, error) { },
         success: function (data) {
             if (data.state != 'ok') {
-                $('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
+                $('#div_alert').showAlert({message: data.result, level: 'danger'});
                 return;
             } else {
-                $('#div_alert_movies').showAlert({message: '{{Export réussi}} de ' + data.result.count + ' {{animation(s)}}', level: 'success'});
+                $('#div_alert').showAlert({message: '{{Export réussi}} de ' + data.result.count + ' {{animation(s)}}', level: 'success'});
                 window.open('core/php/downloadFile.php?pathfile='+data.result.exportFile, "_blank", null)
             }
         }
