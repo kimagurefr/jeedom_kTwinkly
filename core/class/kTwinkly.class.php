@@ -1124,7 +1124,7 @@ class kTwinkly extends eqLogic {
         }
         else
         {
-            if (exec(system::getCmdSudo() . ' python3.7 -m pip list | grep -Ec "mitmproxy"') < 1)
+            if (exec(system::getCmdSudo() . ' `which python3` -m pip list | grep -Ec "mitmproxy"') < 1)
             {
                 $return['state'] = 'nok';
             } 
