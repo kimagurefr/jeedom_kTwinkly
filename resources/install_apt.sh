@@ -36,12 +36,18 @@ if [ "$(hash python3 2>&1)" == "" ] && [ "$(python3 -c 'import sys; print("%i" %
     PYTHON3=python3
 else
     echo "** Python 3.7+ not the default version on the system"
-    echo "* Checking if Python 3.7 is available on the system"
+    echo "* Checking if Python 3.7+ is available on the system"
     if [ "$(python3.7 -V)" != "" ]; then
         echo "** Python 3.7 found"
         PYTHON3=python3.7
+    elif [ "$(python3.8 -V)" != "" ]; then
+        echo "** Python 3.8 found"
+        PYTHON3=python3.8
+    elif [ "$(python3.9 -V)" != "" ]; then
+        echo "** Python 3.9 found"
+        PYTHON3=python3.9
     else    
-        echo "** Python 3.7 not found"
+        echo "** Python 3.7+ not found"
         echo "* Looking for Python 3.7 package in Debian repositories"
         sudo apt-cache show python3 | grep 'Version: 3\.[7-9]'
         if [ $? -eq 0 ] ; then
@@ -94,7 +100,9 @@ echo 80 > ${PROGRESS_FILE}
 
 echo "* Install mitmproxy module and dependencies on Python 3"
 sudo apt-get install -y libffi-dev
-${PYTHON3} -m pip install tornado mitmproxy 
+${PYTHON3} -m pip install tornado mitmproxy
+echo "* Warning: installing old version of markupsafe (2.0.1) to remain compatible with mitmproxy. This may break other modules. Revert to the latest version using 'python3 -m pip install markupsafe --upgrade' if necessary."
+${PYTHON3} -m pip install markupsafe==2.0.1
 echo 90 > ${PROGRESS_FILE}
 
 if [ "$PIPCONF_UPDATED" == "1" ]; then
