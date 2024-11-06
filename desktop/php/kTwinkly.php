@@ -273,6 +273,10 @@ $refreshFrequency = config::byKey('refreshFrequency','kTwinkly');
 		</div><!-- /.tab-content -->
 	</div><!-- /.eqLogic -->
 </div><!-- /.row row-overflow -->
+<div id="md_kTwinkly_movies" style="overflow-x: hidden;">
+</div>
+<div id="md_kTwinkly_playlist" style="overflow-x: hidden;">
+</div>
 
 <!-- Inclusion du fichier javascript du plugin (dossier, nom_du_fichier, extension_du_fichier, id_du_plugin) -->
 <?php include_file('desktop', 'kTwinkly', 'js', 'kTwinkly');?>

@@ -57,7 +57,15 @@ if (isset($_GET["newmovies"])) {
     $newmovies = -1;
 }
 ?>
-<div style="display: none;width : 100%" id="div_alert_movies"></div>
+
+<div class="input-group pull-right" style="display:inline-flex;">
+    <span class="btn btn-default btn-file">
+        <i class="fas fa-plus-circle"></i> {{Ajouter}}... <input id="bt_uploadMovie" type="file" name="file" style="display: inline-block" multiple>
+    </span>
+    <span class="btn btn-danger" id="bt_deleteMovie"><i class="fas fa-minus-circle"></i> {{Supprimer}}</span>
+    <span class="btn btn-default" id="bt_downloadSelectedMovies"><i class="fas fa-file-archive"></i> {{Télécharger}}</span>
+    <span class="btn btn-success" id="bt_saveMovie"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</span>
+</div>
 
 <div class="row row-overflow">
     <div class="col-xs-12">
@@ -150,12 +158,6 @@ if ($proxymode == 1) {
                         </tbody>
                     </table>
 <?php } ?>
-                    <span class="btn btn-default btn-file">
-                      <i class="fas fa-plus-circle"></i> {{Ajouter}}... <input id="bt_uploadMovie" type="file" name="file" style="display: inline-block" multiple>
-                    </span>
-                    <span class="btn btn-danger" id="bt_deleteMovie"><i class="fas fa-minus-circle"></i> {{Supprimer}}</span>
-                    <span class="btn btn-default" id="bt_downloadSelectedMovies"><i class="fas fa-file-archive"></i> {{Télécharger}}</span>
-                    <span class="btn btn-success" id="bt_saveMovie"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</span>
                 </fieldset>
             </form>
         </div>
@@ -163,18 +165,6 @@ if ($proxymode == 1) {
 </div>
 <script>
 $(function() {
-    var parentWidth = $( window ).width()
-    var parentHeight = $( window ).height()
-    if (parentWidth > 850 && parentHeight > 750) {
-      $('#md_modal').dialog("option", "width", 800).dialog("option", "height", 650)
-      $("#md_modal").dialog({
-        position: {
-          my: "center center",
-          at: "center center",
-          of: window
-        }
-      })
-    }
     moviesNotSaved = 0;
 })
 </script>

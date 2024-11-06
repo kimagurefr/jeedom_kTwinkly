@@ -24,8 +24,8 @@ $("#playlist").sortable({
     update: function( event, ui ) { playlistNotSaved = 1; }
 });
 
-$('#md_modal').on('dialogclose', function(event) {
-    $('#md_modal').off('dialogclose');
+$('#md_kTwinkly_playlist').on('dialogclose', function(event) {
+    $('#md_kTwinkly_playlist').off('dialogclose');
     //console.log('equipement id = ' + $('.eqLogicAttr[data-l1key=id]').value());
 });
 
@@ -45,7 +45,7 @@ $('.deletePlaylist').off('click').on('click', function() {
                         return;
                     } else {
                         playlistNotSaved = 0;
-                        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
+                        $('#md_kTwinkly_playlist').load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
                         $('#div_alert_playlists').showAlert({message: data.result, level: 'info'});
                     }
                 }
@@ -188,14 +188,15 @@ $("#playlist").on("keyup",".playlistDuration", function(event) {
 
 $('#bt_uploadPlaylist').fileupload({
     replaceFileInput: false,
+    dropZone: $('#md_kTwinkly_playlist'),
     url: 'plugins/kTwinkly/core/ajax/kTwinkly.ajax.php?action=uploadPlaylist&id=' + $('.eqLogicAttr[data-l1key=id]').value(),
     dataType: 'json',
     done: function (e, data) {
       if (data.result.state != 'ok') {
-        $('#div_alert_movies').showAlert({message: data.result.result, level: 'danger'});
+        $('#div_alert').showAlert({message: data.result.result, level: 'danger'});
         return;
       }else{
-        $('#md_modal').load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
+        $('#md_kTwinkly_playlist').load('index.php?v=d&plugin=kTwinkly&modal=playlist&id=' + $('.eqLogicAttr[data-l1key=id]').value() + '&reload=1');
       }
     }
 });

@@ -27,7 +27,7 @@ $('#bt_saveMqtt').off('click').on('click', function() {
 	error: function(request, status, error) { },
       	success: function (data) {
         	if (data.state != 'ok') {
-          		$('#div_alert_movies').showAlert({message: data.result, level: 'danger'});
+          		$('#div_alert').showAlert({message: data.result, level: 'danger'});
           		return;
         	}
         	$('#md_modal').dialog('close');

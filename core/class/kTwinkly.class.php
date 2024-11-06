@@ -1102,40 +1102,6 @@ class kTwinkly extends eqLogic {
         }
     }
 
-    // Installation des dépendances (via shell)
-    public static function dependancy_install()
-    {
-        log::remove(__CLASS__.'_update');
-        return array(
-            'script' => __DIR__ . '/../../resources/install_#stype#.sh ' . jeedom::getTmpFolder(__CLASS__) . '/dependencies',
-            'log' => log::getPathToLog(__CLASS__.'_update')
-        );
-    }
-
-    // Informations sur l'avancement de l'installation des dépendances
-    public static function dependancy_info()
-    {
-        $return = array();
-        $return['log'] = log::getPathToLog(__CLASS__.'_update');
-        $return['progress_file'] = jeedom::getTmpFolder(__CLASS__) . '/dependencies';
-        if (file_exists(jeedom::getTmpFolder(__CLASS__) . '/dependencies'))
-        {
-            $return['state'] = 'in_progress';
-        }
-        else
-        {
-            if (exec(system::getCmdSudo() . ' python3.7 -m pip list | grep -Ec "mitmproxy"') < 1)
-            {
-                $return['state'] = 'nok';
-            } 
-            else
-            {
-                $return['state'] = 'ok';
-            }
-        }
-        return $return;
-    }
-
     // Charge la liste des animations dans la liste déroulante à partir des fichiers sur le disque
     public static function populate_movies_list($_id)
     {
